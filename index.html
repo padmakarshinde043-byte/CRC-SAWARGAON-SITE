@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>समूह साधन केंद्र सावरगाव — शालेय माहिती व मासिक अहवाल पोर्टल</title>
+<title>समूह साधन केंद्र सावरगाव — शालेय माहिती व पटसंख्या नोंदवही</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -13,129 +13,141 @@
      SECTION 0: CSS VARIABLES & GLOBAL STYLES (वैश्विक डिझाईन शैली)
      ========================================================== */
   :root {
-    --navy-900: #061121;
-    --navy-800: #0D1F38;
-    --navy-700: #142B4D;
-    --navy-600: #1B365D;
-    --navy-accent: #2563EB;
-    --navy-subtle: #F0F5FA;
-    --bg-page: #F8FAFC;
-    --surface: #FFFFFF;
-    --text-main: #0F172A;
-    --text-muted: #64748B;
-    --border: #E2E8F0;
-    --gold: #D97706;
-    --gold-light: #FEF3C7;
-    --green: #10B981;
-    --green-light: #D1FAE5;
-    --red: #EF4444;
-    --red-light: #FEE2E2;
+    --maroon: #5B1B26;
+    --maroon-dark: #3F121A;
+    --gold: #C29B38;
+    --gold-light: #FDF6E2;
+    --cream-bg: #F7F3EC;
+    --card-bg: #FFFFFF;
+    --ink: #2D2426;
+    --ink-soft: #6E6365;
+    --border: #E5DCD0;
+    --green: #15803D;
+    --red: #B91C1C;
     --radius-lg: 16px;
     --radius-md: 10px;
     --radius-sm: 6px;
-    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
-    --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 2px 6px rgba(91, 27, 38, 0.06);
+    --shadow-md: 0 6px 18px rgba(91, 27, 38, 0.12);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 70px; }
+  body { background: var(--cream-bg); color: var(--ink); line-height: 1.5; padding-bottom: 70px; }
 
   /* ==========================================================
-     SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
+     SECTION 1: COVER HEADER & STATISTICS BANNER (कव्हर व गोषवारा बॅनर्स)
      ========================================================== */
-  header { background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-600) 100%); color: white; padding: 1.4rem 1rem 1.2rem; text-align: center; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--navy-accent); }
-  .header-badge { display: inline-block; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #93C5FD; font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 6px; }
-  header h1 { font-size: 1.35rem; font-weight: 800; }
-  header p { font-size: 0.85rem; opacity: 0.88; margin-top: 4px; color: #CBD5E1; }
+  .cover { background: linear-gradient(135deg, var(--maroon-dark), var(--maroon)); color: white; padding: 24px 16px; text-align: center; box-shadow: var(--shadow-md); position: relative; border-bottom: 4px solid var(--gold); }
+  .cover-eyebrow { font-size: 0.78rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+  .cover h1 { font-family: 'Noto Serif Devanagari', serif; font-size: 1.45rem; font-weight: 700; margin-bottom: 6px; }
+  .cover .sub { font-size: 0.85rem; opacity: 0.9; }
 
-  /* मारकी (Marquee) कस्टम मेसेज पट्टी */
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 700; border-bottom: 1.5px solid #FDE68A; overflow: hidden; white-space: nowrap; }
-  .marquee-bar marquee { width: 100%; }
+  .access-bar { display: flex; justify-content: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .access-btn { background: rgba(255,255,255,0.12); border: 1.5px solid var(--gold); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; max-width: 700px; margin-left: auto; margin-right: auto; }
+  .stat-box { background: rgba(0,0,0,0.2); border: 1px solid rgba(194,155,56,0.3); border-radius: var(--radius-md); padding: 10px; text-align: center; }
+  .stat-box .num { font-size: 1.4rem; font-weight: 800; color: var(--gold-light); }
+  .stat-box .lbl { font-size: 0.75rem; opacity: 0.85; margin-top: 2px; }
 
   /* ==========================================================
      SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन टॅब्ज)
      ========================================================== */
-  .nav-container { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 10px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-  .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab { flex: 1; min-width: 130px; text-align: center; padding: 10px 12px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.25s; }
-  .nav-tab.active { color: white; background: linear-gradient(135deg, var(--navy-700), var(--navy-600)); box-shadow: 0 4px 10px rgba(27, 54, 93, 0.25); }
+  .tabbar { display: flex; background: white; overflow-x: auto; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); scrollbar-width: none; }
+  .tabbar::-webkit-scrollbar { display: none; }
+  .tab { padding: 12px 18px; font-size: 0.88rem; font-weight: 700; color: var(--ink-soft); white-space: nowrap; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .tab.active { color: var(--maroon); border-bottom-color: var(--maroon); background: #FDF8F0; }
 
-  .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 14px; }
-  .card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1.4rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-  .card-title { font-size: 1.1rem; font-weight: 800; color: var(--navy-800); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--navy-subtle); padding-bottom: 10px; }
-
-  /* ==========================================================
-     SECTION 3: DASHBOARD & SCHOOL CAPSULES (डॅशबोर्ड व शाळा कॅप्सूल)
-     ========================================================== */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1.4rem; }
-  .stat-card { background: white; padding: 15px 10px; border-radius: var(--radius-lg); border-top: 4px solid var(--navy-accent); box-shadow: var(--shadow-sm); text-align: center; }
-  .stat-card h3 { font-size: 0.78rem; color: var(--text-muted); font-weight: 700; }
-  .stat-card .num { font-size: 1.5rem; font-weight: 800; color: var(--navy-800); margin-top: 4px; }
-
-  .capsule-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; margin-bottom: 20px; }
-  .school-capsule { background: var(--navy-subtle); border: 1.5px solid var(--border); color: var(--navy-800); padding: 8px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-  .school-capsule:hover { background: var(--navy-600); color: white; border-color: var(--navy-600); transform: translateY(-2px); }
+  .wrap { max-width: 800px; margin: 16px auto; padding: 0 12px; }
+  .toolbar { margin-bottom: 14px; }
+  .search { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.9rem; outline: none; background: white; color: var(--ink); }
+  .search:focus { border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(91, 27, 38, 0.08); }
 
   /* ==========================================================
-     SECTION 3.5: DYNAMIC DATA COLLECTION LINKS (डेटा कलेक्शन लिंक्स व ग्लोईंग कॅप्सूल)
+     SECTION 3: SCHOOL CARDS & ACCORDION (शाळा यादी व कार्ड्स)
      ========================================================== */
-  .dynamic-links-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 12px 18px; border-radius: 30px; text-decoration: none; color: var(--navy-800); font-weight: 700; font-size: 0.95rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
-  .link-capsule:hover { border-color: var(--navy-accent); background: #F8FAFC; transform: scale(1.01); }
+  .school-card { background: var(--card-bg); border-radius: var(--radius-md); border: 1.5px solid var(--border); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .school-head { display: flex; align-items: center; padding: 12px 16px; background: white; cursor: pointer; user-select: none; gap: 12px; }
+  .sr-badge { background: #FDF0F2; color: var(--maroon); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0; border: 1px solid rgba(91,27,38,0.2); }
+  .school-title { flex-grow: 1; }
+  .school-title .name { font-weight: 800; font-size: 0.95rem; color: var(--maroon); }
+  .school-title .meta { font-size: 0.78rem; color: var(--ink-soft); }
+  .action-icon-btn { width: 32px; height: 32px; border-radius: 50%; background: #F5EFEB; border: 1px solid var(--border); color: var(--maroon); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+  .school-card.open .action-icon-btn { background: var(--maroon); color: white; transform: rotate(45deg); }
+
+  .school-body { padding: 14px 16px; background: #FAFAFA; border-top: 1px solid var(--border); display: none; }
+  .school-card.open .school-body { display: block; }
   
-  /* ग्लोईंग व फ्लॅशिंग इफेक्ट्स */
-  .glow-effect { border-color: #3B82F6; box-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
-  @keyframes flashRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-  .blink-star { color: #DC2626; font-size: 1.1rem; animation: flashRed 1s infinite; margin-left: 6px; }
+  .field-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px dashed var(--border); }
+  .field-row .label { color: var(--ink-soft); font-weight: 600; }
+  .field-row .val { font-weight: 700; }
+  .field-row .val a { color: var(--maroon); text-decoration: none; }
+
+  /* शिक्षक यादी */
+  .teacher-list { margin-top: 12px; }
+  .teacher-list h4 { font-size: 0.85rem; color: var(--maroon); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
+  .teacher-row { display: flex; align-items: center; background: white; padding: 10px 12px; border-radius: var(--radius-sm); margin-bottom: 6px; border: 1px solid var(--border); font-size: 0.85rem; gap: 10px; }
+  .tno { font-weight: 800; color: var(--ink-soft); width: 20px; }
+  .tname { flex-grow: 1; font-weight: 700; }
+  .post { font-size: 0.72rem; background: #F1F5F9; padding: 2px 6px; border-radius: 4px; color: var(--ink-soft); display: inline-block; margin-top: 2px; }
+  .badge-vacant { background: #FEE2E2; color: #991B1B; padding: 2px 6px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+  .call-btn { background: #15803D; color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 0.95rem; flex-shrink: 0; box-shadow: 0 2px 5px rgba(21,128,61,0.2); }
+
+  /* वर्गनिहाय विद्यार्थी कॅटेगरी ग्रिड (प्रतिमा 3 आणि 4 प्रमाणे) */
+  .stu-table { margin-top: 12px; }
+  .stu-row { background: white; border: 1.5px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 6px; overflow: hidden; }
+  .stu-head { display: flex; justify-content: space-between; padding: 10px 14px; font-size: 0.85rem; cursor: pointer; align-items: center; background: white; }
+  .stu-head .cls { font-weight: 800; color: var(--maroon); display: flex; align-items: center; gap: 8px; }
+  .stu-head .sums { color: var(--ink-soft); font-size: 0.78rem; font-weight: 600; }
+  .stu-detail { padding: 12px; background: #FDFBF7; border-top: 1px solid var(--border); display: none; }
+  .stu-row.open .stu-detail { display: block; }
+  
+  .gender-label { font-size: 0.8rem; font-weight: 800; color: var(--maroon); margin: 8px 0 6px 0; border-left: 3px solid var(--gold); padding-left: 6px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
+  @media (max-width: 600px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  
+  .cat-chip { background: white; border: 1.5px solid var(--border); padding: 8px 6px; border-radius: var(--radius-sm); text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+  .cat-chip .cn { font-size: 0.68rem; color: var(--ink-soft); font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+  .cat-chip .cv { font-weight: 800; font-size: 0.95rem; color: var(--maroon); }
 
   /* ==========================================================
-     SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
+     SECTION 4: TEACHERS FLAT LIST (शिक्षक यादी टॅब)
      ========================================================== */
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 15px; }
-  .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: var(--navy-700); }
-  .form-control { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; outline: none; background: white; color: var(--text-main); }
-  .form-control:focus { border-color: var(--navy-accent); box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.12); }
-
-  .radio-box-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 8px 0; }
-  .radio-label { border: 1.5px solid var(--border); padding: 12px 14px; border-radius: var(--radius-md); text-align: center; cursor: pointer; font-weight: 700; font-size: 0.85rem; background: #FAFAFA; }
-  input[type="radio"]:checked + .radio-label { border-color: var(--navy-accent); background: var(--navy-subtle); color: var(--navy-accent); }
-  input[type="radio"] { display: none; }
+  .flat-row { display: flex; align-items: center; background: white; padding: 12px 14px; border-radius: var(--radius-md); margin-bottom: 8px; border: 1.5px solid var(--border); gap: 12px; box-shadow: var(--shadow-sm); }
+  .flat-row .num { font-weight: 800; color: var(--maroon); width: 26px; font-size: 0.9rem; }
+  .flat-row .info { flex-grow: 1; }
+  .flat-row .info .n { font-weight: 800; font-size: 0.9rem; color: var(--ink); }
+  .flat-row .info .s { font-size: 0.78rem; color: var(--ink-soft); margin-top: 2px; }
 
   /* ==========================================================
-     SECTION 5: TABLES & BUTTONS (तक्ते आणि बटन्स)
+     SECTION 5: SUMMARY & ABSTRACT TAB (गोषवारा व आकडेवारी टॅब)
      ========================================================== */
-  .table-responsive { overflow-x: auto; margin-top: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 500px; box-shadow: var(--shadow-sm); }
-  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; }
-  th, td { padding: 10px 8px; border: 1px solid #E2E8F0; }
-  th { background: var(--navy-600); color: white; font-weight: 700; position: sticky; top: 0; z-index: 2; font-size: 0.8rem; }
-  tr:nth-child(2n) { background: #F8FAFC; }
-  tr:hover { background: #F1F5F9; }
+  .summary-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .sum-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 14px; text-align: center; box-shadow: var(--shadow-sm); }
+  .sum-card .num { font-size: 1.6rem; font-weight: 800; color: var(--maroon); margin-top: 2px; }
+  .sum-card .lbl { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; font-size: 0.9rem; font-weight: 700; border-radius: var(--radius-md); border: none; cursor: pointer; transition: 0.2s; }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--navy-600); color: white; box-shadow: 0 4px 10px rgba(27, 54, 93, 0.2); }
-  .btn-success { background: var(--green); color: white; }
-  .btn-danger { background: var(--red); color: white; }
-  .btn-outline { background: white; border: 1.5px solid var(--navy-600); color: var(--navy-600); }
+  .bar-row { background: white; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+  .bar-info { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+  .bar-track { background: #E2E8F0; height: 10px; border-radius: 5px; overflow: hidden; }
+  .bar-fill { background: var(--maroon); height: 100%; border-radius: 5px; }
 
   /* ==========================================================
-     SECTION 6: ADMIN PANEL & BACKEND MANAGEMENT (ॲडमिन पॅनल व बॅकएंड)
+     SECTION 6: MONTHLY REPORT TAB (मासिक अहवाल टॅब)
      ========================================================== */
-  .admin-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); }
-  .admin-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
-  .badge-locked { background: var(--red-light); color: #991B1B; }
-  .badge-unlocked { background: var(--green-light); color: #065F46; }
+  .report-box { background: white; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--maroon); margin-bottom: 6px; }
+  .form-control { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 0.88rem; outline: none; background: #FAFAFA; }
+  .form-control:focus { border-color: var(--maroon); background: white; }
 
-  /* ==========================================================
-     SECTION 7: MODALS (पॉपअप विंडोज)
-     ========================================================== */
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 17, 33, 0.7); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-  .modal-box { background: white; border-radius: var(--radius-lg); max-width: 500px; width: 100%; padding: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
-  .modal-box h3 { color: var(--navy-800); font-size: 1.15rem; margin-bottom: 12px; border-bottom: 2px solid var(--navy-subtle); padding-bottom: 8px; }
-  .modal-body { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
-  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+  .radio-item { display: flex; align-items: center; gap: 10px; border: 1.5px solid var(--border); padding: 10px 14px; border-radius: var(--radius-sm); background: #FAFAFA; cursor: pointer; font-weight: 700; font-size: 0.85rem; }
+  .radio-item input { accent-color: var(--maroon); width: 16px; height: 16px; }
+  
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 20px; font-size: 0.88rem; font-weight: 800; border-radius: var(--radius-sm); border: none; cursor: pointer; transition: 0.2s; }
+  .btn-primary { background: var(--maroon); color: white; box-shadow: var(--shadow-sm); width: 100%; }
+  .btn-primary:hover { background: var(--maroon-dark); }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -144,352 +156,620 @@
 <body>
 
 <!-- ==========================================================
-    HTML SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
+    HTML SECTION 1: COVER HEADER (शीर्षक आणि मुख्य गोषवारा बॅनर्स)
     ========================================================== -->
-<header>
-  <div class="header-badge">समूह साधन केंद्र सावरगाव · तालुका माजलगाव, जिल्हा बीड</div>
-  <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
-  <p>केंद्रातील सर्व शाळा, शिक्षक, पटसंख्या आणि डेटा कलेक्शन व्यवस्थापन</p>
-</header>
+<div class="cover">
+  <div>
+    <div class="cover-eyebrow">समूह साधन केंद्र, सावरगाव · तालुका माजलगाव, जिल्हा बीड</div>
+    <h1>शालेय माहिती नोंदवही</h1>
+    <div class="sub">केंद्रांतर्गत सर्व शाळा, शिक्षक व मुख्याध्यापक यांची संपूर्ण माहिती — एका ठिकाणी</div>
+    <div class="sub" style="margin-top:6px; font-weight:700; color: var(--gold-light);">📅 पटसंख्येची आकडेवारी माहे जुलै च्या मासिक अहवालावर आधारित आहे.</div>
+  </div>
+  
+  <div class="access-bar">
+    <button class="access-btn">🔒 फक्त पाहण्यासाठी उपलब्ध</button>
+  </div>
+  <div style="font-size: 0.75rem; color: #F3E5AB; margin-top: 8px;">© माहिती समूह साधन केंद्र, सावरगाव यांची आहे.</div>
 
-<div class="marquee-bar">
-  <marquee scrollamount="5" id="marqueeTextDisplay">
-    📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या अद्ययावत करणे बंधनकारक आहे. नवीन डेटा कलेक्शन लिंक्स खालील भागात उपलब्ध केल्या आहेत.
-  </marquee>
-</div>
-
-<!-- ==========================================================
-    HTML SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन)
-    ========================================================== -->
-<div class="nav-container">
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('dashboardTab')">🏠 १. डॅशबोर्ड व लिंक्स</button>
-    <button class="nav-tab" onclick="switchTab('reportTab')">📝 २. मासिक अहवाल सबमिट</button>
-    <button class="nav-tab" onclick="switchTab('summaryTab')">📊 ३. केंद्र गोषवारा</button>
-    <button class="nav-tab" onclick="switchTab('adminTab')">🔐 ४. बॅकएंड ॲडमिन पॅनल</button>
+  <div class="stat-strip">
+    <div class="stat-box">
+      <div class="num">20</div>
+      <div class="lbl">एकूण शाळा</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">73</div>
+      <div class="lbl">एकूण शिक्षक</div>
+    </div>
+    <div class="stat-box">
+      <div class="num">20</div>
+      <div class="lbl">मुख्याध्यापक नोंदवलेले</div>
+    </div>
   </div>
 </div>
 
-<div class="container">
+<!-- ==========================================================
+    HTML SECTION 2: NAVIGATION TABBAR (टॅब बार)
+    ========================================================== -->
+<div class="tabbar" id="tabbar">
+  <div class="tab active" onclick="switchTab('schoolsTab')">🏫 शाळा यादी</div>
+  <div class="tab" onclick="switchTab('teachersTab')">👩‍🏫 शिक्षक यादी</div>
+  <div class="tab" onclick="switchTab('summaryTab')">📊 गोषवारा व आकडेवारी</div>
+  <div class="tab" onclick="switchTab('reportTab')">📅 मासिक अहवाल</div>
+</div>
+
+<div class="wrap">
 
   <!-- ==========================================================
-      HTML SECTION 3: DASHBOARD & DYNAMIC LINKS (डॅशबोर्ड व डेटा कलेक्शन लिंक्स)
+      HTML SECTION 3: SCHOOLS TAB & ACCORDION (शाळा यादी व वर्गनिहाय पटसंख्या)
       ========================================================== -->
-  <div id="dashboardTab" class="tab-content active">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>एकूण शाळा</h3>
+  <div class="tabpanel tab-content active" id="schoolsTab">
+    <div style="background: #FEF3C7; border: 1.5px solid #FDE68A; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 0.82rem; color: #92400E; margin-bottom: 14px; text-align: center; font-weight: 700;">
+      👁 सध्या ही माहिती पाहण्यासाठी उपलब्ध आहे. शाळेच्या नावावर क्लिक करून सविस्तर पटसंख्या व शिक्षक यादी पहा.
+    </div>
+
+    <div class="toolbar">
+      <input class="search" id="schoolSearch" onkeyup="filterSchools()" placeholder="शाळेचे नाव, UDISE किंवा वर्ग शोधा...">
+    </div>
+
+    <div id="schoolListContainer">
+      <!-- JavaScript द्वारे २० शाळांचा डेटा इथे लोड होईल -->
+    </div>
+  </div>
+
+  <!-- ==========================================================
+      HTML SECTION 4: TEACHERS TAB (शिक्षक यादी)
+      ========================================================== -->
+  <div class="tabpanel tab-content" id="teachersTab">
+    <div class="toolbar">
+      <input class="search" id="teacherSearch" onkeyup="filterTeachers()" placeholder="शिक्षकाचे नाव, मोबाईल किंवा शाळा शोधा...">
+    </div>
+    <div id="teacherListContainer">
+      <!-- JavaScript द्वारे सर्व ७३ शिक्षकांची यादी इथे लोड होईल -->
+    </div>
+  </div>
+
+  <!-- ==========================================================
+      HTML SECTION 5: SUMMARY & STATISTICS TAB (गोषवारा व आकडेवारी)
+      ========================================================== -->
+  <div class="tabpanel tab-content" id="summaryTab">
+    <div class="summary-stats-grid">
+      <div class="sum-card">
+        <div class="lbl">एकूण शाळा</div>
         <div class="num">20</div>
       </div>
-      <div class="stat-card">
-        <h3>जि.प. प्राथमिक शाळा</h3>
-        <div class="num">20</div>
-      </div>
-      <div class="stat-card">
-        <h3>खाजगी अनुदानित</h3>
-        <div class="num">0</div>
-      </div>
-      <div class="stat-card" style="border-top-color: var(--green);">
-        <h3>कार्यरत शिक्षक</h3>
+      <div class="sum-card">
+        <div class="lbl">एकूण शिक्षक</div>
         <div class="num">73</div>
       </div>
+      <div class="sum-card">
+        <div class="lbl">समीक्षक/सरासरी शिक्षक प्रति शाळा</div>
+        <div class="num">3.6</div>
+      </div>
+      <div class="sum-card">
+        <div class="lbl">रिक्त पदे</div>
+        <div class="num" style="color:var(--red);">6</div>
+      </div>
+      <div class="sum-card">
+        <div class="lbl">एकूण विद्यार्थी (नोंदवलेले)</div>
+        <div class="num">1220</div>
+      </div>
+      <div class="sum-card">
+        <div class="lbl">एकूण मुले / मुली</div>
+        <div class="num" style="font-size:1.2rem;">579 / 641</div>
+      </div>
     </div>
 
-    <!-- नवीन डेटा कलेक्शन लिंक्स सेक्शन (वेबसाईटचा खालचा अर्धा भाग) -->
-    <div class="card" style="border: 2px dashed var(--navy-accent); background: #F8FAFC;">
-      <div class="card-title" style="color: var(--navy-accent);">
-        <span>🔗 नवीन डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स (लिंक्स)</span>
+    <div class="card" style="background:white; border:1.5px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:14px;">
+      <h3 style="font-size:0.95rem; color:var(--maroon); margin-bottom:12px; font-weight:800;">वर्गनिहाय शाळांची संख्या</h3>
+      <div class="bar-row">
+        <div class="bar-info"><span>वर्ग 1 To 4</span><span>10 शाळा</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: 50%;"></div></div>
       </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-        केंद्र स्तरावरून पाठवलेल्या नवीन माहिती भरण्याच्या लिंक्स खालीलप्रमाणे आहेत. चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
-      </p>
-      <div class="dynamic-links-box" id="publicLinksContainer">
-        <!-- JS द्वारे बॅकएंडमधून जोडलेल्या लिंक्स इथे कॅप्सूल स्वरूपात लोड होतील -->
+      <div class="bar-row">
+        <div class="bar-info"><span>वर्ग 1 To 5</span><span>5 शाळा</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: 25%;"></div></div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">
-        <span>🏫 केंद्रांतर्गत शाळांची यादी (कॅप्सूल स्वरूपात)</span>
+      <div class="bar-row">
+        <div class="bar-info"><span>वर्ग 1 To 8</span><span>3 शाळा</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: 15%;"></div></div>
       </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-        शाळेच्या नावावर क्लिक करून शिक्षक, मोबाईल नंबर व पटसंख्या पहा:
-      </p>
-      <div class="capsule-container" id="schoolCapsuleContainer"></div>
+      <div class="bar-row">
+        <div class="bar-info"><span>वर्ग 1 To 7</span><span>2 शाळा</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: 10%;"></div></div>
+      </div>
     </div>
   </div>
 
   <!-- ==========================================================
-      HTML SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
+      HTML SECTION 6: MONTHLY REPORT TAB (मासिक अहवाल)
       ========================================================== -->
-  <div id="reportTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span>
-      </div>
-      <div class="form-grid">
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label>शाळा निवडा:</label>
-          <select id="mr_school" class="form-control">
-            <option value="">-- शाळा निवडा --</option>
-          </select>
-        </div>
-      </div>
-
+  <div class="tabpanel tab-content" id="reportTab">
+    <div class="report-box">
       <div class="form-group">
-        <label>मागील अहवालानंतर पटसंख्येत झालेला बदल निवडा:</label>
-        <div class="radio-box-group">
-          <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. कुठलाही बदल नाही</div></label>
-          <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. पटसंख्या वाढली</div></label>
-          <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. पटसंख्या कमी झाली</div></label>
+        <label>शाळा निवडा:</label>
+        <select id="mr_school" class="form-control">
+          <option value="">-- शाळा निवडा --</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-top:14px;">
+        <label>मागील मासिक अहवालाच्या नंतर आपल्या शाळेच्या पटसंख्येत काही बदल झालेले आहेत का, असतील तर ते पुढे नोंदवा.</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="changeType" value="none" checked> अ. कुठलाही बदल नाही</label>
+          <label class="radio-item"><input type="radio" name="changeType" value="increase"> ब. विद्यार्थी संख्या वाढली आहे</label>
+          <label class="radio-item"><input type="radio" name="changeType" value="decrease"> क. विद्यार्थी संख्या कमी झाली आहे</label>
         </div>
       </div>
 
-      <div id="dynamicChangeFields" style="display: none; background: #F8FAFC; padding: 14px; border-radius: var(--radius-md); border: 1.5px dashed var(--border); margin: 15px 0;">
-        <div style="font-weight: 800; color: var(--navy-600); margin-bottom: 10px; font-size: 0.9rem;">बदलाचा तपशील:</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>इयत्ता:</label>
-            <select id="mr_class" class="form-control">
-              <option value="1">इयत्ता 1 ली</option>
-              <option value="2">इयत्ता 2 री</option>
-              <option value="3">इयत्ता 3 री</option>
-              <option value="4">इयत्ता 4 थी</option>
-              <option value="5">इयत्ता 5 वी</option>
-              <option value="6">इयत्ता 6 वी</option>
-              <option value="7">इयत्ता 7 वी</option>
-              <option value="8">इयत्ता 8 वी</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>प्रवर्ग (Category):</label>
-            <select id="mr_cat" class="form-control">
-              <option value="SC">अनुसूचित जाती (SC)</option>
-              <option value="ST">अनुसूचित जमाती (ST)</option>
-              <option value="VJ">विमुक्त जाती (VJ)</option>
-              <option value="NT">भटक्या जमाती (NT)</option>
-              <option value="SBC">विशेष मागास (SBC)</option>
-              <option value="OBC">ईतर मागास (OBC)</option>
-              <option value="GENERAL">खुला (GENERAL)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>लिंग:</label>
-            <select id="mr_gender" class="form-control">
-              <option value="मुलगा">मुलगा</option>
-              <option value="मुलगी">मुलगी</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>विद्यार्थी संख्या:</label>
-            <input type="number" id="mr_count" class="form-control" min="1" value="1">
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label>कारण / शेरा:</label>
-            <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
-          </div>
-        </div>
-      </div>
-
-      <div style="text-align: right; margin-top: 15px;">
-        <button class="btn btn-primary" onclick="submitReport()" style="min-width: 220px;">
-          📤 अहवाल सबमिट करा
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================
-      HTML SECTION 5: SUMMARY (केंद्र गोषवारा)
-      ========================================================== -->
-  <div id="summaryTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>📊 केंद्र-स्तरीय एकत्रित गोषवारा व सांख्यिकी</span>
-      </div>
-      <div class="table-responsive">
-        <table>
-          <thead><tr><th>घटक</th><th>संख्या / तपशील</th></tr></thead>
-          <tbody>
-            <tr><td>एकूण शाळा</td><td style="font-weight:700;">20</td></tr>
-            <tr><td>जि.प. प्राथमिक शाळा</td><td style="font-weight:700;">20</td></tr>
-            <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:700;">73</td></tr>
-            <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--gold);">1218 (मुले: 570, मुली: 648)</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================
-      HTML SECTION 6: BACKEND & ADMIN PANEL (बॅकएंड ॲडमिन पॅनल)
-      ========================================================== -->
-  <div id="adminTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>🔐 गुप्त बॅकएंड ॲडमिन पॅनल (लिंक व मेसेज व्यवस्थापन)</span>
-        <span id="adminStatusBadge" class="admin-badge badge-locked">लॉक केले आहे (बंद)</span>
-      </div>
-
-      <div id="adminLoginBox" style="max-width: 360px; margin: 20px auto; text-align: center; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-        <p style="font-size: 0.9rem; margin-bottom: 12px; font-weight: 700; color: var(--navy-800);">ॲडमिन पॅनल उघडण्यासाठी पिन प्रविष्ट करा:</p>
-        <input type="password" id="adminPinInput" class="form-control" placeholder="4 अंकी ॲडमिन पिन टाका" style="text-align: center; margin-bottom: 10px;" maxlength="4">
-        <button class="btn btn-primary" onclick="verifyAdminPin()" style="width: 100%;">अनलॉक करा 🔓</button>
-      </div>
-
-      <div id="adminDashboardContent" style="display: none;">
-        <div style="background: #E0F2FE; border-left: 4px solid var(--navy-accent); padding: 12px; border-radius: 4px; margin-bottom: 20px; font-size: 0.88rem; color: #0369A1;">
-          ✅ बॅकएंड सक्रिय आहे. खालील साधनांद्वारे तुम्ही वेबसाईटवरील लिंक्स, मारकी मेसेज आणि शाळांच्या व्हॉट्सॲप मेसेज स्टेटस नियंत्रित करू शकता.
-        </div>
-
-        <!-- मारकी मेसेज बदलण्याची सोय -->
-        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
-          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">📢 सरकणारा कस्टम मेसेज (Marquee) बदल करा:</h4>
-          <input type="text" id="adminMarqueeInput" class="form-control" placeholder="मराठीत नवीन मेसेज लिहा..." style="margin-bottom: 8px;">
-          <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
-        </div>
-
-        <!-- नवीन डेटा कलेक्शन लिंक जोडण्याची सोय -->
-        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
-          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">➕ नवीन डेटा कलेक्शन लिंक जोडा:</h4>
-          <div class="form-grid" style="margin-bottom: 8px;">
-            <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंक्सचे नाव (उदा. यू डायस भरणा फॉर्म)">
-            <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
-          </div>
-          <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700;">
-            <label><input type="checkbox" id="linkGlowInput"> ग्लो (Glow) इफेक्ट द्या</label>
-            <label><input type="checkbox" id="linkStarInput" checked> चमकणारा लाल स्टार (⭐ NEW) दाखवा</label>
-          </div>
-          <button class="btn btn-success" onclick="addNewLink()">लिंक जोड करा 🚀</button>
-        </div>
-
-        <!-- शाळांची यादी व व्हॉट्सॲप मेसेज ट्रॅकिंग सेक्शन -->
-        <h4 style="font-size: 1rem; color: var(--navy-800); margin-bottom: 10px;">💬 शाळानिहाय व्हॉट्सॲप रिमाइंडर व काम पूर्ण/अपूर्ण ट्रॅकिंग:</h4>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>अ.क्र.</th>
-                <th>शाळेचे नाव</th>
-                <th>मुख्याध्यापक व मोबाईल</th>
-                <th>कामाची स्थिती</th>
-                <th>व्हॉट्सॲप मेसेज पाठवा</th>
-              </tr>
-            </thead>
-            <tbody id="adminSchoolStatusTableBody">
-              <!-- JS द्वारे शाळा इथे लोड होतील -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="alert('मासिक अहवाल यशस्वीपणे जतन केला गेला!')">
+        सर्व बदल सेव्ह करा 💾
+      </button>
     </div>
   </div>
 
 </div>
 
 <!-- ==========================================================
-    HTML SECTION 7: MODAL (शाळा माहिती पॉपअप)
-    ========================================================== -->
-<div class="modal-overlay" id="schoolModal">
-  <div class="modal-box" style="max-width: 500px;">
-    <h3 id="modalSchoolName">शाळेचे नाव</h3>
-    <div class="modal-body" id="modalSchoolBody"></div>
-    <div class="modal-actions">
-      <button class="btn btn-outline" onclick="closeSchoolModal()">बंद करा</button>
-    </div>
-  </div>
-</div>
-
-<!-- ==========================================================
-    JAVASCRIPT SECTION: APP LOGIC & STATE (जावास्क्रिप्ट लॉजिक)
+    JAVASCRIPT SECTION: APP LOGIC & DATA PARSING (जावास्क्रिप्ट लॉजिक)
     ========================================================== -->
 <script>
-  /* शाळांचा डेटा */
+  /* सावरगाव केंद्रातील २० शाळा व त्यांचा सविस्तर डेटा (एक्सेल शीटवरून प्रमाणित) */
   const schoolsData = [
-    { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", teachers: 9, hm: "SHINDE SAMADHAN HAMBIRRAO", phone: "9423733799", total: 150 },
-    { id: 2, name: "ZPPS (H) LIMGAON", udise: "27270709701", classes: "1 To 8", teachers: 8, hm: "LAVHALE SHIVAJI SUDAMRAO", phone: "9421279298", total: 172 },
-    { id: 3, name: "ZPPS MANGRUL NO 1", udise: "27270709801", classes: "1 To 8", teachers: 9, hm: "SHINDE UTTAM SHAMRAO", phone: "9421347161", total: 175 },
-    { id: 4, name: "ZPPS KITTI ADGAON", udise: "27270710301", classes: "1 To 7", teachers: 7, hm: "SWAMI VIRBHADRA PANCHAYYA", phone: "9422653562", total: 123 },
-    { id: 5, name: "ZPPS GOVINDWADI", udise: "27270704201", classes: "1 To 8", teachers: 6, hm: "KULKARNI MAHESH ACHYUTRAO", phone: "7875903695", total: 104 },
-    { id: 6, name: "ZPPS GUJAR PANCHSHIL NAGAR", udise: "27270710304", classes: "1 To 4", teachers: 6, hm: "TAUR INDER KASHINATHRAO", phone: "9604846442", total: 152 },
-    { id: 7, name: "ZPPS RAMPIMPALGAON", udise: "27270710001", classes: "1 To 5", teachers: 2, hm: "KAMBLE RAMESH BHAURAO", phone: "9421633621", total: 32 },
-    { id: 8, name: "ZPPS RATHODVASTI BARDITANDA", udise: "27270710202", classes: "1 To 5", teachers: 2, hm: "BANKAR PRAKASH ANNASAHEB", phone: "7350561562", total: 26 },
-    { id: 9, name: "ZPPS KAULITANDA PAITHALWADI", udise: "27270715602", classes: "1 To 5", teachers: 2, hm: "WAGHMARE AMIT LIMBAJI", phone: "9970548696", total: 22 },
-    { id: 10, name: "ZPPS PAITHALWADI", udise: "27270715601", classes: "1 To 5", teachers: 2, hm: "DESHMUKH RAVI SHRINIVASRAO", phone: "9403065744", total: 69 },
-    { id: 11, name: "ZPPS SHELAPURI", udise: "27270710501", classes: "1 To 5", teachers: 2, hm: "MUNDE RADHAKRISHNA BHAGWAN", phone: "9834940152", total: 29 },
-    { id: 12, name: "ZPPS MAULINAGAR LIMGAON", udise: "27270709702", classes: "1 To 4", teachers: 2, hm: "REDEWAR LAXMAN LALBA", phone: "9763673438", total: 14 },
-    { id: 13, name: "ZPPS VASANTNAGAR MANGRUL", udise: "27270709802", classes: "1 To 4", teachers: 2, hm: "JAGTAP SANGEETA RAMESH", phone: "7498108479", total: 3 },
-    { id: 14, name: "ZPPS MANGRUL NO 2", udise: "27270709901", classes: "1 To 4", teachers: 2, hm: "GAROLE TUKARAM SONBA", phone: "9823408706", total: 24 },
-    { id: 15, name: "ZPPS LAMANTANDA", udise: "27270710101", classes: "1 To 4", teachers: 2, hm: "BHAVSAR LAXMIKANT ARUNRAO", phone: "7588521738", total: 16 },
-    { id: 16, name: "ZPPS BARDITANDA", udise: "27270710201", classes: "1 To 4", teachers: 2, hm: "RAUT AMOL MANIKRAO", phone: "9421278871", total: 18 },
-    { id: 17, name: "ZPPS BHIM NAGAR KITTI ADGAON", udise: "27270710302", classes: "1 To 4", teachers: 2, hm: "KATHULE PURUSHOTTAM RAMKISAN", phone: "7020836930", total: 45 },
-    { id: 18, name: "ZPPS RENAPURI", udise: "27270710401", classes: "1 To 4", teachers: 2, hm: "MORE SOMESHWAR DAMODHARRAO", phone: "9421510528", total: 20 },
-    { id: 19, name: "ZPPS SHELAPURI/RENAPURI WASAHAT", udise: "27270710502", classes: "1 To 4", teachers: 2, hm: "SHEIKH SHAFIK DILDAR", phone: "8275798404", total: 3 },
-    { id: 20, name: "ZPPS KHANAPUR", udise: "27270710601", classes: "1 To 4", teachers: 2, hm: "TANGDE TUKARAM RAMBHAU", phone: "9890934032", total: 23 }
+    {
+      id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", email: "zpcpssawargaon@gmail.com",
+      teachers: [
+        {name: "SHINDE SAMADHAN HAMBIRRAO", post: "Head Master", mobile: "9423733799"},
+        {name: "INGOLE FULCHAND SHESHERAO", post: "Graduate Teacher", mobile: "9067823928"},
+        {name: "SHINDE SUCHITA SHIVAJIRAO", post: "Graduate Teacher", mobile: "9421272721"},
+        {name: "KHURPE BHALCHANDRA MAHARUDRA", post: "Assistant Teacher", mobile: "7498592971"},
+        {name: "AWAD SHALAN EKNATHRAO", post: "Assistant Teacher", mobile: "9421501483"},
+        {name: "FAWADE SANTOSH DAGDUBA", post: "Assistant Teacher", mobile: "9421337376"},
+        {name: "WALASKAR RUKMIN RAOSAHEB", post: "Assistant Teacher", mobile: "9420377353"},
+        {name: "BIRNALE KAVITA BASAPPA", post: "Assistant Teacher", mobile: "8390303032"},
+        {name: "BANSODE AMRAPALI SHIVAJI", post: "Assistant Teacher", mobile: "7083812495"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 6, girls: 9, total: 15, bCat: {SC:3, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:2}, gCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:4}},
+        {classNum: "2", boys: 10, girls: 14, total: 24, bCat: {SC:5, ST:0, VJ:0, NT:0, SBC:0, OBC:2, OPEN:3}, gCat: {SC:6, ST:0, VJ:0, NT:1, SBC:0, OBC:2, OPEN:5}},
+        {classNum: "3", boys: 8, girls: 10, total: 18, bCat: {SC:2, ST:0, VJ:0, NT:3, SBC:0, OBC:0, OPEN:3}, gCat: {SC:5, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:5}},
+        {classNum: "4", boys: 14, girls: 24, total: 38, bCat: {SC:7, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:6}, gCat: {SC:8, ST:1, VJ:0, NT:6, SBC:0, OBC:0, OPEN:9}},
+        {classNum: "5", boys: 7, girls: 17, total: 24, bCat: {SC:1, ST:0, VJ:0, NT:1, SBC:0, OBC:1, OPEN:4}, gCat: {SC:9, ST:0, VJ:0, NT:2, SBC:0, OBC:2, OPEN:4}},
+        {classNum: "6", boys: 7, girls: 12, total: 19, bCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:3}, gCat: {SC:5, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:7}},
+        {classNum: "7", boys: 5, girls: 7, total: 12, bCat: {SC:2, ST:0, VJ:0, NT:1, SBC:0, OBC:1, OPEN:1}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:5}}
+      ]
+    },
+    {
+      id: 2, name: "ZPPS (H) LIMGAON", udise: "27270709701", classes: "1 To 8", email: "zppsharkinimgaon11@gmail.com",
+      teachers: [
+        {name: "पद रिक्त", post: "Head Master", mobile: ""},
+        {name: "LAVHALE SHIVAJI SUDAMRAO", post: "GT Acting HM", mobile: "9421279298"},
+        {name: "DHAWALE GANPATI VYANKATRAO", post: "Graduate Teacher", mobile: "7350031161"},
+        {name: "RATHOD BHIMA DNYANOBA", post: "Graduate Teacher", mobile: "7875090144"},
+        {name: "KALE PRAMOD RAMCHANDRA", post: "Assistant Teacher", mobile: "8275386866"},
+        {name: "RATHOD ANIL GOVARDHAN", post: "Assistant Teacher", mobile: "9423171019"},
+        {name: "RAUT BHARAT JAGANNATHRAO", post: "Assistant Teacher", mobile: "9657664154"},
+        {name: "ZARKANDE SONABAI SAKHARAM", post: "Assistant Teacher", mobile: "8806273416"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 4, girls: 6, total: 10, bCat: {SC:0, ST:2, VJ:0, NT:1, SBC:0, OBC:1, OPEN:0}, gCat: {SC:1, ST:2, VJ:0, NT:1, SBC:0, OBC:1, OPEN:1}},
+        {classNum: "2", boys: 4, girls: 5, total: 9, bCat: {SC:0, ST:1, VJ:0, NT:2, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:2, SBC:0, OBC:0, OPEN:3}},
+        {classNum: "3", boys: 7, girls: 8, total: 15, bCat: {SC:0, ST:0, VJ:0, NT:4, SBC:0, OBC:2, OPEN:1}, gCat: {SC:3, ST:1, VJ:0, NT:3, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "4", boys: 12, girls: 6, total: 18, bCat: {SC:3, ST:0, VJ:0, NT:2, SBC:0, OBC:3, OPEN:4}, gCat: {SC:1, ST:0, VJ:0, NT:2, SBC:0, OBC:2, OPEN:1}},
+        {classNum: "5", boys: 19, girls: 11, total: 30, bCat: {SC:2, ST:3, VJ:0, NT:5, SBC:0, OBC:1, OPEN:8}, gCat: {SC:0, ST:1, VJ:0, NT:1, SBC:0, OBC:5, OPEN:4}},
+        {classNum: "6", boys: 11, girls: 12, total: 23, bCat: {SC:0, ST:1, VJ:0, NT:6, SBC:0, OBC:0, OPEN:4}, gCat: {SC:1, ST:0, VJ:0, NT:3, SBC:0, OBC:2, OPEN:6}},
+        {classNum: "7", boys: 17, girls: 18, total: 35, bCat: {SC:2, ST:1, VJ:0, NT:5, SBC:0, OBC:1, OPEN:8}, gCat: {SC:3, ST:0, VJ:0, NT:5, SBC:0, OBC:2, OPEN:8}},
+        {classNum: "8", boys: 14, girls: 18, total: 32, bCat: {SC:2, ST:0, VJ:2, NT:3, SBC:0, OBC:0, OPEN:7}, gCat: {SC:1, ST:1, VJ:0, NT:7, SBC:0, OBC:0, OPEN:9}}
+      ]
+    },
+    {
+      id: 3, name: "ZPPS MANGRUL NO 1", udise: "27270709801", classes: "1 To 8", email: "zppsmangrulno1@rediffmail.com",
+      teachers: [
+        {name: "पद रिक्त", post: "Head Master", mobile: ""},
+        {name: "SHINDE UTTAM SHAMRAO", post: "GT Acting HM", mobile: "9421347161"},
+        {name: "RANDIVE BANSI GUNAJI", post: "Graduate Teacher", mobile: "7276768647"},
+        {name: "JOSHI MORESHWAR BALASAHEB", post: "Graduate Teacher", mobile: "9075966777"},
+        {name: "LANDGE ANITA MUNJAJI", post: "Assistant Teacher", mobile: "9420221625"},
+        {name: "ANERAO OMPRAKASH BABASAHEB", post: "Assistant Teacher", mobile: "7020327787"},
+        {name: "THORVE SAKHUBAI SAMBHAJI", post: "Assistant Teacher", mobile: "9822832265"},
+        {name: "JAKHADE HEMLATA SURESHRAO", post: "Assistant Teacher", mobile: "9075966777"},
+        {name: "GAISAMUDRE LATA SHIVAJI", post: "Assistant Teacher", mobile: "9420373655"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 6, girls: 14, total: 20, bCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:3}, gCat: {SC:4, ST:0, VJ:2, NT:0, SBC:2, OBC:3, OPEN:3}},
+        {classNum: "2", boys: 9, girls: 11, total: 20, bCat: {SC:2, ST:0, VJ:1, NT:0, SBC:0, OBC:1, OPEN:5}, gCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:7}},
+        {classNum: "3", boys: 7, girls: 11, total: 18, bCat: {SC:3, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:3}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:7}},
+        {classNum: "4", boys: 12, girls: 12, total: 24, bCat: {SC:5, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:6}, gCat: {SC:6, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:5}},
+        {classNum: "5", boys: 14, girls: 20, total: 34, bCat: {SC:5, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:7}, gCat: {SC:5, ST:0, VJ:3, NT:2, SBC:0, OBC:0, OPEN:10}},
+        {classNum: "6", boys: 11, girls: 14, total: 25, bCat: {SC:4, ST:1, VJ:1, NT:0, SBC:0, OBC:0, OPEN:5}, gCat: {SC:5, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:7}},
+        {classNum: "7", boys: 13, girls: 5, total: 18, bCat: {SC:5, ST:0, VJ:1, NT:0, SBC:0, OBC:1, OPEN:6}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:4}},
+        {classNum: "8", boys: 7, girls: 9, total: 16, bCat: {SC:3, ST:1, VJ:0, NT:1, SBC:0, OBC:1, OPEN:1}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:8}}
+      ]
+    },
+    {
+      id: 4, name: "ZPPS KITTI ADGAON", udise: "27270710301", classes: "1 To 7", email: "swamivp1412@gmail.com",
+      teachers: [
+        {name: "पद रिक्त", post: "Head Master", mobile: ""},
+        {name: "SWAMI VIRBHADRA PANCHAYYA", post: "GT Acting HM", mobile: "9422653562"},
+        {name: "SALUNKE SHEETAL ANKUSHRAO", post: "Graduate Teacher", mobile: "8412861520"},
+        {name: "SHINDE RAJABHAU BHAGWANRAO", post: "Assistant Teacher", mobile: "9545444060"},
+        {name: "JAYBHAYE SUHASINI BABASAHEB", post: "Assistant Teacher", mobile: "9422790726"},
+        {name: "KADAM MUKUND ANGADRAO", post: "Assistant Teacher", mobile: "9130099930"},
+        {name: "JADHAV SUREKHA PANDIT", post: "Assistant Teacher", mobile: "9404318664"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 10, girls: 12, total: 22, bCat: {SC:1, ST:0, VJ:0, NT:2, SBC:0, OBC:2, OPEN:5}, gCat: {SC:0, ST:0, VJ:0, NT:4, SBC:0, OBC:5, OPEN:3}},
+        {classNum: "2", boys: 5, girls: 13, total: 18, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:2, OPEN:3}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:3, OPEN:10}},
+        {classNum: "3", boys: 7, girls: 10, total: 17, bCat: {SC:1, ST:0, VJ:0, NT:1, SBC:0, OBC:3, OPEN:2}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:3, OPEN:7}},
+        {classNum: "4", boys: 5, girls: 9, total: 14, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:4, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:5, OPEN:4}},
+        {classNum: "5", boys: 7, girls: 12, total: 19, bCat: {SC:2, ST:0, VJ:1, NT:0, SBC:0, OBC:2, OPEN:2}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:5, OPEN:7}},
+        {classNum: "6", boys: 6, girls: 14, total: 20, bCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:2, OPEN:3}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:8, OPEN:5}},
+        {classNum: "7", boys: 7, girls: 6, total: 13, bCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:5}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:5, OPEN:1}}
+      ]
+    },
+    {
+      id: 5, name: "ZPPS GOVINDWADI", udise: "27270704201", classes: "1 To 8", email: "zppsgovindwadi@gmail.com",
+      teachers: [
+        {name: "पद रिक्त", post: "Head Master", mobile: ""},
+        {name: "पद रिक्त", post: "Graduate Teacher", mobile: ""},
+        {name: "KULKARNI MAHESH ACHYUTRAO", post: "GT Acting HM", mobile: "7875903695"},
+        {name: "RAUT GANGASAGAR KUNDLIK", post: "Assistant Teacher", mobile: "7083256502"},
+        {name: "LOKHANDE SANJAY DAGDU", post: "Assistant Teacher", mobile: "9673347255"},
+        {name: "PATIL SUSHMA ARVIND", post: "Assistant Teacher", mobile: "9763470498"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 4, girls: 6, total: 10, bCat: {SC:1, ST:0, VJ:0, NT:3, SBC:0, OBC:0, OPEN:0}, gCat: {SC:1, ST:0, VJ:0, NT:5, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 7, girls: 6, total: 13, bCat: {SC:3, ST:0, VJ:0, NT:4, SBC:0, OBC:0, OPEN:0}, gCat: {SC:2, ST:0, VJ:0, NT:4, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 5, girls: 10, total: 15, bCat: {SC:0, ST:0, VJ:0, NT:5, SBC:0, OBC:0, OPEN:0}, gCat: {SC:2, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "4", boys: 6, girls: 11, total: 17, bCat: {SC:0, ST:0, VJ:0, NT:6, SBC:0, OBC:0, OPEN:0}, gCat: {SC:4, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "5", boys: 10, girls: 9, total: 19, bCat: {SC:1, ST:0, VJ:0, NT:9, SBC:0, OBC:0, OPEN:0}, gCat: {SC:2, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "6", boys: 7, girls: 8, total: 15, bCat: {SC:3, ST:0, VJ:0, NT:4, SBC:0, OBC:0, OPEN:0}, gCat: {SC:1, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "7", boys: 6, girls: 8, total: 14, bCat: {SC:0, ST:0, VJ:0, NT:5, SBC:0, OBC:0, OPEN:1}, gCat: {SC:1, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "8", boys: 1, girls: 0, total: 1, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 6, name: "ZPPS GUJAR PANCHSHIL NAGAR ADGAON", udise: "27270710304", classes: "1 To 4", email: "iktaur@gmail.com",
+      teachers: [
+        {name: "पद रिक्त", post: "Head Master", mobile: ""},
+        {name: "TAUR INDER KASHINATHRAO", post: "AT Acting HM", mobile: "9604846442"},
+        {name: "KAWADE ANGAD PIRAJIRAO", post: "Assistant Teacher", mobile: "9421337873"},
+        {name: "PANDIT RUPALI LAXMANRAO", post: "Assistant Teacher", mobile: "9420783924"},
+        {name: "DESHMUKH PUSHPA KACHRU", post: "Assistant Teacher", mobile: "9970278127"},
+        {name: "SURWASE MANJUSHA SHIVAJI", post: "Assistant Teacher", mobile: "9890556089"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 25, girls: 14, total: 39, bCat: {SC:6, ST:0, VJ:0, NT:0, SBC:0, OBC:5, OPEN:14}, gCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:6, OPEN:6}},
+        {classNum: "2", boys: 12, girls: 11, total: 23, bCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:2, OPEN:9}, gCat: {SC:3, ST:0, VJ:0, NT:2, SBC:0, OBC:0, OPEN:6}},
+        {classNum: "3", boys: 25, girls: 20, total: 45, bCat: {SC:2, ST:0, VJ:1, NT:0, SBC:0, OBC:4, OPEN:18}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:6, OPEN:11}},
+        {classNum: "4", boys: 26, girls: 19, total: 45, bCat: {SC:1, ST:1, VJ:1, NT:0, SBC:0, OBC:3, OPEN:20}, gCat: {SC:3, ST:0, VJ:1, NT:0, SBC:0, OBC:1, OPEN:14}}
+      ]
+    },
+    {
+      id: 7, name: "ZPPS RAMPIMPALGAON", udise: "27270710001", classes: "1 To 5", email: "rkamble246@gmail.com",
+      teachers: [
+        {name: "KAMBLE RAMESH BHAURAO", post: "Assistant Teacher", mobile: "9421633621"},
+        {name: "TIDAR ASHOK ARJUN", post: "Assistant Teacher", mobile: "9403265926"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 1, girls: 4, total: 5, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:4}},
+        {classNum: "2", boys: 0, girls: 5, total: 5, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:5}},
+        {classNum: "3", boys: 4, girls: 2, total: 6, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:4}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:2}},
+        {classNum: "4", boys: 2, girls: 5, total: 7, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:2}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:4}},
+        {classNum: "5", boys: 4, girls: 5, total: 9, bCat: {SC:0, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:3}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:5}}
+      ]
+    },
+    {
+      id: 8, name: "ZPPS RATHODVASTI BARDITANDA", udise: "27270710202", classes: "1 To 5", email: "prakashbankar41@gmail.com",
+      teachers: [
+        {name: "BANKAR PRAKASH ANNASAHEB", post: "Assistant Teacher", mobile: "7350561562"},
+        {name: "GAIKWAD JAISHRI RAOSAHEB", post: "Assistant Teacher", mobile: "7350561562"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 7, girls: 1, total: 8, bCat: {SC:0, ST:1, VJ:0, NT:0, SBC:0, OBC:6, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}},
+        {classNum: "2", boys: 3, girls: 3, total: 6, bCat: {SC:0, ST:1, VJ:0, NT:0, SBC:0, OBC:2, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:3, OPEN:0}},
+        {classNum: "3", boys: 1, girls: 6, total: 7, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:6, OPEN:0}},
+        {classNum: "4", boys: 0, girls: 3, total: 3, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:3, OPEN:0}},
+        {classNum: "5", boys: 1, girls: 1, total: 2, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}}
+      ]
+    },
+    {
+      id: 9, name: "ZPPS KAULITANDA PAITHALWADI", udise: "27270715602", classes: "1 To 5", email: "amitw351@gmail.com",
+      teachers: [
+        {name: "WAGHMARE AMIT LIMBAJI", post: "Assistant Teacher", mobile: "9970548696"},
+        {name: "MISAL RAM SAKHARAM", post: "Assistant Teacher", mobile: "9604656687"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 1, girls: 2, total: 3, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:1, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 3, girls: 3, total: 6, bCat: {SC:0, ST:2, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:1, VJ:1, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "3", boys: 2, girls: 1, total: 3, bCat: {SC:0, ST:0, VJ:1, NT:1, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 5, girls: 2, total: 7, bCat: {SC:0, ST:2, VJ:3, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:1, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "5", boys: 3, girls: 0, total: 3, bCat: {SC:0, ST:0, VJ:1, NT:2, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 10, name: "ZPPS PAITHALWADI", udise: "27270715601", classes: "1 To 5", email: "zppspaithalwadi@gmail.com",
+      teachers: [
+        {name: "DESHMUKH RAVI SHRINIVASRAO", post: "Assistant Teacher", mobile: "9403065744"},
+        {name: "SOLE SANDEEP CHANDRAKANT", post: "Assistant Teacher", mobile: "8080121388"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 13, girls: 5, total: 18, bCat: {SC:0, ST:3, VJ:0, NT:9, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:5, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 9, girls: 9, total: 18, bCat: {SC:0, ST:0, VJ:0, NT:9, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:1, VJ:0, NT:8, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 7, girls: 3, total: 10, bCat: {SC:0, ST:0, VJ:0, NT:7, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:3, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 7, girls: 8, total: 15, bCat: {SC:0, ST:2, VJ:0, NT:4, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:1, NT:7, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "5", boys: 3, girls: 5, total: 8, bCat: {SC:0, ST:0, VJ:0, NT:3, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:2, VJ:0, NT:1, SBC:0, OBC:1, OPEN:1}}
+      ]
+    },
+    {
+      id: 11, name: "ZPPS SHELAPURI", udise: "27270710501", classes: "1 To 5", email: "zppsshelapuri@gmail.com",
+      teachers: [
+        {name: "MUNDE RADHAKRISHNA BHAGWAN", post: "Assistant Teacher", mobile: "9834940152"},
+        {name: "GAWALI VARSHA BALBHIM", post: "Assistant Teacher", mobile: "9960061263"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 4, girls: 2, total: 6, bCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:2}},
+        {classNum: "2", boys: 5, girls: 5, total: 10, bCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:1, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:3}},
+        {classNum: "3", boys: 3, girls: 4, total: 7, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:3}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "4", boys: 1, girls: 5, total: 6, bCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "5", boys: 0, girls: 0, total: 0, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 12, name: "ZPPS MAULINAGAR LIMGAON (H)", udise: "27270709702", classes: "1 To 4", email: "laxmanredewar059976@gmail.com",
+      teachers: [
+        {name: "REDEWAR LAXMAN LALBA", post: "Assistant Teacher", mobile: "9763673438"},
+        {name: "AULWAR KAVITA VIRENDRA", post: "Assistant Teacher", mobile: "9503251634"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 3, girls: 3, total: 6, bCat: {SC:0, ST:0, VJ:2, NT:1, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:3}},
+        {classNum: "2", boys: 1, girls: 0, total: 1, bCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 4, girls: 1, total: 5, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:4}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "4", boys: 0, girls: 2, total: 2, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:1}}
+      ]
+    },
+    {
+      id: 13, name: "ZPPS VASANTNAGAR MANGRUL NO 1", udise: "27270709802", classes: "1 To 4", email: "pralhadborade1768@gmail.com",
+      teachers: [
+        {name: "JAGTAP SANGEETA RAMESH", post: "Assistant Teacher", mobile: "7498108479"},
+        {name: "GAIKWAD BANDU NAMDEV", post: "Assistant Teacher", mobile: "9175072326"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 0, girls: 1, total: 1, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 1, girls: 0, total: 1, bCat: {SC:0, ST:0, VJ:0, NT:1, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 0, girls: 0, total: 0, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 1, girls: 0, total: 1, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 14, name: "ZPPS MANGRUL NO 2", udise: "27270709901", classes: "1 To 4", email: "amolraut22@gmail.com",
+      teachers: [
+        {name: "GAROLE TUKARAM SONBA", post: "Assistant Teacher", mobile: "9823408706"},
+        {name: "MAHORE SAHEBRAO RAMRAO", post: "Assistant Teacher", mobile: "9922420468"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 2, girls: 3, total: 5, bCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:3, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 3, girls: 2, total: 5, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "3", boys: 3, girls: 2, total: 5, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 5, girls: 4, total: 9, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:1, OPEN:2}, gCat: {SC:0, ST:0, VJ:1, NT:1, SBC:0, OBC:0, OPEN:2}}
+      ]
+    },
+    {
+      id: 15, name: "ZPPS LAMANTANDA", udise: "27270710101", classes: "1 To 4", email: "laxmikaant@gmail.com",
+      teachers: [
+        {name: "BHAVSAR LAXMIKANT ARUNRAO", post: "Assistant Teacher", mobile: "7588521738"},
+        {name: "RATHOD ASHOK UTTAMRAO", post: "Assistant Teacher", mobile: "9921060256"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 3, girls: 3, total: 6, bCat: {SC:0, ST:0, VJ:3, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:3, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 2, girls: 1, total: 3, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 1, girls: 1, total: 2, bCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 2, girls: 3, total: 5, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:1, OPEN:0}}
+      ]
+    },
+    {
+      id: 16, name: "ZPPS BARDITANDA", udise: "27270710201", classes: "1 To 4", email: "amolraut22@gmail.com",
+      teachers: [
+        {name: "RAUT AMOL MANIKRAO", post: "Assistant Teacher", mobile: "9421278871"},
+        {name: "PARALKAR BHAGYASHREE ASHRUBA", post: "Assistant Teacher", mobile: "8888074063"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 5, girls: 2, total: 7, bCat: {SC:0, ST:0, VJ:5, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 2, girls: 1, total: 3, bCat: {SC:0, ST:0, VJ:2, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 4, girls: 1, total: 5, bCat: {SC:0, ST:0, VJ:4, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 0, girls: 3, total: 3, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:3, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 17, name: "ZPPS BHIM NAGAR KITTI ADGAON", udise: "27270710302", classes: "1 To 4", email: "purushottamkathule23@gmail.com",
+      teachers: [
+        {name: "KATHULE PURUSHOTTAM RAMKISAN", post: "Assistant Teacher", mobile: "7020836930"},
+        {name: "SABLE SANTOSH ASHRUBA", post: "Assistant Teacher", mobile: "9921875060"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 3, girls: 5, total: 8, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:3}, gCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "2", boys: 6, girls: 1, total: 7, bCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:3, OPEN:1}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 4, girls: 8, total: 12, bCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:4, ST:0, VJ:0, NT:0, SBC:0, OBC:2, OPEN:2}},
+        {classNum: "4", boys: 4, girls: 14, total: 18, bCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:1}, gCat: {SC:2, ST:0, VJ:0, NT:0, SBC:1, OBC:6, OPEN:5}}
+      ]
+    },
+    {
+      id: 18, name: "ZPPS RENAPURI", udise: "27270710401", classes: "1 To 4", email: "zppsrenapuri@gmail.com",
+      teachers: [
+        {name: "MORE SOMESHWAR DAMODHARRAO", post: "Assistant Teacher", mobile: "9421510528"},
+        {name: "YADAV PANDIT GULABRAO", post: "Assistant Teacher", mobile: "9657168909"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 2, girls: 4, total: 6, bCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "2", boys: 3, girls: 3, total: 6, bCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "3", boys: 2, girls: 1, total: 3, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:1}},
+        {classNum: "4", boys: 5, girls: 0, total: 5, bCat: {SC:3, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:1}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 19, name: "ZPPS SHELAPURI/RENAPURI WASAHAT", udise: "27270710502", classes: "1 To 4", email: "shaikhraj.best@gmail.com",
+      teachers: [
+        {name: "SHEIKH SHAFIK DILDAR", post: "Assistant Teacher", mobile: "8275798404"},
+        {name: "SAKHARE KAILAS DATTATRAY", post: "Assistant Teacher", mobile: "9422808829"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 0, girls: 0, total: 0, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 2, girls: 0, total: 2, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:2}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "3", boys: 0, girls: 1, total: 1, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 0, girls: 0, total: 0, bCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:0, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}}
+      ]
+    },
+    {
+      id: 20, name: "ZPPS KHANAPUR", udise: "27270710601", classes: "1 To 4", email: "zppskhanapur@gmail.com",
+      teachers: [
+        {name: "TANGDE TUKARAM RAMBHAU", post: "Assistant Teacher", mobile: "9890934032"},
+        {name: "PADLAWAR NAGNATH MAROTI", post: "Assistant Teacher", mobile: "9922334076"}
+      ],
+      classesData: [
+        {classNum: "1", boys: 2, girls: 2, total: 4, bCat: {SC:1, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "2", boys: 6, girls: 2, total: 8, bCat: {SC:5, ST:0, VJ:1, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}},
+        {classNum: "3", boys: 1, girls: 3, total: 4, bCat: {SC:1, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:0, OPEN:0}},
+        {classNum: "4", boys: 3, girls: 4, total: 7, bCat: {SC:2, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}, gCat: {SC:3, ST:0, VJ:0, NT:0, SBC:0, OBC:1, OPEN:0}}
+      ]
+    }
   ];
 
-  /* लोकल स्टोरेजमधील स्टेट किंवा डिफॉल्ट लिंक्स */
-  let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
-    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", glow: true, star: true },
-    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", glow: false, star: true }
-  ];
-
-  let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या वेळेत सादर करणे बंधनकारक आहे.";
-
-  let schoolStatuses = JSON.parse(localStorage.getItem('sawargaon_statuses')) || {};
-
-  /* टॅब स्विचिंग */
+  /* टॅब स्विचिंग फंक्शन */
   function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(tb => tb.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
     event.currentTarget.classList.add('active');
   }
 
   /* ॲप इनिशिएलायझेशन */
   function initApp() {
-    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
-    renderPublicLinks();
-    renderSchoolCapsules();
-    renderSchoolDropdown();
-    renderAdminSchoolTable();
+    renderSchoolsList();
+    renderTeachersList();
+    renderMonthlyReportDropdown();
   }
 
-  /* फ्रंटएंडवर डेटा कलेक्शन लिंक्स रेेंडर करणे */
-  function renderPublicLinks() {
-    const container = document.getElementById('publicLinksContainer');
+  /* शाळा यादी व त्यांची पटसंख्या/शिक्षक कार्ड्स रेंडर करणे (प्रतिमा 1, 2, 3, 4 प्रमाणे) */
+  function renderSchoolsList() {
+    const container = document.getElementById('schoolListContainer');
     container.innerHTML = '';
-    if(customLinks.length === 0) {
-      container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">सध्या कोणतीही नवीन लिंक उपलब्ध नाही.</p>';
-      return;
-    }
-    customLinks.forEach(l => {
-      let a = document.createElement('a');
-      a.className = `link-capsule ${l.glow ? 'glow-effect' : ''}`;
-      a.href = l.url;
-      a.target = "_blank";
-      a.innerHTML = `
-        <span>📌 ${l.title} ${l.star ? '<span class="blink-star">⭐ NEW</span>' : ''}</span>
-        <span style="font-size:1.1rem;">👉</span>
-      `;
-      container.appendChild(a);
-    });
-  }
 
-  /* शाळा कॅп्सूल्स */
-  function renderSchoolCapsules() {
-    const container = document.getElementById('schoolCapsuleContainer');
-    container.innerHTML = '';
     schoolsData.forEach(s => {
-      let cap = document.createElement('div');
-      cap.className = 'school-capsule';
-      cap.innerHTML = `🏫 <b>${s.id}.</b> ${s.name}`;
-      cap.onclick = () => openSchoolModal(s);
-      container.appendChild(cap);
+      let card = document.createElement('div');
+      card.className = 'school-card';
+      card.setAttribute('data-search', `${s.name} ${s.udise} ${s.classes}`.toLowerCase());
+
+      // शिक्षकांची यादी HTML
+      let teachersHtml = '';
+      s.teachers.forEach((t, idx) => {
+        let isVacant = t.name.includes('रिक्त');
+        let callBtn = t.mobile ? `<a class="call-btn" href="tel:${t.mobile}">📞</a>` : '';
+        teachersHtml += `
+          <div class="teacher-row">
+            <div class="tno">${idx + 1}.</div>
+            <div class="tname">
+              ${isVacant ? `<span style="color:var(--ink-soft);font-style:italic;">पद रिक्त</span>` : t.name}
+              ${t.post.includes('Head') ? '<span style="color:var(--maroon);font-size:0.75rem;">(मुख्याध्यापक)</span>' : ''}
+              ${isVacant ? '<span class="badge-vacant">रिक्त पद</span>' : ''}
+              <div><span class="post">${t.post}</span></div>
+            </div>
+            ${callBtn}
+          </div>
+        `;
+      });
+
+      // वर्गनिहाय विद्यार्थी कॅटेगरी ग्रिड HTML (प्रतिमा 3 व 4 प्रमाणे)
+      let classesHtml = '';
+      s.classesData.forEach(c => {
+        classesHtml += `
+          <div class="stu-row">
+            <div class="stu-head" onclick="toggleStuRow(this)">
+              <div class="cls">इयत्ता ${c.classNum} <span style="font-size:0.75rem; color:var(--maroon); font-weight:normal;">(+)</span></div>
+              <div class="sums">मुले <b>${c.boys}</b> · मुली <b>${c.girls}</b> · एकूण <b>${c.total}</b></div>
+            </div>
+            <div class="stu-detail">
+              <div class="gender-label">मुले (कॅटेगरीनुसार)</div>
+              <div class="cat-grid">
+                <div class="cat-chip"><div class="cn">अनुसूचित जाती (SC)</div><div class="cv">${c.bCat.SC}</div></div>
+                <div class="cat-chip"><div class="cn">अनुसूचित जमाती (ST)</div><div class="cv">${c.bCat.ST}</div></div>
+                <div class="cat-chip"><div class="cn">विमुक्त जाती (VJ)</div><div class="cv">${c.bCat.VJ}</div></div>
+                <div class="cat-chip"><div class="cn">भटक्या जमाती (NT)</div><div class="cv">${c.bCat.NT}</div></div>
+                <div class="cat-chip"><div class="cn">विशेष मागास (SBC)</div><div class="cv">${c.bCat.SBC}</div></div>
+                <div class="cat-chip"><div class="cn">ईतर मागास (OBC)</div><div class="cv">${c.bCat.OBC}</div></div>
+                <div class="cat-chip"><div class="cn">खुला (GENERAL)</div><div class="cv">${c.bCat.OPEN}</div></div>
+              </div>
+              <div class="gender-label">मुली (कॅटेगरीनुसार)</div>
+              <div class="cat-grid">
+                <div class="cat-chip"><div class="cn">अनुसूचित जाती (SC)</div><div class="cv">${c.gCat.SC}</div></div>
+                <div class="cat-chip"><div class="cn">अनुसूचित जमाती (ST)</div><div class="cv">${c.gCat.ST}</div></div>
+                <div class="cat-chip"><div class="cn">विमुक्त जाती (VJ)</div><div class="cv">${c.gCat.VJ}</div></div>
+                <div class="cat-chip"><div class="cn">भटक्या जमाती (NT)</div><div class="cv">${c.gCat.NT}</div></div>
+                <div class="cat-chip"><div class="cn">विशेष मागास (SBC)</div><div class="cv">${c.gCat.SBC}</div></div>
+                <div class="cat-chip"><div class="cn">ईतर मागास (OBC)</div><div class="cv">${c.gCat.OBC}</div></div>
+                <div class="cat-chip"><div class="cn">खुला (GENERAL)</div><div class="cv">${c.gCat.OPEN}</div></div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="school-head" onclick="toggleSchoolCard(this)">
+          <div class="sr-badge">${s.id}</div>
+          <div class="school-title">
+            <div class="name">${s.name}</div>
+            <div class="meta">वर्ग ${s.classes} · ${s.teachers} शिक्षक</div>
+          </div>
+          <div class="action-icon-btn">+</div>
+        </div>
+        <div class="school-body">
+          <div class="field-row"><div class="label">UDISE</div><div class="val">${s.udise}</div></div>
+          <div class="field-row"><div class="label">वर्ग</div><div class="val">${s.classes}</div></div>
+          <div class="field-row"><div class="label">ई-मेल</div><div class="val"><a href="mailto:${s.email}">${s.email}</a></div></div>
+          
+          <div class="teacher-list">
+            <h4>शिक्षक यादी</h4>
+            ${teachersHtml}
+          </div>
+
+          <div class="teacher-list">
+            <h4>वर्गनिहाय विद्यार्थी संख्या</h4>
+            <div class="stu-table">
+              ${classesHtml}
+            </div>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
     });
   }
 
-  function renderSchoolDropdown() {
+  /* शिक्षक यादी टॅब (प्रतिमा 5 प्रमाणे) */
+  function renderTeachersList() {
+    const container = document.getElementById('teacherListContainer');
+    container.innerHTML = '';
+    
+    let counter = 1;
+    schoolsData.forEach(s => {
+      s.teachers.forEach(t => {
+        let isVacant = t.name.includes('रिक्त');
+        let callBtn = t.mobile ? `<a class="call-btn" href="tel:${t.mobile}">📞</a>` : '';
+        let row = document.createElement('div');
+        row.className = 'flat-row';
+        row.setAttribute('data-search', `${t.name} ${s.name} ${t.post}`.toLowerCase());
+        row.innerHTML = `
+          <div class="num">${counter++}</div>
+          <div class="info">
+            <div class="n">${isVacant ? '<span style="color:var(--ink-soft);font-style:italic;">पद रिक्त</span>' : t.name} ${t.post.includes('Head') ? '<span style="color:var(--maroon);font-size:0.75rem;">(मुख्याध्यापक)</span>' : ''}</div>
+            <div class="s">${s.name} · ${t.post}</div>
+          </div>
+          ${callBtn}
+        `;
+        container.appendChild(row);
+      });
+    });
+  }
+
+  function renderMonthlyReportDropdown() {
     const select = document.getElementById('mr_school');
     select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     schoolsData.forEach(s => {
@@ -500,125 +780,32 @@
     });
   }
 
-  function openSchoolModal(s) {
-    document.getElementById('modalSchoolName').textContent = `${s.id}. ${s.name}`;
-    document.getElementById('modalSchoolBody').innerHTML = `
-      <p style="margin-bottom:8px;"><strong>UDISE Code:</strong> ${s.udise}</p>
-      <p style="margin-bottom:8px;"><strong>वर्ग:</strong> ${s.classes}</p>
-      <p style="margin-bottom:8px;"><strong>शिक्षक संख्या:</strong> ${s.teachers}</p>
-      <p style="margin-bottom:8px;"><strong>मुख्याध्यापक:</strong> ${s.hm} (${s.phone})</p>
-      <p style="margin-bottom:8px;"><strong>एकूण पटसंख्या:</strong> ${s.total} विद्यार्थी</p>
-    `;
-    document.getElementById('schoolModal').style.display = 'flex';
+  /* टॉगल फंक्शन्स */
+  function toggleSchoolCard(head) {
+    let card = head.parentElement;
+    card.classList.toggle('open');
   }
 
-  function closeSchoolModal() {
-    document.getElementById('schoolModal').style.display = 'none';
+  function toggleStuRow(head) {
+    let row = head.parentElement;
+    row.classList.toggle('open');
   }
 
-  function toggleReportFields(show) {
-    document.getElementById('dynamicChangeFields').style.display = show ? 'block' : 'none';
-  }
-
-  function submitReport() {
-    let school = document.getElementById('mr_school').value;
-    if(!school) { alert('कृपया शाळा निवडा!'); return; }
-    alert('माहिती यशस्वीपणे सबमिट झाली!');
-    document.getElementById('mr_school').value = '';
-    document.querySelector('input[name="changeType"][value="none"]').click();
-  }
-
-  /* ॲडमिन पिन पडताळणी (पिन: 3506) */
-  function verifyAdminPin() {
-    let pin = document.getElementById('adminPinInput').value;
-    if(pin === '3506') {
-      document.getElementById('adminLoginBox').style.display = 'none';
-      document.getElementById('adminDashboardContent').style.display = 'block';
-      let badge = document.getElementById('adminStatusBadge');
-      badge.textContent = 'सक्रिय (Unlocked)';
-      badge.className = 'admin-badge badge-unlocked';
-    } else {
-      alert('चुकीचा पिन! कृपया बरोबर पिन (3506) टाка.');
-    }
-  }
-
-  /* मारकी टेक्स्ट अपडेट */
-  function updateMarqueeText() {
-    let txt = document.getElementById('adminMarqueeInput').value;
-    if(!txt) { alert('कृपया मेसेज लिहा.'); return; }
-    marqueeMessage = txt;
-    localStorage.setItem('sawargaon_marquee', marqueeMessage);
-    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
-    alert('सरकणारा मेसेज यशस्वीपणे अपडेट झाला!');
-  }
-
-  /* नवीन लिंक बॅकएंडमधून जोडणे */
-  function addNewLink() {
-    let title = document.getElementById('linkTitleInput').value;
-    let url = document.getElementById('linkUrlInput').value;
-    let glow = document.getElementById('linkGlowInput').checked;
-    let star = document.getElementById('linkStarInput').checked;
-
-    if(!title || !url) { alert('कृपया शिर्षक आणि URL दोन्ही भरा.'); return; }
-
-    customLinks.push({ id: Date.now(), title, url, glow, star });
-    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
-    
-    document.getElementById('linkTitleInput').value = '';
-    document.getElementById('linkUrlInput').value = '';
-    renderPublicLinks();
-    alert('नवीन डेटा कलेक्शन लिंक यशस्वीपणे जोडली गेली!');
-  }
-
-  /* लिंक डिलीट करणे */
-  function deleteLink(id) {
-    customLinks = customLinks.filter(l => l.id !== id);
-    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
-    renderPublicLinks();
-  }
-
-  /* ॲडमिन पॅनलमध्ये शाळांची यादी व व्हॉट्सॲप मेसेज जनरेटर लोड करणे */
-  function renderAdminSchoolTable() {
-    const tbody = document.getElementById('adminSchoolStatusTableBody');
-    tbody.innerHTML = '';
-    schoolsData.forEach((s, idx) => {
-      let isDone = schoolStatuses[s.id] || false;
-      tbody.innerHTML += `
-        <tr>
-          <td>${idx + 1}</td>
-          <td style="font-weight:700;">${s.name}</td>
-          <td>${s.hm}<br><span style="font-size:0.75rem; color:var(--text-muted);">${s.phone}</span></td>
-          <td>
-            <select class="form-control" style="padding:6px; font-size:0.8rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
-              <option value="false" ${!isDone ? 'selected' : ''}>अपूर्ण ⏳</option>
-              <option value="true" ${isDone ? 'selected' : ''}>पूर्ण झाले ✅</option>
-            </select>
-          </td>
-          <td>
-            <button class="btn btn-success" style="padding:6px 12px; font-size:0.8rem;" onclick="sendWhatsApp(${s.id})">
-              💬 व्हॉट्सॲप मेसेज पाठवा
-            </button>
-          </td>
-        </tr>
-      `;
+  /* सर्च फिल्टर्स */
+  function filterSchools() {
+    let val = document.getElementById('schoolSearch').value.toLowerCase();
+    document.querySelectorAll('.school-card').forEach(card => {
+      let text = card.getAttribute('data-search');
+      card.style.display = text.includes(val) ? 'block' : 'none';
     });
   }
 
-  function updateSchoolStatus(schoolId, val) {
-    schoolStatuses[schoolId] = (val === 'true');
-    localStorage.setItem('sawargaon_statuses', JSON.stringify(schoolStatuses));
-  }
-
-  /* मुख्याध्यापकांना व्हॉट्सॲपवर पूर्व-टाईप केलेला मेसेज पाठवणे */
-  function sendWhatsApp(schoolId) {
-    let s = schoolsData.find(x => x.id === schoolId);
-    let isDone = schoolStatuses[s.id] || false;
-    let statusText = isDone ? "माहिती भरण्याचे काम पूर्ण केले आहे, धन्यवाद! 👍" : "माहिती भरण्याचे काम अद्याप प्रलंबित आहे, कृपया लवकरात लवकर पूर्ण करावी. ⚠️";
-    
-    let message = `नमस्कार सर/मॅडम (${s.hm}),\n\nसमूह साधन केंद्र सावरगाव अंतर्गत शाळा: *${s.name}* \n\nसध्याच्या डेटा कलेक्शन संदर्भात तुमची स्थिती: *${statusText}*\n\n- केंद्रप्रमुख, सावरगाव`;
-    
-    let encodedUrl = `https://wa.me/91${s.phone}?text=${encodeURIComponent(message)}`;
-    window.open(encodedUrl, '_blank');
+  function filterTeachers() {
+    let val = document.getElementById('teacherSearch').value.toLowerCase();
+    document.querySelectorAll('.flat-row').forEach(row => {
+      let text = row.getAttribute('data-search');
+      row.style.display = text.includes(val) ? 'flex' : 'none';
+    });
   }
 
   window.onload = initApp;
