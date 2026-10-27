@@ -18,7 +18,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Professional Header with Circular Logo & Two-Line Title */
+  /* Professional Header with Local Logo & Two-Line Title */
   header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.8rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; display: flex; align-items: center; gap: 12px; cursor: pointer; }
   .header-logo-box { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2.5px solid #FF9933; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -89,7 +89,7 @@
   #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  /* Custom Modals (Admin Login, Confirmation & Custom Alerts) */
+  /* Custom Modals */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
   .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
   .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
@@ -637,7 +637,7 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW WITH FULL TABLE CLASS EDIT */
+  /* FULL-SIZE ADMIN PANEL VIEW WITH BOTH CLASS-WISE AND CAST-WISE FULL TABLES EDIT */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
@@ -688,19 +688,23 @@
           <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
         </div>
 
-        <!-- Full Table Class-wise Strength Edit Feature (Multiple Classes at once) -->
+        <!-- Class-wise & Cast-wise Full Tables Edit Feature -->
         <div style="background:#FFFBEB; padding:14px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#D97706; margin-bottom:8px;">✏️ शाळा व वर्गवार पटसंख्या बदला (Class-wise Full Table Edit):</h4>
+          <h4 style="font-size:1rem; color:#D97706; margin-bottom:8px;">✏️ वर्गनिहाय व प्रवर्गनिहाय पटसंख्या तक्ता बदला (Full Tables Edit):</h4>
           <div class="form-grid" style="margin-bottom:10px;">
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>शाळा निवडा:</label>
-              <select id="adm_school_select" autocomplete="off" class="form-control" onchange="loadAllClassesTableForAdmin()">${schoolOptionsHtml}</select>
+              <select id="adm_school_select" autocomplete="off" class="form-control" onchange="loadAllTablesForAdmin()">${schoolOptionsHtml}</select>
             </div>
           </div>
-          <div id="adminClassesTableContainer" class="table-responsive" style="margin-bottom:10px;">
-            <!-- Dynamically loaded table for all classes of selected school -->
-          </div>
-          <button class="btn btn-warning" onclick="manualUpdateAllClassesStrength()">सर्व वर्गांची पटसंख्या जतन करा 💾</button>
+
+          <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">वर्गनिहाय पटसंख्या तक्ता:</div>
+          <div id="adminClassesTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
+
+          <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">प्रवर्गनिहाय (Cast) पटसंख्या तक्ता:</div>
+          <div id="adminCastTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
+
+          <button class="btn btn-warning" onclick="manualUpdateAllTablesStrength()">सर्व तक्त्यांची पटसंख्या एकाच वेळी जतन करा 💾</button>
         </div>
 
         <!-- Add Private School with Institution Type Dropdown & Teacher Count -->
@@ -745,11 +749,11 @@
             <input type="text" id="newTabNameInput" autocomplete="off" class="form-control" placeholder="नवीन टॅबचे नाव">
             <input type="text" id="newTabIdInput" autocomplete="off" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
           </div>
-          <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
+          <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडला गेला ➕</button>
         </div>
       </div>
     `;
-    setTimeout(loadAllClassesTableForAdmin, 100);
+    setTimeout(loadAllTablesForAdmin, 100);
   }
 
   function updateZpCounts() {
@@ -760,35 +764,54 @@
     showToast('जि.प. शाळा व शिक्षक संख्या अपडेट झाली! ✅');
   }
 
-  function loadAllClassesTableForAdmin() {
+  function loadAllTablesForAdmin() {
     let schoolName = document.getElementById('adm_school_select').value;
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
-    let container = document.getElementById('adminClassesTableContainer');
-    if(!school || !container) return;
+    let classContainer = document.getElementById('adminClassesTableContainer');
+    let castContainer = document.getElementById('adminCastTableContainer');
+    if(!school || !classContainer || !castContainer) return;
 
+    // 1. Classes Table
     let classes = Object.keys(school.classCounts || {"वर्ग 1": {boys:0, girls:0}});
-    let html = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
+    let classHtml = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
     classes.forEach(cls => {
       let obj = school.classCounts[cls] || {boys: 0, girls: 0};
       let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
       let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      html += `<tr>
+      classHtml += `<tr>
         <td style="font-weight:800; padding:8px;">${cls}</td>
         <td><input type="number" id="adm_b_${cls}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
         <td><input type="number" id="adm_g_${cls}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
       </tr>`;
     });
-    html += '</tbody></table>';
-    container.innerHTML = html;
+    classHtml += '</tbody></table>';
+    classContainer.innerHTML = classHtml;
+
+    // 2. Cast Table
+    let casts = Object.keys(school.categoryCounts || {"SC": {boys:0, girls:0}});
+    let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
+    casts.forEach(cat => {
+      let obj = school.categoryCounts[cat] || {boys: 0, girls: 0};
+      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+      castHtml += `<tr>
+        <td style="font-weight:800; padding:8px;">${cat}</td>
+        <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
+        <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
+      </tr>`;
+    });
+    castHtml += '</tbody></table>';
+    castContainer.innerHTML = castHtml;
   }
 
-  function manualUpdateAllClassesStrength() {
+  function manualUpdateAllTablesStrength() {
     let schoolName = document.getElementById('adm_school_select').value;
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     if(!school) return;
 
+    // Update Classes
     let classes = Object.keys(school.classCounts || {});
     let newTotal = 0;
     classes.forEach(cls => {
@@ -803,15 +826,28 @@
         newTotal += b + g;
       }
     });
-
     school.total = newTotal;
+
+    // Update Casts
+    let casts = Object.keys(school.categoryCounts || {});
+    casts.forEach(cat => {
+      let bInput = document.getElementById(`adm_cb_${cat}`);
+      let gInput = document.getElementById(`adm_cg_${cat}`);
+      if(bInput && gInput) {
+        let b = Number(bInput.value) || 0;
+        let g = Number(gInput.value) || 0;
+        if(!school.categoryCounts[cat]) school.categoryCounts[cat] = {};
+        school.categoryCounts[cat].boys = b;
+        school.categoryCounts[cat].girls = g;
+      }
+    });
 
     if(school.type === 'ZP') {
       localStorage.setItem('sawargaon_zp_schools', JSON.stringify(zpschoolsData));
     } else {
       localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
     }
-    showToast('सर्व वर्गांची पटसंख्या यशस्वीपणे जतन व अपडेट केली गेली! ✅');
+    showToast('वर्गवार व प्रवर्गनिहाय दोन्ही तक्ते यशस्वीपणे जतन व अपडेट झाले! ✅');
   }
 
   function updateMarqueeText() {
@@ -837,7 +873,7 @@
     customLinks = customLinks.filter(l => l.id !== id);
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
     renderFullAdminView();
-    showToast('लिंक काढून टाकाली! 🗑️');
+    showToast('लिंक काढून टाकली! 🗑️');
   }
 
   /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK */
@@ -1080,7 +1116,7 @@
           <table>
             <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
             <tbody>
-              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">एकूण शाळा: `${combSchools}` | एकूण शिक्षक: ${combTeachers}</td></tr>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">एकूण शाळा: ${combSchools} | एकूण शिक्षक: ${combTeachers}</td></tr>
               <tr><td>एकूण विद्यार्थी पटसंख्या</td><td>${combBoys}</td><td>${combGirls}</td><td style="font-weight:800; color:#065F46;">${combTotalStud}</td></tr>
             </tbody>
           </table>
