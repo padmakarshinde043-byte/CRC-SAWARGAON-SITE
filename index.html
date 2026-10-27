@@ -18,7 +18,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Professional Header with GitHub Logo on Top-Left */
+  /* Professional Header with Local Logo & Two-Line Title */
   header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.8rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; display: flex; align-items: center; gap: 12px; cursor: pointer; }
   .header-logo-box { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2.5px solid #FF9933; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -104,7 +104,7 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- CUSTOM CUSTOM ALERT / INFO MODAL -->
+<!-- CUSTOM ALERT MODAL -->
 <div class="modal-overlay" id="customAlertModal">
   <div class="modal-box">
     <h3>📢 सूचना</h3>
@@ -140,10 +140,10 @@
   </div>
 </div>
 
-<!-- PROFESSIONAL HEADER WITH GITHUB LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
+<!-- PROFESSIONAL HEADER WITH LOCAL LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-logo-box">
-    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+    <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
   <div class="header-text">
     <div class="header-main-title">समूह साधन केंद्र सावरगाव</div>
@@ -528,13 +528,21 @@
     renderReportDropdown();
   }
 
+  function toggleReportFields(show) {
+    let dynamicDiv = document.getElementById('dynamicChangeFields');
+    if(show) {
+      dynamicDiv.style.display = 'block';
+    } else {
+      dynamicDiv.style.display = 'none';
+    }
+  }
+
   function prepareReportSubmit() {
     let schoolName = document.getElementById('mr_school').value;
     if(!schoolName) { showCustomAlert('कृपया शाळा निवडा!'); return; }
 
     let changeType = document.querySelector('input[name="changeType"]:checked').value;
     
-    /* Option A ('बदल नाही') is accepted immediately without forcing increase/decrease details */
     if(changeType === 'none') {
       pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
       document.getElementById('confirmModalBody').innerHTML = `
@@ -629,7 +637,7 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW (STAYS OPEN ON SAVE) */
+  /* FULL-SIZE ADMIN PANEL VIEW */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
@@ -847,7 +855,7 @@
       if (permission === "granted") {
         let notification = new Notification("समूह साधन केंद्र सावरगाव", {
           body: `📢 आवश्यक सूचना: "${title}" ही माहिती भरणे बंधनकारक आहे. क्लिक करून माहिती भरा!`,
-          icon: "https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg"
+          icon: "logo.jpeg"
         });
 
         notification.onclick = function() {
@@ -1074,7 +1082,7 @@
         <div class="card-title" style="color:#065F46;"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
         <div class="table-responsive">
           <table>
-            <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+            <thead><tr><th>ghटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
             <tbody>
               <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">एकूण शाळा: ${combSchools} | एकूण शिक्षक: ${combTeachers}</td></tr>
               <tr><td>एकूण विद्यार्थी पटसंख्या</td><td>${combBoys}</td><td>${combGirls}</td><td style="font-weight:800; color:#065F46;">${combTotalStud}</td></tr>
