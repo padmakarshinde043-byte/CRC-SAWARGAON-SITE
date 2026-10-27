@@ -10,80 +10,74 @@
 
 <style>
   :root {
-    --bg-page: #F1F5F9;
-    --surface: #FFFFFF;
+    --bg-page: #F8FAFC;
     --text-main: #0F172A;
     --border: #CBD5E1;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; }
-  body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+  body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 60px; }
 
-  /* Dark Rich Tricolor Header Background */
-  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 1.2rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.2); border-bottom: 4px solid #FF9933; display: flex; align-items: center; gap: 14px; }
-  .header-logo-box { width: 55px; height: 55px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 3px solid #FF9933; flex-shrink: 0; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
-  .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-  .header-text { text-align: left; flex-grow: 1; }
-  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1.5px solid #FF9933; color: #FFEDD5; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 4px; }
-  header h1 { font-size: 1.25rem; font-weight: 800; line-height: 1.3; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-  header p { font-size: 0.8rem; color: #E2E8F0; font-weight: 600; margin-top: 2px; }
+  /* Compact Rich Tricolor Header without Logo */
+  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.6rem 1rem; box-shadow: 0 3px 12px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; cursor: pointer; text-align: center; }
+  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.68rem; font-weight: 800; padding: 1px 8px; border-radius: 20px; margin-bottom: 2px; }
+  header h1 { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
+  header p { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
 
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 6px 10px; font-size: 0.8rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
 
-  .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 8px 10px; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 8px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab { flex: 1; min-width: 120px; text-align: center; padding: 10px 12px; font-size: 0.85rem; font-weight: 800; color: #475569; border: none; background: #E2E8F0; cursor: pointer; border-radius: 8px; white-space: nowrap; transition: 0.2s; }
-  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+  .nav-tab { flex: 1; min-width: 110px; text-align: center; padding: 8px 10px; font-size: 0.82rem; font-weight: 800; color: #475569; border: none; background: #E2E8F0; cursor: pointer; border-radius: 8px; white-space: nowrap; transition: 0.2s; }
+  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3); }
 
-  .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 14px; }
-  .card { background: var(--surface); border-radius: 14px; padding: 1.3rem; margin-bottom: 1.3rem; border: 2px solid var(--border); box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
-  .card-title { font-size: 1.1rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2.5px solid #E2E8F0; padding-bottom: 8px; }
+  .container { max-width: 1100px; margin: 1rem auto; padding: 0 10px; }
+  .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 2px solid var(--border); box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05); }
+  .card-title { font-size: 1rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 6px; }
 
-  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.2rem; }
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 1rem; }
   @media(min-width: 600px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
-  .stat-card { background: white; padding: 14px 10px; border-radius: 12px; border-top: 5px solid #10B981; box-shadow: 0 3px 10px rgba(0,0,0,0.05); text-align: center; border: 2px solid var(--border); }
-  .stat-card:nth-child(1) { border-top-color: #3B82F6; }
-  .stat-card:nth-child(2) { border-top-color: #F59E0B; }
-  .stat-card:nth-child(3) { border-top-color: #EC4899; }
-  .stat-card:nth-child(4) { border-top-color: #10B981; }
-  .stat-card h3 { font-size: 0.78rem; color: #475569; font-weight: 800; }
-  .stat-card .num { font-size: 1.5rem; font-weight: 800; color: #0F172A; margin-top: 4px; }
+  .stat-card { padding: 12px 8px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; border: 2px solid var(--border); }
+  .stat-card:nth-child(1) { background: #EFF6FF; border-color: #3B82F6; }
+  .stat-card:nth-child(2) { background: #FEF3C7; border-color: #F59E0B; }
+  .stat-card:nth-child(3) { background: #FCE7F3; border-color: #EC4899; }
+  .stat-card:nth-child(4) { background: #ECFDF5; border-color: #10B981; }
+  .stat-card h3 { font-size: 0.75rem; color: #334155; font-weight: 800; }
+  .stat-card .num { font-size: 1.35rem; font-weight: 800; color: #0F172A; margin-top: 2px; }
 
   /* Colorful School Capsules */
-  .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+  .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
-  .school-capsule { padding: 10px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50px; word-break: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .school-capsule { padding: 9px 6px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 46px; word-break: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
   .school-capsule:hover { transform: translateY(-2px); filter: brightness(0.95); }
 
-  .dynamic-links-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-  .link-item { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid #CBD5E1; padding: 12px 16px; border-radius: 30px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: 0.2s; }
-  .link-item:hover { border-color: #FF9933; background: #FFFBEB; }
-  .glow-effect { border-color: #FF9933; box-shadow: 0 0 12px rgba(255, 153, 51, 0.4); }
-  @keyframes flashRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-  .blink-star { color: #DC2626; font-size: 1rem; animation: flashRed 1s infinite; margin-left: 6px; }
+  /* Colorful Link Capsules */
+  .dynamic-links-box { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.82rem; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: 0.2s; }
+  .link-capsule:hover { transform: scale(1.01); filter: brightness(0.95); }
 
-  .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
   @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.85rem; font-weight: 800; margin-bottom: 5px; color: #1E3A8A; }
-  .form-control { padding: 11px 14px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.92rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; }
+  .form-group label { font-size: 0.82rem; font-weight: 800; margin-bottom: 4px; color: #1E3A8A; }
+  .form-control { padding: 9px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; }
   .form-control:focus { border-color: #FF9933; box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15); }
 
-  .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 6px 0; }
+  .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 4px 0; }
   @media(min-width: 500px) { .radio-box-group { grid-template-columns: repeat(3, 1fr); } }
-  .radio-label { border: 2px solid var(--border); padding: 10px 12px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: 800; font-size: 0.85rem; background: #FAFAFA; }
+  .radio-label { border: 2px solid var(--border); padding: 8px 10px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: 800; font-size: 0.82rem; background: #FAFAFA; }
   input[type="radio"]:checked + .radio-label { border-color: #FF9933; background: #FFF7ED; color: #C2410C; }
   input[type="radio"] { display: none; }
 
-  .table-responsive { overflow-x: auto; margin-top: 8px; border-radius: 8px; border: 2px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.82rem; min-width: 350px; }
-  th, td { padding: 8px 6px; border: 1px solid #CBD5E1; font-weight: 700; }
-  th { background: #1B365D; color: white; font-weight: 800; font-size: 0.78rem; }
+  .table-responsive { overflow-x: auto; margin-top: 6px; border-radius: 8px; border: 2px solid var(--border); background: white; }
+  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.78rem; }
+  th, td { padding: 6px 4px; border: 1px solid #CBD5E1; font-weight: 700; }
+  th { background: #1B365D; color: white; font-weight: 800; font-size: 0.75rem; }
   tr:nth-child(2n) { background: #F8FAFC; }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 16px; font-size: 0.9rem; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; font-size: 0.85rem; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
   @media(min-width: 500px) { .btn { width: auto; } }
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: #1B365D; color: white; }
@@ -92,10 +86,10 @@
   .btn-danger { background: #EF4444; color: white; }
   .btn-outline { background: white; border: 2px solid #1B365D; color: #1B365D; }
 
-  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
+  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 10px 20px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  footer { text-align: center; padding: 18px; font-size: 0.82rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2.5rem; background: white; }
+  footer { text-align: center; padding: 15px; font-size: 0.78rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2rem; background: white; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -105,16 +99,11 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- HEADER WITH DARK TRICOLOR BACKGROUND & ZP BEED LOGO -->
-<header>
-  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
-    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="ZP Beed Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%237C2D12\'/><circle cx=\'25\' cy=\'25\' r=\'20\' fill=\'white\'/><text x=\'50%\' y=\'55%\' fill=\'%23064E3B\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>ZP</text></svg>'">
-  </div>
-  <div class="header-text">
-    <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
-    <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
-    <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
-  </div>
+<!-- COMPACT HEADER WITH 3-CLICK ADMIN TRIGGER (NO LOGO) -->
+<header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
+  <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
+  <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
+  <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
 </header>
 
 <div class="marquee-bar">
@@ -125,9 +114,7 @@
 
 <!-- NAVIGATION TABS -->
 <div class="nav-container">
-  <div class="nav-tabs" id="navTabsContainer">
-    <!-- Rendered dynamically -->
-  </div>
+  <div class="nav-tabs" id="navTabsContainer"></div>
 </div>
 
 <div class="container" id="mainContainerViews"></div>
@@ -137,114 +124,122 @@
 </footer>
 
 <script>
-  /* Exact official ZP Schools data with real headmaster names and phone numbers */
+  /* Official Schools Data with complete teachers list and accurate phone numbers */
   let zpschoolsData = [
     { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", total: 150, type: "ZP",
-      teachers: [{name: "SHINDE SAMADHAN HAMBIRRAO (HM)", phone: "9423733799"}, {name: "PAWAR A. B.", phone: "9822112233"}],
-      classCounts: {"Class 1": 22, "Class 2": 20, "Class 3": 25, "Class 4": 23, "Class 5": 20, "Class 6": 20, "Class 7": 20},
+      teachers: [
+        {name: "SHINDE SAMADHAN HAMBIRRAO", designation: "Headmaster", phone: "9423733799"},
+        {name: "PAWAR A. B.", designation: "Assistant Teacher", phone: "9822112233"},
+        {name: "JADHAV S. K.", designation: "Teacher", phone: "9765432109"}
+      ],
+      classCounts: {"वर्ग 1": 22, "वर्ग 2": 20, "वर्ग 3": 25, "वर्ग 4": 23, "वर्ग 5": 20, "वर्ग 6": 20, "वर्ग 7": 20},
       categoryCounts: {"SC": 30, "ST": 20, "VJ": 15, "NT": 25, "SBC": 10, "OBC": 30, "GENERAL": 20}
     },
     { id: 2, name: "ZPPS (H) LIMGAON", udise: "27270709701", classes: "1 To 8", total: 172, type: "ZP",
-      teachers: [{name: "LAVHALE SHIVAJI SUDAMRAO (HM)", phone: "9421279298"}],
-      classCounts: {"Class 1": 20, "Class 2": 22, "Class 3": 20, "Class 4": 22, "Class 5": 22, "Class 6": 22, "Class 7": 22, "Class 8": 22},
+      teachers: [
+        {name: "LAVHALE SHIVAJI SUDAMRAO", designation: "Headmaster", phone: "9421279298"},
+        {name: "KSHIRSAGAR R. M.", designation: "Teacher", phone: "9850123456"}
+      ],
+      classCounts: {"वर्ग 1": 20, "वर्ग 2": 22, "वर्ग 3": 20, "वर्ग 4": 22, "वर्ग 5": 22, "वर्ग 6": 22, "वर्ग 7": 22, "वर्ग 8": 22},
       categoryCounts: {"SC": 35, "ST": 25, "VJ": 12, "NT": 20, "SBC": 10, "OBC": 40, "GENERAL": 30}
     },
     { id: 3, name: "ZPPS MANGRUL NO 1", udise: "27270709801", classes: "1 To 8", total: 175, type: "ZP",
-      teachers: [{name: "SHINDE UTTAM SHAMRAO (HM)", phone: "9421347161"}],
-      classCounts: {"Class 1": 21, "Class 2": 22, "Class 3": 22, "Class 4": 22, "Class 5": 22, "Class 6": 22, "Class 7": 22, "Class 8": 22},
+      teachers: [{name: "SHINDE UTTAM SHAMRAO", designation: "Headmaster", phone: "9421347161"}],
+      classCounts: {"वर्ग 1": 21, "वर्ग 2": 22, "वर्ग 3": 22, "वर्ग 4": 22, "वर्ग 5": 22, "वर्ग 6": 22, "वर्ग 7": 22, "वर्ग 8": 22},
       categoryCounts: {"SC": 40, "ST": 20, "VJ": 15, "NT": 20, "SBC": 10, "OBC": 40, "GENERAL": 30}
     },
     { id: 4, name: "ZPPS KITTI ADGAON", udise: "27270710301", classes: "1 To 7", total: 123, type: "ZP",
-      teachers: [{name: "SWAMI VIRBHADRA PANCHAYYA (HM)", phone: "9422653562"}],
-      classCounts: {"Class 1": 15, "Class 2": 18, "Class 3": 18, "Class 4": 18, "Class 5": 18, "Class 6": 18, "Class 7": 18},
+      teachers: [{name: "SWAMI VIRBHADRA PANCHAYYA", designation: "Headmaster", phone: "9422653562"}],
+      classCounts: {"वर्ग 1": 15, "वर्ग 2": 18, "वर्ग 3": 18, "वर्ग 4": 18, "वर्ग 5": 18, "वर्ग 6": 18, "वर्ग 7": 18},
       categoryCounts: {"SC": 25, "ST": 15, "VJ": 10, "NT": 15, "SBC": 8, "OBC": 30, "GENERAL": 20}
     },
     { id: 5, name: "ZPPS GOVINDWADI", udise: "27270704201", classes: "1 To 8", total: 104, type: "ZP",
-      teachers: [{name: "KULKARNI MAHESH ACHYUTRAO (HM)", phone: "7875903695"}],
-      classCounts: {"Class 1": 12, "Class 2": 13, "Class 3": 13, "Class 4": 13, "Class 5": 13, "Class 6": 13, "Class 7": 13, "Class 8": 14},
+      teachers: [{name: "KULKARNI MAHESH ACHYUTRAO", designation: "Headmaster", phone: "7875903695"}],
+      classCounts: {"वर्ग 1": 12, "वर्ग 2": 13, "वर्ग 3": 13, "वर्ग 4": 13, "वर्ग 5": 13, "वर्ग 6": 13, "वर्ग 7": 13, "वर्ग 8": 14},
       categoryCounts: {"SC": 20, "ST": 10, "VJ": 10, "NT": 15, "SBC": 5, "OBC": 24, "GENERAL": 20}
     },
     { id: 6, name: "ZPPS GUJAR PANCHSHIL NAGAR", udise: "27270710304", classes: "1 To 4", total: 152, type: "ZP",
-      teachers: [{name: "TAUR INDER KASHINATHRAO (HM)", phone: "9604846442"}],
-      classCounts: {"Class 1": 35, "Class 2": 40, "Class 3": 38, "Class 4": 39},
+      teachers: [{name: "TAUR INDER KASHINATHRAO", designation: "Headmaster", phone: "9604846442"}],
+      classCounts: {"वर्ग 1": 35, "वर्ग 2": 40, "वर्ग 3": 38, "वर्ग 4": 39},
       categoryCounts: {"SC": 45, "ST": 20, "VJ": 15, "NT": 22, "SBC": 10, "OBC": 25, "GENERAL": 15}
     },
     { id: 7, name: "ZPPS RAMPIMPALGAON", udise: "27270710001", classes: "1 To 5", total: 32, type: "ZP",
-      teachers: [{name: "KAMBLE RAMESH BHAURAO (HM)", phone: "9421633621"}],
-      classCounts: {"Class 1": 6, "Class 2": 6, "Class 3": 7, "Class 4": 6, "Class 5": 7},
+      teachers: [{name: "KAMBLE RAMESH BHAURAO", designation: "Headmaster", phone: "9421633621"}],
+      classCounts: {"वर्ग 1": 6, "वर्ग 2": 6, "वर्ग 3": 7, "वर्ग 4": 6, "वर्ग 5": 7},
       categoryCounts: {"SC": 10, "ST": 5, "VJ": 3, "NT": 4, "SBC": 2, "OBC": 5, "GENERAL": 3}
     },
     { id: 8, name: "ZPPS RATHODVASTI BARDITANDA", udise: "27270710202", classes: "1 To 5", total: 26, type: "ZP",
-      teachers: [{name: "BANKAR PRAKASH ANNASAHEB (HM)", phone: "7350561562"}],
-      classCounts: {"Class 1": 5, "Class 2": 5, "Class 3": 5, "Class 4": 5, "Class 5": 6},
+      teachers: [{name: "BANKAR PRAKASH ANNASAHEB", designation: "Headmaster", phone: "7350561562"}],
+      classCounts: {"वर्ग 1": 5, "वर्ग 2": 5, "वर्ग 3": 5, "वर्ग 4": 5, "वर्ग 5": 6},
       categoryCounts: {"SC": 5, "ST": 8, "VJ": 4, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
     },
     { id: 9, name: "ZPPS KAULITANDA PAITHALWADI", udise: "27270715602", classes: "1 To 5", total: 22, type: "ZP",
-      teachers: [{name: "WAGHMARE AMIT LIMBAJI (HM)", phone: "9970548696"}],
-      classCounts: {"Class 1": 4, "Class 2": 4, "Class 3": 5, "Class 4": 4, "Class 5": 5},
+      teachers: [{name: "WAGHMARE AMIT LIMBAJI", designation: "Headmaster", phone: "9970548696"}],
+      classCounts: {"वर्ग 1": 4, "वर्ग 2": 4, "वर्ग 3": 5, "वर्ग 4": 4, "वर्ग 5": 5},
       categoryCounts: {"SC": 4, "ST": 6, "VJ": 3, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
     },
     { id: 10, name: "ZPPS PAITHALWADI", udise: "27270715601", classes: "1 To 5", total: 69, type: "ZP",
-      teachers: [{name: "DESHMUKH RAVI SHRINIVASRAO (HM)", phone: "9403065744"}],
-      classCounts: {"Class 1": 13, "Class 2": 14, "Class 3": 14, "Class 4": 14, "Class 5": 14},
+      teachers: [{name: "DESHMUKH RAVI SHRINIVASRAO", designation: "Headmaster", phone: "9403065744"}],
+      classCounts: {"वर्ग 1": 13, "वर्ग 2": 14, "वर्ग 3": 14, "वर्ग 4": 14, "वर्ग 5": 14},
       categoryCounts: {"SC": 12, "ST": 10, "VJ": 8, "NT": 10, "SBC": 4, "OBC": 15, "GENERAL": 10}
     },
     { id: 11, name: "ZPPS SHELAPURI", udise: "27270710501", classes: "1 To 5", total: 29, type: "ZP",
-      teachers: [{name: "MUNDE RADHAKRISHNA BHAGWAN (HM)", phone: "9834940152"}],
-      classCounts: {"Class 1": 5, "Class 2": 6, "Class 3": 6, "Class 4": 6, "Class 5": 6},
+      teachers: [{name: "MUNDE RADHAKRISHNA BHAGWAN", designation: "Headmaster", phone: "9834940152"}],
+      classCounts: {"वर्ग 1": 5, "वर्ग 2": 6, "वर्ग 3": 6, "वर्ग 4": 6, "वर्ग 5": 6},
       categoryCounts: {"SC": 5, "ST": 5, "VJ": 3, "NT": 5, "SBC": 2, "OBC": 5, "GENERAL": 4}
     },
     { id: 12, name: "ZPPS MAULINAGAR LIMGAON", udise: "27270709702", classes: "1 To 4", total: 14, type: "ZP",
-      teachers: [{name: "REDEWAR LAXMAN LALBA (HM)", phone: "9763673438"}],
-      classCounts: {"Class 1": 3, "Class 2": 3, "Class 3": 4, "Class 4": 4},
+      teachers: [{name: "REDEWAR LAXMAN LALBA", designation: "Headmaster", phone: "9763673438"}],
+      classCounts: {"वर्ग 1": 3, "वर्ग 2": 3, "वर्ग 3": 4, "वर्ग 4": 4},
       categoryCounts: {"SC": 2, "ST": 2, "VJ": 2, "NT": 2, "SBC": 1, "OBC": 3, "GENERAL": 2}
     },
     { id: 13, name: "ZPPS VASANTNAGAR MANGRUL", udise: "27270709802", classes: "1 To 4", total: 3, type: "ZP",
-      teachers: [{name: "JAGTAP SANGEETA RAMESH (HM)", phone: "7498108479"}],
-      classCounts: {"Class 1": 1, "Class 2": 1, "Class 3": 1, "Class 4": 0},
+      teachers: [{name: "JAGTAP SANGEETA RAMESH", designation: "Headmaster", phone: "7498108479"}],
+      classCounts: {"वर्ग 1": 1, "वर्ग 2": 1, "वर्ग 3": 1, "वर्ग 4": 0},
       categoryCounts: {"SC": 1, "ST": 0, "VJ": 0, "NT": 1, "SBC": 0, "OBC": 1, "GENERAL": 0}
     },
     { id: 14, name: "ZPPS MANGRUL NO 2", udise: "27270709901", classes: "1 To 4", total: 24, type: "ZP",
-      teachers: [{name: "GAROLE TUKARAM SONBA (HM)", phone: "9823408706"}],
-      classCounts: {"Class 1": 6, "Class 2": 6, "Class 3": 6, "Class 4": 6},
+      teachers: [{name: "GAROLE TUKARAM SONBA", designation: "Headmaster", phone: "9823408706"}],
+      classCounts: {"वर्ग 1": 6, "वर्ग 2": 6, "वर्ग 3": 6, "वर्ग 4": 6},
       categoryCounts: {"SC": 5, "ST": 4, "VJ": 3, "NT": 3, "SBC": 1, "OBC": 5, "GENERAL": 3}
     },
     { id: 15, name: "ZPPS LAMANTANDA", udise: "27270710101", classes: "1 To 4", total: 16, type: "ZP",
-      teachers: [{name: "BHAVSAR LAXMIKANT ARUNRAO (HM)", phone: "7588521738"}],
-      classCounts: {"Class 1": 4, "Class 2": 4, "Class 3": 4, "Class 4": 4},
+      teachers: [{name: "BHAVSAR LAXMIKANT ARUNRAO", designation: "Headmaster", phone: "7588521738"}],
+      classCounts: {"वर्ग 1": 4, "वर्ग 2": 4, "वर्ग 3": 4, "वर्ग 4": 4},
       categoryCounts: {"SC": 2, "ST": 5, "VJ": 2, "NT": 2, "SBC": 1, "OBC": 2, "GENERAL": 2}
     },
     { id: 16, name: "ZPPS BARDITANDA", udise: "27270710201", classes: "1 To 4", total: 18, type: "ZP",
-      teachers: [{name: "RAUT AMOL MANIKRAO (HM)", phone: "9421278871"}],
+      teachers: [{name: "RAUT AMOL MANIKRAO", designation: "Headmaster", phone: "9421278871"}],
       classCounts: {"Class 1": 4, "Class 2": 5, "Class 3": 4, "Class 4": 5},
       categoryCounts: {"SC": 3, "ST": 4, "VJ": 2, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
     },
     { id: 17, name: "ZPPS BHIM NAGAR KITTI ADGAON", udise: "27270710302", classes: "1 To 4", total: 45, type: "ZP",
-      teachers: [{name: "KATHULE PURUSHOTTAM RAMKISAN (HM)", phone: "7020836930"}],
-      classCounts: {"Class 1": 11, "Class 2": 11, "Class 3": 11, "Class 4": 12},
+      teachers: [{name: "KATHULE PURUSHOTTAM RAMKISAN", designation: "Headmaster", phone: "7020836930"}],
+      classCounts: {"वर्ग 1": 11, "वर्ग 2": 11, "वर्ग 3": 11, "वर्ग 4": 12},
       categoryCounts: {"SC": 12, "ST": 8, "VJ": 5, "NT": 8, "SBC": 2, "OBC": 6, "GENERAL": 4}
     },
     { id: 18, name: "ZPPS RENAPURI", udise: "27270710401", classes: "1 To 4", total: 20, type: "ZP",
-      teachers: [{name: "MORE SOMESHWAR DAMODHARRAO (HM)", phone: "9421510528"}],
-      classCounts: {"Class 1": 5, "Class 2": 5, "Class 3": 5, "Class 4": 5},
+      teachers: [{name: "MORE SOMESHWAR DAMODHARRAO", designation: "Headmaster", phone: "9421510528"}],
+      classCounts: {"वर्ग 1": 5, "वर्ग 2": 5, "वर्ग 3": 5, "वर्ग 4": 5},
       categoryCounts: {"SC": 4, "ST": 3, "VJ": 2, "NT": 3, "SBC": 1, "OBC": 4, "GENERAL": 3}
     },
     { id: 19, name: "ZPPS SHELAPURI WASAHAT", udise: "27270710502", classes: "1 To 4", total: 3, type: "ZP",
-      teachers: [{name: "SHEIKH SHAFIK DILDAR (HM)", phone: "8275798404"}],
-      classCounts: {"Class 1": 1, "Class 2": 1, "Class 3": 1, "Class 4": 0},
+      teachers: [{name: "SHEIKH SHAFIK DILDAR", designation: "Headmaster", phone: "8275798404"}],
+      classCounts: {"वर्ग 1": 1, "वर्ग 2": 1, "वर्ग 3": 1, "वर्ग 4": 0},
       categoryCounts: {"SC": 0, "ST": 0, "VJ": 1, "NT": 1, "SBC": 0, "OBC": 1, "GENERAL": 0}
     },
     { id: 20, name: "ZPPS KHANAPUR", udise: "27270710601", classes: "1 To 4", total: 23, type: "ZP",
-      teachers: [{name: "TANGDE TUKARAM RAMBHAU (HM)", phone: "9890934032"}],
-      classCounts: {"Class 1": 6, "Class 2": 6, "Class 3": 6, "Class 4": 5},
+      teachers: [{name: "TANGDE TUKARAM RAMBHAU", designation: "Headmaster", phone: "9890934032"}],
+      classCounts: {"वर्ग 1": 6, "वर्ग 2": 6, "वर्ग 3": 6, "वर्ग 4": 5},
       categoryCounts: {"SC": 4, "ST": 3, "VJ": 3, "NT": 4, "SBC": 1, "OBC": 5, "GENERAL": 3}
     }
   ];
 
   let privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
   let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
-    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", glow: true, star: true },
-    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", glow: false, star: true }
+    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", color: "#FEF3C7", border: "#F59E0B" },
+    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", color: "#D1FAE5", border: "#10B981" },
+    { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#", color: "#DBEAFE", border: "#3B82F6" }
   ];
   let navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
     { id: 'dashboardTab', name: '🏠 डॅशबोर्ड व लिंक्स' },
@@ -254,15 +249,15 @@
   let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
   let schoolStatuses = JSON.parse(localStorage.getItem('sawargaon_statuses')) || {};
 
-  let logoClickCount = 0;
-  let logoTimer = null;
+  let headerClickCount = 0;
+  let headerTimer = null;
 
-  function handleLogoClick() {
-    logoClickCount++;
-    clearTimeout(logoTimer);
-    logoTimer = setTimeout(() => { logoClickCount = 0; }, 700);
-    if(logoClickCount >= 3) {
-      logoClickCount = 0;
+  function handleHeaderClick() {
+    headerClickCount++;
+    clearTimeout(headerTimer);
+    headerTimer = setTimeout(() => { headerClickCount = 0; }, 700);
+    if(headerClickCount >= 3) {
+      headerClickCount = 0;
       promptAdminAccess();
     }
   }
@@ -332,16 +327,24 @@
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let totalTeachers = 73 + privateSchoolsData.reduce((acc, s) => acc + (s.teachers ? s.teachers.length : 1), 0);
 
-    let linksHtml = customLinks.map(l => `
-      <div class="link-item">
-        <a href="${l.url}" target="_blank" style="text-decoration:none; color:inherit; width:100%; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-weight:800;">📌 ${l.title} ${l.star ? '<span class="blink-star">⭐ NEW</span>' : ''}</span>
-          <span style="font-size:0.9rem; font-weight:800; color:#1E3A8A;">उघडा 👉</span>
-        </a>
-      </div>
-    `).join('');
+    /* Colorful link capsules */
+    let linkColors = [
+      {bg: '#FEF3C7', border: '#F59E0B'},
+      {bg: '#D1FAE5', border: '#10B981'},
+      {bg: '#DBEAFE', border: '#3B82F6'},
+      {bg: '#FCE7F3', border: '#EC4899'}
+    ];
 
-    /* Array of diverse, vibrant pastel/rich colors for school capsules */
+    let linksHtml = customLinks.map((l, i) => {
+      let col = linkColors[i % linkColors.length];
+      return `
+        <a class="link-capsule" href="${l.url}" target="_blank" style="background:${col.bg}; border:2px solid ${col.border}; color:#0F172A;">
+          <span>📌 ${l.title}</span>
+          <span style="color:#1E3A8A; font-weight:800;">उघडा 👉</span>
+        </a>
+      `;
+    }).join('');
+
     let capsuleColors = [
       {bg: '#FEF3C7', border: '#F59E0B', text: '#78350F'},
       {bg: '#D1FAE5', border: '#10B981', text: '#065F46'},
@@ -362,13 +365,10 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
-        <div class="card" style="border: 2.5px dashed #F59E0B; background: #FFFBEB;">
+        <div class="card" style="border: 2px dashed #F59E0B; background: #FFFBEB;">
           <div class="card-title" style="color: #D97706;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
           </div>
-          <p style="font-size: 0.82rem; color: #475569; font-weight: 800; margin-bottom: 10px;">
-            चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
-          </p>
           <div class="dynamic-links-box">
             ${linksHtml || '<p style="font-size:0.85rem; text-align:center;">सध्या कोणतीही लिंक उपलब्ध नाही.</p>'}
           </div>
@@ -383,8 +383,8 @@
 
         <div class="card">
           <div class="card-title"><span>🏫 केंद्रांतर्गत शाळांची यादी (माहिती पाहण्यासाठी क्लिक करा)</span></div>
-          <p style="font-size: 0.82rem; color: #475569; font-weight: 800; margin-bottom: 10px;">
-            शाळेच्या नावावर क्लिक केल्यास पूर्ण पानावर शिक्षकांची नावे, मोबाईल नंबर व पटसंख्या उभी दिसेल:
+          <p style="font-size: 0.8rem; color: #475569; font-weight: 800; margin-bottom: 8px;">
+            शाळेच्या नावावर क्लिक केल्यास शिक्षकांची नावे, मोबाईल नंबर व वर्ग/प्रवर्गनिहाय संख्या उभ्या स्वरूपात दिसेल:
           </p>
           <div class="school-capsule-grid">
             ${capsulesHtml}
@@ -409,13 +409,13 @@
               <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. कमी झाली</div></label>
             </div>
           </div>
-          <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 12px; border-radius: 8px; border: 2px dashed #F59E0B; margin: 12px 0;">
+          <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 12px; border-radius: 8px; border: 2px dashed #F59E0B; margin: 10px 0;">
             <div style="font-weight: 800; color: #D97706; margin-bottom: 8px; font-size: 0.85rem;">बदलाचा तपशील:</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>इयत्ता:</label>
+                <label>वर्ग:</label>
                 <select id="mr_class" class="form-control">
-                  <option value="इ. 1 ली">इ. 1 ली</option><option value="इ. 2 री">इ. 2 री</option><option value="इ. 3 री">इ. 3 री</option><option value="इ. 4 थी">इ. 4 थी</option><option value="इ. 5 वी">इ. 5 वी</option><option value="इ. 6 वी">इ. 6 वी</option><option value="इ. 7 वी">इ. 7 वी</option><option value="इ. 8 वी">इ. 8 वी</option>
+                  <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
                 </select>
               </div>
               <div class="form-group">
@@ -438,7 +438,7 @@
               </div>
             </div>
           </div>
-          <div style="text-align: right; margin-top: 12px;">
+          <div style="text-align: right; margin-top: 10px;">
             <button class="btn btn-warning" onclick="submitReport()">📤 अहवाल सबमिट करा</button>
           </div>
         </div>
@@ -457,16 +457,16 @@
     let container = document.getElementById('mainContainerViews');
     
     let linksAdminHtml = customLinks.map(l => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.85rem; margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.82rem; margin-bottom:6px;">
         <span><b>${l.title}</b> (${l.url})</span>
-        <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
+        <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
       </div>
     `).join('');
 
     let tabsAdminHtml = navTabs.map(t => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.85rem; margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.82rem; margin-bottom:6px;">
         <span><b>${t.name}</b> (${t.id})</span>
-        ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
+        ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
       </div>
     `).join('');
 
@@ -477,15 +477,15 @@
         <tr>
           <td>${idx + 1}</td>
           <td style="font-weight:800;">${s.name} (${s.type})</td>
-          <td>${s.teachers[0].name}<br><span style="font-size:0.72rem; color:#475569; font-weight:700;">${s.teachers[0].phone}</span></td>
+          <td>${s.teachers[0].name}<br><span style="font-size:0.72rem; color:#475569;">${s.teachers[0].phone}</span></td>
           <td>
-            <select class="form-control" style="padding:6px; font-size:0.8rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
+            <select class="form-control" style="padding:4px; font-size:0.78rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
               <option value="false" ${!isDone ? 'selected' : ''}>अपूर्ण ⏳</option>
               <option value="true" ${isDone ? 'selected' : ''}>पूर्ण झाले ✅</option>
             </select>
           </td>
           <td>
-            <button class="btn btn-success" style="padding:6px 10px; font-size:0.78rem; width:auto;" onclick="sendWhatsApp(${s.id})">💬 मेसेज</button>
+            <button class="btn btn-success" style="padding:5px 10px; font-size:0.75rem; width:auto;" onclick="sendWhatsApp(${s.id})">💬 मेसेज</button>
           </td>
         </tr>
       `;
@@ -498,43 +498,35 @@
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
         </div>
 
-        <!-- 1. Marquee Manager -->
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:0.95rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
-          <input type="text" id="adminMarqueeInput" class="form-control" value="${marqueeMessage}" style="margin-bottom:8px;">
+        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
+          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
+          <input type="text" id="adminMarqueeInput" class="form-control" value="${marqueeMessage}" style="margin-bottom:6px;">
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
-        <!-- 2. Links Manager -->
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:0.95rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
-          <div style="margin-bottom:10px;">${linksAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:8px;">
+        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
+          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
+          <div style="margin-bottom:8px;">${linksAdminHtml}</div>
+          <div class="form-grid" style="margin-bottom:6px;">
             <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंकचे नाव">
             <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
-          </div>
-          <div style="display:flex; gap:14px; align-items:center; margin-bottom:10px; font-size:0.85rem; font-weight:800;">
-            <label><input type="checkbox" id="linkGlowInput"> ग्लो इफेक्ट</label>
-            <label><input type="checkbox" id="linkStarInput" checked> स्टार ⭐</label>
           </div>
           <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
         </div>
 
-        <!-- 3. Tabs Manager -->
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:0.95rem; color:#1E3A8A; margin-bottom:8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
-          <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:8px;">
+        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
+          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
+          <div style="margin-bottom:8px;">${tabsAdminHtml}</div>
+          <div class="form-grid" style="margin-bottom:6px;">
             <input type="text" id="newTabNameInput" class="form-control" placeholder="नवीन टॅबचे नाव">
             <input type="text" id="newTabIdInput" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
           </div>
           <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
         </div>
 
-        <!-- 4. Add Private School -->
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:0.95rem; color:#1E3A8A; margin-bottom:8px;">➕ खाजगी शाळा जोडा (Add Private School):</h4>
-          <div class="form-grid" style="margin-bottom:8px;">
+        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
+          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">➕ खाजगी शाळा जोडा (Add Private School):</h4>
+          <div class="form-grid" style="margin-bottom:6px;">
             <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English)">
             <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
             <input type="text" id="p_classes" class="form-control" placeholder="वर्ग (उदा. 1 To 8)">
@@ -544,8 +536,7 @@
           <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
         </div>
 
-        <!-- 5. School Status Tracking & WhatsApp -->
-        <h4 style="font-size:0.95rem; color:#1E3A8A; margin-bottom:10px;">💬 शाळानिहाय काम ट्रॅकिंग व व्हॉट्सॲप रिमाइंडर:</h4>
+        <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:8px;">💬 शाळानिहाय काम ट्रॅकिंग व व्हॉट्सॲप रिमाइंडर:</h4>
         <div class="table-responsive">
           <table>
             <thead><tr><th>अ.क्र.</th><th>शाळेचे नाव</th><th>मुख्याध्यापक व मोबाईल</th><th>स्थिती</th><th>व्हॉट्सॲप</th></tr></thead>
@@ -568,10 +559,8 @@
   function addNewLink() {
     let title = document.getElementById('linkTitleInput').value;
     let url = document.getElementById('linkUrlInput').value;
-    let glow = document.getElementById('linkGlowInput').checked;
-    let star = document.getElementById('linkStarInput').checked;
     if(!title || !url) { alert('शीर्षक आणि URL दोन्ही भरा.'); return; }
-    customLinks.push({ id: Date.now(), title, url, glow, star });
+    customLinks.push({ id: Date.now(), title, url });
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
     renderFullAdminView();
     showToast('नवीन लिंक यशस्वीपणे जोडली! 🚀');
@@ -620,8 +609,8 @@
       classes: classes || "1 To 4",
       total: Number(total),
       type: "PRIVATE",
-      teachers: [{name: hmStr || "Headmaster", phone: "9876543210"}],
-      classCounts: {"Class 1": Math.floor(total/4), "Class 2": Math.floor(total/4), "Class 3": Math.floor(total/4), "Class 4": total - (3 * Math.floor(total/4))},
+      teachers: [{name: hmStr || "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      classCounts: {"वर्ग 1": Math.floor(total/4), "वर्ग 2": Math.floor(total/4), "वर्ग 3": Math.floor(total/4), "वर्ग 4": total - (3 * Math.floor(total/4))},
       categoryCounts: {"SC": 10, "ST": 5, "OBC": 10, "GENERAL": total - 25}
     };
 
@@ -661,7 +650,7 @@
     });
   }
 
-  /* FULL-PAGE VERTICAL SCHOOL VIEW (No Horizontal Scrolling) */
+  /* FULL-PAGE VERTICAL SCHOOL VIEW WITH ALL TEACHERS & TOTALS */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
@@ -670,32 +659,59 @@
     history.pushState({view: 'school', schoolId: schoolId}, "", "#school-" + schoolId);
 
     let container = document.getElementById('mainContainerViews');
-    let teachersHtml = s.teachers.map(t => `• ${t.name} - <a href="tel:${t.phone}" style="color:#D97706; font-weight:800;">${t.phone}</a>`).join('<br>');
     
-    let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, cnt]) => `<tr><td>${cls}</td><td style="font-weight:800;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
-    let catHtml = s.categoryCounts ? Object.entries(s.categoryCounts).map(([cat, cnt]) => `<tr><td>${cat}</td><td style="font-weight:800;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
+    let teachersHtml = s.teachers.map(t => `• <b>${t.name}</b> (${t.designation}) - <a href="tel:${t.phone}" style="color:#D97706; font-weight:800;">${t.phone}</a>`).join('<br>');
+    
+    let classSum = 0;
+    let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, cnt]) => {
+      classSum += Number(cnt);
+      return `<tr><td>${cls}</td><td style="font-weight:800;">${cnt}</td></tr>`;
+    }).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
+
+    let catSum = 0;
+    let catHtml = s.categoryCounts ? Object.entries(s.categoryCounts).map(([cat, cnt]) => {
+      catSum += Number(cnt);
+      return `<tr><td>${cat}</td><td style="font-weight:800;">${cnt}</td></tr>`;
+    }).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
 
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
           <span>🏫 ${s.id}. ${s.name} (${s.type})</span>
-          <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
+          <button class="btn btn-outline" style="padding:5px 10px; font-size:0.78rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
-        <div style="font-size: 0.88rem; line-height: 1.6;">
+        <div style="font-size: 0.85rem; line-height: 1.5;">
           <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'} | <strong>वर्ग:</strong> ${s.classes} | <strong>एकूण पट:</strong> ${s.total}</p>
+          
           <div style="margin: 10px 0; background: #F8FAFC; padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
-            <strong>शिक्षक व मोबाईल क्रमांक:</strong><br>${teachersHtml}
+            <strong>सर्व शिक्षक व मोबाईल क्रमांक:</strong><br>${teachersHtml}
           </div>
           
-          <!-- Stacked vertically with zero horizontal scrolling -->
           <div style="display:flex; flex-direction:column; gap: 12px; margin-top: 10px;">
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">इयत्तानिहाय विद्यार्थी संख्या:</div>
-              <div class="table-responsive"><table><thead><tr><th>इयत्ता</th><th>संख्या</th></tr></thead><tbody>${classHtml}</tbody></table></div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या:</div>
+              <div class="table-responsive">
+                <table>
+                  <thead><tr><th>वर्ग</th><th>संख्या</th></tr></thead>
+                  <tbody>
+                    ${classHtml}
+                    <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${classSum}</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+            
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">प्रवर्गनिहाय विद्यार्थी संख्या:</div>
-              <div class="table-responsive"><table><thead><tr><th>प्रवर्ग</th><th>संख्या</th></tr></thead><tbody>${catHtml}</tbody></table></div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
+              <div class="table-responsive">
+                <table>
+                  <thead><tr><th>प्रवर्ग</th><th>संख्या</th></tr></thead>
+                  <tbody>
+                    ${catHtml}
+                    <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${catSum}</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -708,6 +724,7 @@
     history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
+  /* SUMMARY HTML (All tables stacked vertically without scrolling) */
   function renderSummaryHtml() {
     let zpTotalStudents = zpschoolsData.reduce((acc, s) => acc + Number(s.total), 0);
     let privateTotalStudents = privateSchoolsData.reduce((acc, s) => acc + Number(s.total), 0);
@@ -717,43 +734,43 @@
     let privTeachers = privateSchoolsData.reduce((acc, s) => acc + (s.teachers ? s.teachers.length : 1), 0);
 
     return `
-      <div class="card">
-        <div class="card-title"><span>📊 जिल्हा परिषद (ZP) शाळा गोषवारा</span></div>
+      <div class="card" style="background:#EFF6FF; border-color:#3B82F6;">
+        <div class="card-title" style="color:#1D4ED8;"><span>📊 जिल्हा परिषद (ZP) शाळा गोषवारा</span></div>
         <div class="table-responsive">
           <table>
             <thead><tr><th>घटक</th><th>तपशील</th></tr></thead>
             <tbody>
               <tr><td>एकूण जि.प. शाळा</td><td style="font-weight:800;">${zpschoolsData.length}</td></tr>
               <tr><td>एकूण जि.प. शिक्षक</td><td style="font-weight:800;">${zpTeachers}</td></tr>
-              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#10B981;">${zpTotalStudents}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#1D4ED8;">${zpTotalStudents}</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title"><span>📊 खाजगी शाळा गोषवारा</span></div>
+      <div class="card" style="background:#FEF3C7; border-color:#F59E0B;">
+        <div class="card-title" style="color:#B45309;"><span>📊 खाजगी शाळा गोषवारा</span></div>
         <div class="table-responsive">
           <table>
             <thead><tr><th>घटक</th><th>तपशील</th></tr></thead>
             <tbody>
               <tr><td>एकूण खाजगी शाळा</td><td style="font-weight:800;">${privateSchoolsData.length}</td></tr>
               <tr><td>एकूण खाजगी शिक्षक</td><td style="font-weight:800;">${privTeachers}</td></tr>
-              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#F59E0B;">${privateTotalStudents}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#B45309;">${privateTotalStudents}</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <div class="card" style="border: 3px solid #10B981;">
-        <div class="card-title" style="color:#10B981;"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
+      <div class="card" style="background:#ECFDF5; border: 3px solid #10B981;">
+        <div class="card-title" style="color:#065F46;"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
         <div class="table-responsive">
           <table>
             <thead><tr><th>घटक</th><th>एकूण संख्या</th></tr></thead>
             <tbody>
               <tr><td>एकूण शाळा (जि.प. + खाजगी)</td><td style="font-weight:800;">${zpschoolsData.length + privateSchoolsData.length}</td></tr>
               <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:800;">${zpTeachers + privTeachers}</td></tr>
-              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#1B365D;">${combinedStudents}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:800; color:#065F46;">${combinedStudents}</td></tr>
             </tbody>
           </table>
         </div>
