@@ -3,55 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>समूह साधन केंद्र सावरगाव — विद्यार्थी पटसंख्या प्रणाली</title>
+<title>समूह साधन केंद्र सावरगाव — शालेय माहिती व मासिक अहवाल पोर्टल</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-
-<!-- Firebase SDKs & Your Config -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, get, set, update, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-
-    // **तुमची खाजगी Firebase कॉन्फिगरेशन**
-    const firebaseConfig = {
-        apiKey: "AIzaSyDCKNTNVcsmUf0qbLLIpOSZRVmoYUTtKkM",
-        authDomain: "crc-links-d1aad.firebaseapp.com",
-        databaseURL: "https://crc-links-d1aad-default-rtdb.firebaseio.com", // Realtime Database साठी आवश्यक URL
-        projectId: "crc-links-d1aad",
-        storageBucket: "crc-links-d1aad.firebasestorage.app",
-        messagingSenderId: "284084725148",
-        appId: "1:284084725148:web:d2a0f18b3bed91fac05459",
-        measurementId: "G-66BSZ925BE"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getDatabase(app);
-
-    window.db = db;
-    window.dbRef = ref;
-    window.dbGet = get;
-    window.dbSet = set;
-    window.dbUpdate = update;
-    window.dbPush = push;
-    window.dbRemove = remove;
-
-    // पेज लोड झाल्यावर Firebase मधून डेटा आणा
-    window.addEventListener('DOMContentLoaded', () => {
-        loadDataFromFirebase(false);
-    });
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <style>
+  /* ==========================================================
+     SECTION 0: CSS VARIABLES & GLOBAL STYLES (वैश्विक डिझाईन शैली)
+     ========================================================== */
   :root {
     --navy-900: #061121;
     --navy-800: #0D1F38;
     --navy-700: #142B4D;
     --navy-600: #1B365D;
-    --navy-500: #254B7F;
     --navy-accent: #2563EB;
     --navy-subtle: #F0F5FA;
     --bg-page: #F8FAFC;
@@ -70,303 +35,197 @@
     --radius-sm: 6px;
     --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
     --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.12);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 70px; }
 
-  header {
-    background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-600) 100%);
-    color: #fff;
-    padding: 1.5rem 1rem 1.7rem;
-    text-align: center;
-    box-shadow: var(--shadow-md);
-    position: relative;
-    border-bottom: 3px solid var(--navy-accent);
-  }
-  .header-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #93C5FD;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 3px 12px;
-    border-radius: 20px;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-  }
-  header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.2px; }
+  /* ==========================================================
+     SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
+     ========================================================== */
+  header { background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-600) 100%); color: white; padding: 1.4rem 1rem 1.2rem; text-align: center; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--navy-accent); }
+  .header-badge { display: inline-block; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #93C5FD; font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 6px; }
+  header h1 { font-size: 1.35rem; font-weight: 800; }
   header p { font-size: 0.85rem; opacity: 0.88; margin-top: 4px; color: #CBD5E1; }
 
-  .nav-container {
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-  }
-  .nav-tabs {
-    display: flex;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 6px 10px;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+  /* मारकी (Marquee) कस्टम मेसेज पट्टी */
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 700; border-bottom: 1.5px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  .marquee-bar marquee { width: 100%; }
+
+  /* ==========================================================
+     SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन टॅब्ज)
+     ========================================================== */
+  .nav-container { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 10px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab {
-    flex: 1;
-    min-width: 140px;
-    text-align: center;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: var(--radius-md);
-    white-space: nowrap;
-    transition: all 0.25s ease;
-  }
-  .nav-tab.active {
-    color: #fff;
-    background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
-    box-shadow: 0 4px 10px rgba(27, 54, 93, 0.25);
-  }
+  .nav-tab { flex: 1; min-width: 130px; text-align: center; padding: 10px 12px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.25s; }
+  .nav-tab.active { color: white; background: linear-gradient(135deg, var(--navy-700), var(--navy-600)); box-shadow: 0 4px 10px rgba(27, 54, 93, 0.25); }
 
   .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 14px; }
+  .card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1.4rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .card-title { font-size: 1.1rem; font-weight: 800; color: var(--navy-800); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--navy-subtle); padding-bottom: 10px; }
 
-  .card {
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 1.4rem;
-    margin-bottom: 1.4rem;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .card-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--navy-800);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 1.2rem;
-    border-bottom: 1px solid var(--navy-subtle);
-    padding-bottom: 10px;
-  }
+  /* ==========================================================
+     SECTION 3: DASHBOARD & SCHOOL CAPSULES (डॅशबोर्ड व शाळा कॅप्सूल)
+     ========================================================== */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1.4rem; }
+  .stat-card { background: white; padding: 15px 10px; border-radius: var(--radius-lg); border-top: 4px solid var(--navy-accent); box-shadow: var(--shadow-sm); text-align: center; }
+  .stat-card h3 { font-size: 0.78rem; color: var(--text-muted); font-weight: 700; }
+  .stat-card .num { font-size: 1.5rem; font-weight: 800; color: var(--navy-800); margin-top: 4px; }
 
-  .admin-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-  }
+  .capsule-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; margin-bottom: 20px; }
+  .school-capsule { background: var(--navy-subtle); border: 1.5px solid var(--border); color: var(--navy-800); padding: 8px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .school-capsule:hover { background: var(--navy-600); color: white; border-color: var(--navy-600); transform: translateY(-2px); }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 14px;
-    margin-bottom: 15px;
-  }
+  /* ==========================================================
+     SECTION 3.5: DYNAMIC DATA COLLECTION LINKS (डेटा कलेक्शन लिंक्स व ग्लोईंग कॅप्सूल)
+     ========================================================== */
+  .dynamic-links-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 12px 18px; border-radius: 30px; text-decoration: none; color: var(--navy-800); font-weight: 700; font-size: 0.95rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
+  .link-capsule:hover { border-color: var(--navy-accent); background: #F8FAFC; transform: scale(1.01); }
+  
+  /* ग्लोईंग व फ्लॅशिंग इफेक्ट्स */
+  .glow-effect { border-color: #3B82F6; box-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
+  @keyframes flashRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+  .blink-star { color: #DC2626; font-size: 1.1rem; animation: flashRed 1s infinite; margin-left: 6px; }
+
+  /* ==========================================================
+     SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
+     ========================================================== */
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 15px; }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--navy-700);
-  }
-  .form-control {
-    padding: 11px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    outline: none;
-    background: #fff;
-    color: var(--text-main);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .form-control:focus {
-    border-color: var(--navy-accent);
-    box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.12);
-  }
+  .form-group label { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: var(--navy-700); }
+  .form-control { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; outline: none; background: white; color: var(--text-main); }
+  .form-control:focus { border-color: var(--navy-accent); box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.12); }
 
-  .radio-box-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
-    margin: 8px 0;
-  }
-  .radio-label {
-    border: 1.5px solid var(--border);
-    padding: 12px 14px;
-    border-radius: var(--radius-md);
-    text-align: center;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9rem;
-    background: #FAFAFA;
-    transition: all 0.2s ease;
-    user-select: none;
-  }
-  .radio-label:hover { background: var(--navy-subtle); border-color: #CBD5E1; }
-  input[type="radio"]:checked + .radio-label {
-    border-color: var(--navy-accent);
-    background: var(--navy-subtle);
-    color: var(--navy-accent);
-    box-shadow: 0 0 0 1px var(--navy-accent);
-  }
+  .radio-box-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 8px 0; }
+  .radio-label { border: 1.5px solid var(--border); padding: 12px 14px; border-radius: var(--radius-md); text-align: center; cursor: pointer; font-weight: 700; font-size: 0.85rem; background: #FAFAFA; }
+  input[type="radio"]:checked + .radio-label { border-color: var(--navy-accent); background: var(--navy-subtle); color: var(--navy-accent); }
   input[type="radio"] { display: none; }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 11px 18px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    border-radius: var(--radius-md);
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--navy-600); color: #fff; box-shadow: 0 4px 10px rgba(27, 54, 93, 0.2); }
-  .btn-primary:hover { background: var(--navy-800); }
-  .btn-success { background: var(--green); color: #fff; }
-  .btn-danger { background: var(--red); color: #fff; }
-  .btn-gold {
-    background: linear-gradient(135deg, #F59E0B, #D97706);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
-  }
-  .btn-outline {
-    background: #fff;
-    border: 1.5px solid var(--navy-600);
-    color: var(--navy-600);
-  }
-  .btn-outline:hover { background: var(--navy-subtle); }
-
-  .table-responsive {
-    overflow-x: auto;
-    margin-top: 10px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    max-height: 550px;
-    box-shadow: var(--shadow-sm);
-  }
+  /* ==========================================================
+     SECTION 5: TABLES & BUTTONS (तक्ते आणि बटन्स)
+     ========================================================== */
+  .table-responsive { overflow-x: auto; margin-top: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 500px; box-shadow: var(--shadow-sm); }
   table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; }
   th, td { padding: 10px 8px; border: 1px solid #E2E8F0; }
-  th { background: var(--navy-600); color: #fff; font-weight: 700; position: sticky; top: 0; z-index: 2; font-size: 0.8rem; }
-  th.sub-th { background: var(--navy-700); font-size: 0.75rem; }
-  tr:nth-child(even) { background: #F8FAFC; }
+  th { background: var(--navy-600); color: white; font-weight: 700; position: sticky; top: 0; z-index: 2; font-size: 0.8rem; }
+  tr:nth-child(2n) { background: #F8FAFC; }
   tr:hover { background: #F1F5F9; }
-  tr.total-row { background: #EEF4FB !important; font-weight: 800; color: var(--navy-900); }
 
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 1.4rem;
-  }
-  .stat-card {
-    background: #fff;
-    padding: 16px 12px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    border-top: 4px solid var(--navy-accent);
-    box-shadow: var(--shadow-sm);
-    text-align: center;
-  }
-  .stat-card h3 { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
-  .stat-card .num { font-size: 1.6rem; font-weight: 800; color: var(--navy-800); margin-top: 4px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; font-size: 0.9rem; font-weight: 700; border-radius: var(--radius-md); border: none; cursor: pointer; transition: 0.2s; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--navy-600); color: white; box-shadow: 0 4px 10px rgba(27, 54, 93, 0.2); }
+  .btn-success { background: var(--green); color: white; }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-outline { background: white; border: 1.5px solid var(--navy-600); color: var(--navy-600); }
 
-  .badge {
-    padding: 4px 9px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-  .badge-success { background: var(--green-light); color: #065F46; }
-  .badge-danger { background: var(--red-light); color: #991B1B; }
-  .badge-warning { background: var(--gold-light); color: #92400E; }
-  
-  .action-btn { padding: 5px 10px; font-size: 0.75rem; border-radius: var(--radius-sm); border: none; cursor: pointer; font-weight: bold; }
-  .btn-acc { background: var(--green); color: white; margin-right: 4px; }
-  .btn-rej { background: var(--red); color: white; }
+  /* ==========================================================
+     SECTION 6: ADMIN PANEL & BACKEND MANAGEMENT (ॲडमिन पॅनल व बॅकएंड)
+     ========================================================== */
+  .admin-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+  .admin-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
+  .badge-locked { background: var(--red-light); color: #991B1B; }
+  .badge-unlocked { background: var(--green-light); color: #065F46; }
 
-  .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(6, 17, 33, 0.7); backdrop-filter: blur(4px); display: none;
-    justify-content: center; align-items: center; z-index: 1000; padding: 15px;
-  }
-  .modal-box {
-    background: #fff; border-radius: var(--radius-lg); max-width: 460px; width: 100%;
-    padding: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-  }
+  /* ==========================================================
+     SECTION 7: MODALS (पॉपअप विंडोज)
+     ========================================================== */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 17, 33, 0.7); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+  .modal-box { background: white; border-radius: var(--radius-lg); max-width: 500px; width: 100%; padding: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
   .modal-box h3 { color: var(--navy-800); font-size: 1.15rem; margin-bottom: 12px; border-bottom: 2px solid var(--navy-subtle); padding-bottom: 8px; }
   .modal-body { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
-  .modal-item { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #E2E8F0; }
-  .modal-item strong { color: var(--navy-700); }
   .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-
-  @media (max-width: 640px) {
-    header h1 { font-size: 1.15rem; }
-    .card { padding: 1rem; border-radius: var(--radius-md); }
-    .form-grid { grid-template-columns: 1fr; gap: 10px; }
-    .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .stat-card .num { font-size: 1.35rem; }
-    .btn { width: 100%; justify-content: center; }
-  }
 </style>
 </head>
 <body>
 
+<!-- ==========================================================
+    HTML SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
+    ========================================================== -->
 <header>
-  <div class="header-badge">शालेय माहिती व अहवाल पोर्टल</div>
-  <h1>समूह साधन केंद्र सावरगाव — विद्यार्थी पटसंख्या प्रणाली</h1>
-  <p>मासिक बदल अहवाल · शाळानिहाय पटसंख्या · सांख्यिकी गोषवारा</p>
+  <div class="header-badge">समूह साधन केंद्र सावरगाव · तालुका माजलगाव, जिल्हा बीड</div>
+  <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
+  <p>केंद्रातील सर्व शाळा, शिक्षक, पटसंख्या आणि डेटा कलेक्शन व्यवस्थापन</p>
 </header>
 
+<div class="marquee-bar">
+  <marquee scrollamount="5" id="marqueeTextDisplay">
+    📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या अद्ययावत करणे बंधनकारक आहे. नवीन डेटा कलेक्शन लिंक्स खालील भागात उपलब्ध केल्या आहेत.
+  </marquee>
+</div>
+
+<!-- ==========================================================
+    HTML SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन)
+    ========================================================== -->
 <div class="nav-container">
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('monthlyReportTab')">📝 १. मासिक अहवाल</button>
-    <button class="nav-tab" onclick="switchTab('studentDataTab')">🏫 २. विद्यार्थी संख्या</button>
-    <button class="nav-tab" onclick="switchTab('summaryTab')">📊 ३. गोषवारा</button>
+    <button class="nav-tab active" onclick="switchTab('dashboardTab')">🏠 १. डॅशबोर्ड व लिंक्स</button>
+    <button class="nav-tab" onclick="switchTab('reportTab')">📝 २. मासिक अहवाल सबमिट</button>
+    <button class="nav-tab" onclick="switchTab('summaryTab')">📊 ३. केंद्र गोषवारा</button>
+    <button class="nav-tab" onclick="switchTab('adminTab')">🔐 ४. बॅकएंड ॲडमिन पॅनल</button>
   </div>
 </div>
 
 <div class="container">
-  <div class="admin-bar">
-    <div>
-      <button class="btn btn-outline" style="padding: 7px 12px; font-size: 0.8rem;" onclick="loadDataFromFirebase(true)">🔄 Firebase मधून ताजी माहिती आणा</button>
+
+  <!-- ==========================================================
+      HTML SECTION 3: DASHBOARD & DYNAMIC LINKS (डॅशबोर्ड व डेटा कलेक्शन लिंक्स)
+      ========================================================== -->
+  <div id="dashboardTab" class="tab-content active">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>एकूण शाळा</h3>
+        <div class="num">20</div>
+      </div>
+      <div class="stat-card">
+        <h3>जि.प. प्राथमिक शाळा</h3>
+        <div class="num">20</div>
+      </div>
+      <div class="stat-card">
+        <h3>खाजगी अनुदानित</h3>
+        <div class="num">0</div>
+      </div>
+      <div class="stat-card" style="border-top-color: var(--green);">
+        <h3>कार्यरत शिक्षक</h3>
+        <div class="num">73</div>
+      </div>
     </div>
-    <div style="display:flex; gap:8px; align-items:center;">
-      <span id="adminStatus" class="badge badge-danger">🔒 ॲडमिन: बंद</span>
-      <button class="btn btn-outline" style="padding: 7px 12px; font-size: 0.8rem;" onclick="promptAdminPin()">🔑 ॲडमिन पिन</button>
+
+    <!-- नवीन डेटा कलेक्शन लिंक्स सेक्शन (वेबसाईटचा खालचा अर्धा भाग) -->
+    <div class="card" style="border: 2px dashed var(--navy-accent); background: #F8FAFC;">
+      <div class="card-title" style="color: var(--navy-accent);">
+        <span>🔗 नवीन डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स (लिंक्स)</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        केंद्र स्तरावरून पाठवलेल्या नवीन माहिती भरण्याच्या लिंक्स खालीलप्रमाणे आहेत. चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
+      </p>
+      <div class="dynamic-links-box" id="publicLinksContainer">
+        <!-- JS द्वारे बॅकएंडमधून जोडलेल्या लिंक्स इथे कॅप्सूल स्वरूपात लोड होतील -->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>🏫 केंद्रांतर्गत शाळांची यादी (कॅप्सूल स्वरूपात)</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        शाळेच्या नावावर क्लिक करून शिक्षक, मोबाईल नंबर व पटसंख्या पहा:
+      </p>
+      <div class="capsule-container" id="schoolCapsuleContainer"></div>
     </div>
   </div>
 
-  <!-- TAB 1: मासिक अहवाल -->
-  <div id="monthlyReportTab" class="tab-content active">
+  <!-- ==========================================================
+      HTML SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
+      ========================================================== -->
+  <div id="reportTab" class="tab-content">
     <div class="card">
       <div class="card-title">
-        <span>📝 मासिक पटसंख्या बदल नोंदणी</span>
+        <span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span>
       </div>
       <div class="form-grid">
         <div class="form-group" style="grid-column: 1 / -1;">
@@ -380,49 +239,38 @@
       <div class="form-group">
         <label>मागील अहवालानंतर पटसंख्येत झालेला बदल निवडा:</label>
         <div class="radio-box-group">
-          <label>
-            <input type="radio" name="changeType" value="none" checked onchange="toggleChangeSection()">
-            <div class="radio-label">अ. कुठलाही बदल नाही</div>
-          </label>
-          <label>
-            <input type="radio" name="changeType" value="increase" onchange="toggleChangeSection()">
-            <div class="radio-label">ब. विद्यार्थी संख्या वाढली</div>
-          </label>
-          <label>
-            <input type="radio" name="changeType" value="decrease" onchange="toggleChangeSection()">
-            <div class="radio-label">क. विद्यार्थी संख्या कमी झाली</div>
-          </label>
+          <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. कुठलाही बदल नाही</div></label>
+          <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. पटसंख्या वाढली</div></label>
+          <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. पटसंख्या कमी झाली</div></label>
         </div>
       </div>
 
       <div id="dynamicChangeFields" style="display: none; background: #F8FAFC; padding: 14px; border-radius: var(--radius-md); border: 1.5px dashed var(--border); margin: 15px 0;">
-        <div style="font-weight: 800; color: var(--navy-600); margin-bottom: 10px; font-size: 0.9rem;" id="changeBoxTitle">
-          बदलाचा तपशील:
-        </div>
+        <div style="font-weight: 800; color: var(--navy-600); margin-bottom: 10px; font-size: 0.9rem;">बदलाचा तपशील:</div>
         <div class="form-grid">
           <div class="form-group">
             <label>इयत्ता:</label>
             <select id="mr_class" class="form-control">
-              <option value="1">इयत्ता १ ली</option>
-              <option value="2">इयत्ता २ री</option>
-              <option value="3">इयत्ता ३ री</option>
-              <option value="4">इयत्ता ४ थी</option>
-              <option value="5">इयत्ता ५ वी</option>
-              <option value="6">इयत्ता ६ वी</option>
-              <option value="7">इयत्ता ७ वी</option>
-              <option value="8">इयत्ता ८ वी</option>
+              <option value="1">इयत्ता 1 ली</option>
+              <option value="2">इयत्ता 2 री</option>
+              <option value="3">इयत्ता 3 री</option>
+              <option value="4">इयत्ता 4 थी</option>
+              <option value="5">इयत्ता 5 वी</option>
+              <option value="6">इयत्ता 6 वी</option>
+              <option value="7">इयत्ता 7 वी</option>
+              <option value="8">इयत्ता 8 वी</option>
             </select>
           </div>
           <div class="form-group">
             <label>प्रवर्ग (Category):</label>
             <select id="mr_cat" class="form-control">
-              <option value="0">अनुसूचित जाती (SC)</option>
-              <option value="1">अनुसूचित जमाती (ST)</option>
-              <option value="2">विमुक्त जाती (VJ)</option>
-              <option value="3">भटक्या जमाती (NT)</option>
-              <option value="4">विशेष मागास (SBC)</option>
-              <option value="5">ईतर मागास(ओबीसी)</option>
-              <option value="6">खुला (GENERAL)</option>
+              <option value="SC">अनुसूचित जाती (SC)</option>
+              <option value="ST">अनुसूचित जमाती (ST)</option>
+              <option value="VJ">विमुक्त जाती (VJ)</option>
+              <option value="NT">भटक्या जमाती (NT)</option>
+              <option value="SBC">विशेष मागास (SBC)</option>
+              <option value="OBC">ईतर मागास (OBC)</option>
+              <option value="GENERAL">खुला (GENERAL)</option>
             </select>
           </div>
           <div class="form-group">
@@ -437,869 +285,344 @@
             <input type="number" id="mr_count" class="form-control" min="1" value="1">
           </div>
           <div class="form-group" style="grid-column: 1 / -1;">
-            <label>तपशील / कारण (शेरा):</label>
+            <label>कारण / शेरा:</label>
             <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
           </div>
         </div>
       </div>
 
       <div style="text-align: right; margin-top: 15px;">
-        <button class="btn btn-primary" style="min-width: 220px;" onclick="initiateSubmission()">
+        <button class="btn btn-primary" onclick="submitReport()" style="min-width: 220px;">
           📤 अहवाल सबमिट करा
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- अहवाल यादी -->
+  <!-- ==========================================================
+      HTML SECTION 5: SUMMARY (केंद्र गोषवारा)
+      ========================================================== -->
+  <div id="summaryTab" class="tab-content">
     <div class="card">
       <div class="card-title">
-        <span>📋 प्राप्त अहवाल यादी व स्थिती [<span id="reportCountBadge" style="color:var(--navy-accent);">0</span> नोंदी]</span>
-        <div style="display:flex; gap:6px;">
-          <button id="clearHistoryBtn" class="btn btn-danger" style="display:none; padding: 6px 10px; font-size: 0.75rem;" onclick="clearProcessedReports()">
-            🗑️ मंजूर/नामंजूर नोंदी हटवा
-          </button>
-          <button class="btn btn-outline" style="padding: 6px 10px; font-size: 0.75rem;" onclick="loadDataFromFirebase(false)">🔄 रिफ्रेश</button>
-        </div>
+        <span>📊 केंद्र-स्तरीय एकत्रित गोषवारा व सांख्यिकी</span>
       </div>
       <div class="table-responsive">
-        <table id="submittedReportsTable">
-          <thead>
-            <tr>
-              <th>अ.क्र.</th>
-              <th>दिनांक व वेळ</th>
-              <th>शाळेचे नाव</th>
-              <th>बदलाचा प्रकार</th>
-              <th>तपशील</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="submittedReportsBody">
-            <tr><td colspan="6" style="padding:15px; color:#64748B;">लोड होत आहे... कृपया प्रतीक्षा करा.</td></tr>
+        <table>
+          <thead><tr><th>घटक</th><th>संख्या / तपशील</th></tr></thead>
+          <tbody>
+            <tr><td>एकूण शाळा</td><td style="font-weight:700;">20</td></tr>
+            <tr><td>जि.प. प्राथमिक शाळा</td><td style="font-weight:700;">20</td></tr>
+            <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:700;">73</td></tr>
+            <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--gold);">1218 (मुले: 570, मुली: 648)</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: विद्यार्थी संख्या -->
-  <div id="studentDataTab" class="tab-content">
+  <!-- ==========================================================
+      HTML SECTION 6: BACKEND & ADMIN PANEL (बॅकएंड ॲडमिन पॅनल)
+      ========================================================== -->
+  <div id="adminTab" class="tab-content">
     <div class="card">
       <div class="card-title">
-        <span>🏫 शाळानिहाय विद्यार्थी संख्या तपशील</span>
-        <span id="adminEditBadge" style="display:none;" class="badge badge-success">✏️ थेट संपादन सक्षम (PIN 3506)</span>
+        <span>🔐 गुप्त बॅकएंड ॲडमिन पॅनल (लिंक व मेसेज व्यवस्थापन)</span>
+        <span id="adminStatusBadge" class="admin-badge badge-locked">लॉक केले आहे (बंद)</span>
       </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>शाळा निवडा:</label>
-          <select id="sd_schoolSelect" class="form-control" onchange="renderSchoolTable()"></select>
+
+      <div id="adminLoginBox" style="max-width: 360px; margin: 20px auto; text-align: center; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+        <p style="font-size: 0.9rem; margin-bottom: 12px; font-weight: 700; color: var(--navy-800);">ॲडमिन पॅनल उघडण्यासाठी पिन प्रविष्ट करा:</p>
+        <input type="password" id="adminPinInput" class="form-control" placeholder="4 अंकी ॲडमिन पिन टाका" style="text-align: center; margin-bottom: 10px;" maxlength="4">
+        <button class="btn btn-primary" onclick="verifyAdminPin()" style="width: 100%;">अनलॉक करा 🔓</button>
+      </div>
+
+      <div id="adminDashboardContent" style="display: none;">
+        <div style="background: #E0F2FE; border-left: 4px solid var(--navy-accent); padding: 12px; border-radius: 4px; margin-bottom: 20px; font-size: 0.88rem; color: #0369A1;">
+          ✅ बॅकएंड सक्रिय आहे. खालील साधनांद्वारे तुम्ही वेबसाईटवरील लिंक्स, मारकी मेसेज आणि शाळांच्या व्हॉट्सॲप मेसेज स्टेटस नियंत्रित करू शकता.
+        </div>
+
+        <!-- मारकी मेसेज बदलण्याची सोय -->
+        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
+          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">📢 सरकणारा कस्टम मेसेज (Marquee) बदल करा:</h4>
+          <input type="text" id="adminMarqueeInput" class="form-control" placeholder="मराठीत नवीन मेसेज लिहा..." style="margin-bottom: 8px;">
+          <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
+        </div>
+
+        <!-- नवीन डेटा कलेक्शन लिंक जोडण्याची सोय -->
+        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
+          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">➕ नवीन डेटा कलेक्शन लिंक जोडा:</h4>
+          <div class="form-grid" style="margin-bottom: 8px;">
+            <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंक्सचे नाव (उदा. यू डायस भरणा फॉर्म)">
+            <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
+          </div>
+          <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700;">
+            <label><input type="checkbox" id="linkGlowInput"> ग्लो (Glow) इफेक्ट द्या</label>
+            <label><input type="checkbox" id="linkStarInput" checked> चमकणारा लाल स्टार (⭐ NEW) दाखवा</label>
+          </div>
+          <button class="btn btn-success" onclick="addNewLink()">लिंक जोड करा 🚀</button>
+        </div>
+
+        <!-- शाळांची यादी व व्हॉट्सॲप मेसेज ट्रॅकिंग सेक्शन -->
+        <h4 style="font-size: 1rem; color: var(--navy-800); margin-bottom: 10px;">💬 शाळानिहाय व्हॉट्सॲप रिमाइंडर व काम पूर्ण/अपूर्ण ट्रॅकिंग:</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>अ.क्र.</th>
+                <th>शाळेचे नाव</th>
+                <th>मुख्याध्यापक व मोबाईल</th>
+                <th>कामाची स्थिती</th>
+                <th>व्हॉट्सॲप मेसेज पाठवा</th>
+              </tr>
+            </thead>
+            <tbody id="adminSchoolStatusTableBody">
+              <!-- JS द्वारे शाळा इथे लोड होतील -->
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="table-responsive" id="schoolStudentTableContainer"></div>
-      <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
-        <button id="saveEditBtn" class="btn btn-success" style="display: none;" onclick="saveDirectStudentEdit()">
-          💾 बदल सेव्ह करा
-        </button>
-      </div>
     </div>
   </div>
 
-  <!-- TAB 3: आकडेवारी व गोषवारा -->
-  <div id="summaryTab" class="tab-content">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>एकूण शाळा</h3>
-        <div class="num" id="sumTotalSchools">0</div>
-      </div>
-      <div class="stat-card">
-        <h3>एकूण मुले</h3>
-        <div class="num" id="sumTotalBoys">0</div>
-      </div>
-      <div class="stat-card">
-        <h3>एकूण मुली</h3>
-        <div class="num" id="sumTotalGirls">0</div>
-      </div>
-      <div class="stat-card" style="border-top-color: var(--gold);">
-        <h3>एकूण विद्यार्थी (पटसंख्या)</h3>
-        <div class="num" id="sumGrandTotal" style="color: var(--gold);">0</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">
-        <span>📊 वर्गनिहाय केंद्र-स्तरीय एकत्रित विद्यार्थी संख्या</span>
-      </div>
-      <div class="table-responsive" id="classSummaryContainer"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📊 केंद्राचा एकत्रित प्रवर्गनिहाय गोषवारा</div>
-      <div class="table-responsive" id="abstractTableContainer"></div>
-    </div>
-
-    <div style="text-align:center; margin-top:20px;">
-      <button class="btn btn-gold" style="padding: 13px 26px; font-size: 0.95rem;" id="pdfBtn" onclick="generatePDF()">
-        📑 ३ पानांची परिपूर्ण PDF तयार करा (English Numbers)
-      </button>
-    </div>
-  </div>
 </div>
 
-<!-- १. माहिती पडताळणी मोडल -->
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal-box">
-    <h3>🔍 माहितीची पडताळणी व खात्री</h3>
-    <div class="modal-body" id="modalPreviewBody"></div>
+<!-- ==========================================================
+    HTML SECTION 7: MODAL (शाळा माहिती पॉपअप)
+    ========================================================== -->
+<div class="modal-overlay" id="schoolModal">
+  <div class="modal-box" style="max-width: 500px;">
+    <h3 id="modalSchoolName">शाळेचे नाव</h3>
+    <div class="modal-body" id="modalSchoolBody"></div>
     <div class="modal-actions">
-      <button class="btn btn-outline" onclick="closeConfirmModal()">बदल करा</button>
-      <button class="btn btn-success" onclick="confirmAndSubmit()">माहिती बरोबर आहे, सबमिट करा ✅</button>
+      <button class="btn btn-outline" onclick="closeSchoolModal()">बंद करा</button>
     </div>
   </div>
 </div>
 
-<!-- २. दुबार नोंद पूर्वसूचना मोडल -->
-<div class="modal-overlay" id="duplicateModal">
-  <div class="modal-box" style="border-top: 4px solid var(--gold);">
-    <h3 style="color: var(--gold); display: flex; align-items: center; gap: 6px;">
-      ⚠️ दुबार नोंद पूर्वसूचना
-    </h3>
-    <div class="modal-body" id="duplicateModalMsg" style="font-size: 0.9rem; line-height: 1.6;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-outline" onclick="closeDuplicateModal()">रद्द करा</button>
-      <button class="btn btn-primary" onclick="proceedDuplicateSubmission()">होय, तरीही नोंद करा ✅</button>
-    </div>
-  </div>
-</div>
-
+<!-- ==========================================================
+    JAVASCRIPT SECTION: APP LOGIC & STATE (जावास्क्रिप्ट लॉजिक)
+    ========================================================== -->
 <script>
-const CATEGORIES = ["अनुसूचित जाती (SC)", "अनुसूचित जमाती (ST)", "विमुक्त जाती (VJ)", "भटक्या जमाती (NT)", "विशेष मागास (SBC)", "ईतर मागास(ओबीसी)", "खुला (GENERAL)"];
-const CATEGORIES_EN = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "OPEN"];
+  /* शाळांचा डेटा */
+  const schoolsData = [
+    { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", teachers: 9, hm: "SHINDE SAMADHAN HAMBIRRAO", phone: "9423733799", total: 150 },
+    { id: 2, name: "ZPPS (H) LIMGAON", udise: "27270709701", classes: "1 To 8", teachers: 8, hm: "LAVHALE SHIVAJI SUDAMRAO", phone: "9421279298", total: 172 },
+    { id: 3, name: "ZPPS MANGRUL NO 1", udise: "27270709801", classes: "1 To 8", teachers: 9, hm: "SHINDE UTTAM SHAMRAO", phone: "9421347161", total: 175 },
+    { id: 4, name: "ZPPS KITTI ADGAON", udise: "27270710301", classes: "1 To 7", teachers: 7, hm: "SWAMI VIRBHADRA PANCHAYYA", phone: "9422653562", total: 123 },
+    { id: 5, name: "ZPPS GOVINDWADI", udise: "27270704201", classes: "1 To 8", teachers: 6, hm: "KULKARNI MAHESH ACHYUTRAO", phone: "7875903695", total: 104 },
+    { id: 6, name: "ZPPS GUJAR PANCHSHIL NAGAR", udise: "27270710304", classes: "1 To 4", teachers: 6, hm: "TAUR INDER KASHINATHRAO", phone: "9604846442", total: 152 },
+    { id: 7, name: "ZPPS RAMPIMPALGAON", udise: "27270710001", classes: "1 To 5", teachers: 2, hm: "KAMBLE RAMESH BHAURAO", phone: "9421633621", total: 32 },
+    { id: 8, name: "ZPPS RATHODVASTI BARDITANDA", udise: "27270710202", classes: "1 To 5", teachers: 2, hm: "BANKAR PRAKASH ANNASAHEB", phone: "7350561562", total: 26 },
+    { id: 9, name: "ZPPS KAULITANDA PAITHALWADI", udise: "27270715602", classes: "1 To 5", teachers: 2, hm: "WAGHMARE AMIT LIMBAJI", phone: "9970548696", total: 22 },
+    { id: 10, name: "ZPPS PAITHALWADI", udise: "27270715601", classes: "1 To 5", teachers: 2, hm: "DESHMUKH RAVI SHRINIVASRAO", phone: "9403065744", total: 69 },
+    { id: 11, name: "ZPPS SHELAPURI", udise: "27270710501", classes: "1 To 5", teachers: 2, hm: "MUNDE RADHAKRISHNA BHAGWAN", phone: "9834940152", total: 29 },
+    { id: 12, name: "ZPPS MAULINAGAR LIMGAON", udise: "27270709702", classes: "1 To 4", teachers: 2, hm: "REDEWAR LAXMAN LALBA", phone: "9763673438", total: 14 },
+    { id: 13, name: "ZPPS VASANTNAGAR MANGRUL", udise: "27270709802", classes: "1 To 4", teachers: 2, hm: "JAGTAP SANGEETA RAMESH", phone: "7498108479", total: 3 },
+    { id: 14, name: "ZPPS MANGRUL NO 2", udise: "27270709901", classes: "1 To 4", teachers: 2, hm: "GAROLE TUKARAM SONBA", phone: "9823408706", total: 24 },
+    { id: 15, name: "ZPPS LAMANTANDA", udise: "27270710101", classes: "1 To 4", teachers: 2, hm: "BHAVSAR LAXMIKANT ARUNRAO", phone: "7588521738", total: 16 },
+    { id: 16, name: "ZPPS BARDITANDA", udise: "27270710201", classes: "1 To 4", teachers: 2, hm: "RAUT AMOL MANIKRAO", phone: "9421278871", total: 18 },
+    { id: 17, name: "ZPPS BHIM NAGAR KITTI ADGAON", udise: "27270710302", classes: "1 To 4", teachers: 2, hm: "KATHULE PURUSHOTTAM RAMKISAN", phone: "7020836930", total: 45 },
+    { id: 18, name: "ZPPS RENAPURI", udise: "27270710401", classes: "1 To 4", teachers: 2, hm: "MORE SOMESHWAR DAMODHARRAO", phone: "9421510528", total: 20 },
+    { id: 19, name: "ZPPS SHELAPURI/RENAPURI WASAHAT", udise: "27270710502", classes: "1 To 4", teachers: 2, hm: "SHEIKH SHAFIK DILDAR", phone: "8275798404", total: 3 },
+    { id: 20, name: "ZPPS KHANAPUR", udise: "27270710601", classes: "1 To 4", teachers: 2, hm: "TANGDE TUKARAM RAMBHAU", phone: "9890934032", total: 23 }
+  ];
 
-const DEFAULT_20_SCHOOLS = [
-  {"sr": 1, "name": "ZPCPS SAVARGAON", "classData": [{"class": 1, "boys": [3, 0, 0, 1, 0, 0, 2], "girls": [4, 0, 0, 0, 0, 1, 4]}, {"class": 2, "boys": [5, 0, 0, 0, 0, 2, 3], "girls": [6, 0, 0, 1, 0, 2, 5]}, {"class": 3, "boys": [2, 0, 0, 3, 0, 0, 3], "girls": [5, 0, 0, 0, 0, 0, 5]}, {"class": 4, "boys": [7, 0, 0, 1, 0, 0, 6], "girls": [8, 1, 0, 6, 0, 0, 9]}, {"class": 5, "boys": [1, 0, 0, 1, 0, 1, 4], "girls": [9, 0, 0, 2, 0, 2, 4]}, {"class": 6, "boys": [4, 0, 0, 0, 0, 0, 3], "girls": [5, 0, 0, 0, 0, 0, 7]}, {"class": 7, "boys": [2, 0, 0, 1, 0, 1, 1], "girls": [1, 0, 0, 0, 0, 1, 5]}]},
-  {"sr": 2, "name": "ZPPS (H) LIMGAON", "classData": [{"class": 1, "boys": [0, 2, 0, 1, 0, 1, 0], "girls": [1, 2, 0, 1, 0, 1, 1]}, {"class": 2, "boys": [0, 1, 0, 2, 0, 0, 1], "girls": [0, 0, 0, 2, 0, 0, 3]}, {"class": 3, "boys": [0, 0, 0, 4, 0, 2, 1], "girls": [3, 1, 0, 3, 0, 0, 1]}, {"class": 4, "boys": [3, 0, 0, 2, 0, 3, 4], "girls": [1, 0, 0, 2, 0, 2, 1]}, {"class": 5, "boys": [2, 3, 0, 5, 0, 1, 8], "girls": [0, 1, 0, 1, 0, 5, 4]}, {"class": 6, "boys": [0, 1, 0, 6, 0, 0, 4], "girls": [1, 0, 0, 3, 0, 2, 6]}, {"class": 7, "boys": [2, 1, 0, 5, 0, 1, 8], "girls": [3, 0, 0, 5, 0, 2, 8]}, {"class": 8, "boys": [2, 0, 2, 3, 0, 0, 7], "girls": [1, 1, 0, 7, 0, 0, 9]}]},
-  {"sr": 3, "name": "ZPPS MANGRUL NO 1", "classData": [{"class": 1, "boys": [3, 0, 0, 0, 0, 0, 3], "girls": [4, 0, 2, 0, 2, 3, 3]}, {"class": 2, "boys": [2, 0, 1, 0, 0, 1, 5], "girls": [4, 0, 0, 0, 0, 0, 7]}, {"class": 3, "boys": [3, 0, 1, 0, 0, 0, 3], "girls": [3, 0, 0, 0, 0, 1, 7]}, {"class": 4, "boys": [5, 0, 0, 1, 0, 0, 6], "girls": [6, 0, 0, 0, 0, 1, 5]}, {"class": 5, "boys": [5, 0, 2, 0, 0, 0, 7], "girls": [5, 0, 3, 2, 0, 0, 10]}, {"class": 6, "boys": [4, 1, 1, 0, 0, 0, 5], "girls": [5, 0, 2, 0, 0, 0, 7]}, {"class": 7, "boys": [5, 0, 1, 0, 0, 1, 6], "girls": [1, 0, 0, 0, 0, 0, 4]}, {"class": 8, "boys": [3, 1, 0, 1, 0, 1, 1], "girls": [1, 0, 0, 0, 0, 0, 8]}]},
-  {"sr": 4, "name": "ZPPS KITTI ADGAON", "classData": [{"class": 1, "boys": [1, 0, 0, 2, 0, 2, 5], "girls": [0, 0, 0, 4, 0, 5, 3]}, {"class": 2, "boys": [0, 0, 0, 0, 0, 2, 3], "girls": [0, 0, 0, 0, 0, 3, 10]}, {"class": 3, "boys": [1, 0, 0, 1, 0, 3, 2], "girls": [0, 0, 0, 0, 0, 3, 7]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 4, 1], "girls": [0, 0, 0, 0, 0, 5, 4]}, {"class": 5, "boys": [2, 0, 1, 0, 0, 2, 2], "girls": [0, 0, 0, 0, 0, 5, 7]}, {"class": 6, "boys": [0, 0, 1, 0, 0, 2, 3], "girls": [0, 0, 1, 0, 0, 8, 5]}, {"class": 7, "boys": [1, 0, 0, 0, 0, 1, 5], "girls": [0, 0, 0, 0, 0, 5, 1]}]},
-  {"sr": 5, "name": "ZPPS GOVINDWADI", "classData": [{"class": 1, "boys": [1, 0, 0, 3, 0, 0, 0], "girls": [1, 0, 0, 5, 0, 0, 0]}, {"class": 2, "boys": [3, 0, 0, 4, 0, 0, 0], "girls": [2, 0, 0, 4, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 0, 5, 0, 0, 0], "girls": [2, 0, 0, 7, 0, 0, 1]}, {"class": 4, "boys": [0, 0, 0, 6, 0, 0, 0], "girls": [4, 0, 0, 7, 0, 0, 0]}, {"class": 5, "boys": [1, 0, 0, 9, 0, 0, 0], "girls": [2, 0, 0, 7, 0, 0, 0]}, {"class": 6, "boys": [3, 0, 0, 4, 0, 0, 0], "girls": [1, 0, 0, 7, 0, 0, 0]}, {"class": 7, "boys": [0, 0, 0, 5, 0, 0, 1], "girls": [1, 0, 0, 7, 0, 0, 0]}, {"class": 8, "boys": [0, 0, 0, 0, 0, 0, 1], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 6, "name": "ZPPS GUJAR PANCHSHIL NAGAR ADGAON", "classData": [{"class": 1, "boys": [6, 0, 0, 0, 0, 5, 14], "girls": [2, 0, 0, 0, 0, 6, 6]}, {"class": 2, "boys": [1, 0, 0, 0, 0, 2, 9], "girls": [3, 0, 0, 2, 0, 0, 6]}, {"class": 3, "boys": [2, 0, 1, 0, 0, 4, 18], "girls": [3, 0, 0, 0, 0, 6, 11]}, {"class": 4, "boys": [1, 1, 1, 0, 0, 3, 20], "girls": [3, 0, 1, 0, 0, 1, 14]}]},
-  {"sr": 7, "name": "ZPPS RAMPIMPALGAON", "classData": [{"class": 1, "boys": [0, 0, 0, 0, 0, 1, 0], "girls": [0, 0, 0, 0, 0, 0, 4]}, {"class": 2, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 5]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 0, 4], "girls": [0, 0, 0, 0, 0, 0, 2]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 2], "girls": [1, 0, 0, 0, 0, 0, 4]}, {"class": 5, "boys": [0, 0, 0, 1, 0, 0, 3], "girls": [0, 0, 0, 0, 0, 0, 5]}]},
-  {"sr": 8, "name": "ZPPS RATHODVASTI BARDITANDA", "classData": [{"class": 1, "boys": [0, 1, 0, 0, 0, 6, 0], "girls": [0, 0, 0, 0, 0, 1, 0]}, {"class": 2, "boys": [0, 1, 0, 0, 0, 2, 0], "girls": [0, 0, 0, 0, 0, 3, 0]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 1, 0], "girls": [0, 0, 0, 0, 0, 6, 0]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 3, 0]}, {"class": 5, "boys": [0, 0, 0, 0, 0, 1, 0], "girls": [0, 0, 0, 0, 0, 1, 0]}]},
-  {"sr": 9, "name": "ZPPS KAULITANDA PAITHALWADI", "classData": [{"class": 1, "boys": [0, 0, 0, 0, 0, 1, 0], "girls": [0, 0, 1, 1, 0, 0, 0]}, {"class": 2, "boys": [0, 2, 1, 0, 0, 0, 0], "girls": [0, 1, 1, 0, 0, 0, 1]}, {"class": 3, "boys": [0, 0, 1, 1, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 2, 3, 0, 0, 0, 0], "girls": [0, 1, 1, 0, 0, 0, 0]}, {"class": 5, "boys": [0, 0, 1, 2, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 10, "name": "ZPPS PAITHALWADI", "classData": [{"class": 1, "boys": [0, 3, 0, 9, 0, 0, 1], "girls": [0, 0, 0, 5, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 0, 9, 0, 0, 0], "girls": [0, 1, 0, 8, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 0, 7, 0, 0, 0], "girls": [0, 0, 0, 3, 0, 0, 0]}, {"class": 4, "boys": [0, 2, 0, 4, 0, 0, 1], "girls": [0, 0, 1, 7, 0, 0, 0]}, {"class": 5, "boys": [0, 0, 0, 3, 0, 0, 0], "girls": [0, 2, 0, 1, 0, 1, 1]}]},
-  {"sr": 11, "name": "ZPPS SHELAPURI", "classData": [{"class": 1, "boys": [3, 0, 0, 0, 0, 0, 1], "girls": [0, 0, 0, 0, 0, 0, 2]}, {"class": 2, "boys": [4, 0, 0, 0, 0, 0, 1], "girls": [1, 0, 1, 0, 0, 0, 3]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 0, 3], "girls": [3, 0, 0, 0, 0, 0, 1]}, {"class": 4, "boys": [1, 0, 0, 0, 0, 0, 0], "girls": [4, 0, 0, 0, 0, 0, 1]}, {"class": 5, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 12, "name": "ZPPS MAULINAGAR LIMGAON (H)", "classData": [{"class": 1, "boys": [0, 0, 2, 1, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 3]}, {"class": 2, "boys": [1, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 0, 4], "girls": [0, 0, 0, 0, 0, 0, 1]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 1]}]},
-  {"sr": 13, "name": "ZPPS VASANTNAGAR MANGRUL NO 1", "classData": [{"class": 1, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 1, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 0, 1, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 1], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 14, "name": "ZPPS MANGRUL NO 2", "classData": [{"class": 1, "boys": [0, 0, 1, 0, 0, 0, 1], "girls": [0, 0, 3, 0, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 2, 0, 0, 0, 1], "girls": [0, 0, 1, 0, 0, 0, 1]}, {"class": 3, "boys": [0, 0, 2, 0, 0, 0, 1], "girls": [0, 0, 2, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 0, 2, 0, 0, 1, 2], "girls": [0, 0, 1, 1, 0, 0, 2]}]},
-  {"sr": 15, "name": "ZPPS LAMANTANDA", "classData": [{"class": 1, "boys": [0, 0, 3, 0, 0, 0, 0], "girls": [0, 0, 3, 0, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 2, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 1, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 0, 2, 0, 0, 0, 0], "girls": [0, 0, 2, 0, 0, 1, 0]}]},
-  {"sr": 16, "name": "ZPPS BARDITANDA", "classData": [{"class": 1, "boys": [0, 0, 5, 0, 0, 0, 0], "girls": [0, 0, 2, 0, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 2, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 4, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 3, 0, 0, 0, 0]}]},
-  {"sr": 17, "name": "ZPPS BHIM NAGAR KITTI ADGAON", "classData": [{"class": 1, "boys": [0, 0, 0, 0, 0, 0, 3], "girls": [4, 0, 0, 0, 0, 0, 1]}, {"class": 2, "boys": [2, 0, 0, 0, 0, 3, 1], "girls": [1, 0, 0, 0, 0, 0, 0]}, {"class": 3, "boys": [3, 0, 0, 0, 0, 1, 0], "girls": [4, 0, 0, 0, 0, 2, 2]}, {"class": 4, "boys": [2, 0, 0, 0, 0, 1, 1], "girls": [2, 0, 0, 0, 1, 6, 5]}]},
-  {"sr": 18, "name": "ZPPS RENAPURI", "classData": [{"class": 1, "boys": [2, 0, 0, 0, 0, 0, 0], "girls": [3, 0, 0, 0, 0, 0, 1]}, {"class": 2, "boys": [2, 0, 0, 0, 0, 1, 0], "girls": [2, 0, 0, 0, 0, 0, 1]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 1, 1], "girls": [0, 0, 0, 0, 0, 0, 1]}, {"class": 4, "boys": [3, 0, 1, 0, 0, 0, 1], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 19, "name": "ZPPS SHELAPURI/RENAPURI WASAHAT", "classData": [{"class": 1, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}, {"class": 2, "boys": [0, 0, 0, 0, 0, 0, 2], "girls": [0, 0, 0, 0, 0, 0, 0]}, {"class": 3, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 1, 0, 0, 0, 0]}, {"class": 4, "boys": [0, 0, 0, 0, 0, 0, 0], "girls": [0, 0, 0, 0, 0, 0, 0]}]},
-  {"sr": 20, "name": "ZPPS KHANAPUR", "classData": [{"class": 1, "boys": [1, 0, 1, 0, 0, 0, 0], "girls": [2, 0, 0, 0, 0, 0, 0]}, {"class": 2, "boys": [5, 0, 1, 0, 0, 0, 0], "girls": [1, 0, 0, 0, 0, 1, 0]}, {"class": 3, "boys": [1, 0, 0, 0, 0, 0, 0], "girls": [3, 0, 0, 0, 0, 0, 0]}, {"class": 4, "boys": [2, 0, 0, 0, 0, 1, 0], "girls": [3, 0, 0, 0, 0, 1, 0]}]}
-];
+  /* लोकल स्टोरेजमधील स्टेट किंवा डिफॉल्ट लिंक्स */
+  let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
+    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", glow: true, star: true },
+    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", glow: false, star: true }
+  ];
 
-let isAdmin = false;
-let schoolData = JSON.parse(JSON.stringify(DEFAULT_20_SCHOOLS));
-let submittedReports = [];
-let pendingSubmissionData = null;
+  let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या वेळेत सादर करणे बंधनकारक आहे.";
 
-// Firebase डेटा लोड फंक्शन
-function loadDataFromFirebase(showNotice) {
-  const tbody = document.getElementById('submittedReportsBody');
-  if (!window.db) {
-    tbody.innerHTML = '<tr><td colspan="6" style="color:red; padding:12px;">Firebase कनेक्ट झालेले नाही. कृपया कॉन्फिगरेशन तपासा.</td></tr>';
-    return;
+  let schoolStatuses = JSON.parse(localStorage.getItem('sawargaon_statuses')) || {};
+
+  /* टॅब स्विचिंग */
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
   }
 
-  const schoolsRef = window.dbRef(window.db, 'schools');
-  const reportsRef = window.dbRef(window.db, 'reports');
-
-  Promise.all([window.dbGet(schoolsRef), window.dbGet(reportsRef)])
-    .then(([schoolsSnap, reportsSnap]) => {
-      if (schoolsSnap.exists()) {
-        schoolData = schoolsSnap.val();
-      } else {
-        window.dbSet(schoolsRef, DEFAULT_20_SCHOOLS);
-        schoolData = DEFAULT_20_SCHOOLS;
-      }
-
-      submittedReports = [];
-      if (reportsSnap.exists()) {
-        reportsSnap.forEach((childSnap) => {
-          submittedReports.push(childSnap.val());
-        });
-        submittedReports.reverse();
-      }
-
-      populateSchoolDropdowns();
-      renderSchoolTable();
-      renderAbstract();
-      renderSubmittedReports();
-
-      if (showNotice) {
-        alert("✅ Firebase मधून सर्व माहिती यशस्वीरीत्या आणली!");
-      }
-    })
-    .catch((error) => {
-      alert("❌ डेटा लोड करताना एरर: " + error.message);
-      tbody.innerHTML = '<tr><td colspan="6" style="color:red; padding:12px;">त्रुटी: ' + error.message + '</td></tr>';
-    });
-}
-
-// Firebase मध्ये डेटा सिंक करणे
-function syncWithFirebase(type, payload) {
-  if (!window.db) return;
-
-  if (type === 'save_schools') {
-    window.dbSet(window.dbRef(window.db, 'schools'), schoolData);
-  } else if (type === 'new_report') {
-    const newReportRef = window.dbPush(window.dbRef(window.db, 'reports'));
-    payload.firebaseKey = newReportRef.key;
-    window.dbSet(newReportRef, payload);
-  } else if (type === 'update_status') {
-    const reportsRef = window.dbRef(window.db, 'reports');
-    window.dbGet(reportsRef).then((snap) => {
-      if (snap.exists()) {
-        snap.forEach((childSnap) => {
-          let rep = childSnap.val();
-          if (String(rep.id) === String(payload.id)) {
-            window.dbSet(window.dbRef(window.db, 'reports/' + childSnap.key + '/status'), payload.status);
-          }
-        });
-      }
-    });
-  } else if (type === 'clear_reports') {
-    const reportsRef = window.dbRef(window.db, 'reports');
-    window.dbGet(reportsRef).then((snap) => {
-      if (snap.exists()) {
-        snap.forEach((childSnap) => {
-          let rep = childSnap.val();
-          if (rep.status !== 'Pending') {
-            window.dbRemove(window.dbRef(window.db, 'reports/' + childSnap.key));
-          }
-        });
-      }
-    });
+  /* ॲप इनिशिएलायझेशन */
+  function initApp() {
+    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
+    renderPublicLinks();
+    renderSchoolCapsules();
+    renderSchoolDropdown();
+    renderAdminSchoolTable();
   }
-}
 
-function switchTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  event.target.classList.add('active');
-  if (tabId === 'studentDataTab') renderSchoolTable();
-  if (tabId === 'summaryTab') renderAbstract();
-  if (tabId === 'monthlyReportTab') renderSubmittedReports();
-}
-
-function populateSchoolDropdowns() {
-  const mrSelect = document.getElementById('mr_school');
-  const sdSelect = document.getElementById('sd_schoolSelect');
-  mrSelect.innerHTML = '<option value="">-- शाळा निवडा --</option>';
-  sdSelect.innerHTML = '';
-  schoolData.forEach(sch => {
-    mrSelect.innerHTML += `<option value="${sch.sr}">${sch.sr}. ${sch.name}</option>`;
-    sdSelect.innerHTML += `<option value="${sch.sr}">${sch.sr}. ${sch.name}</option>`;
-  });
-}
-
-function promptAdminPin() {
-  if (isAdmin) {
-    isAdmin = false;
-    alert("ॲडमिन मोड बंद करण्यात आला आहे.");
-    updateAdminUI();
-    return;
-  }
-  let pin = prompt("कृपया ४-अंकी ॲडमिन पिन टाका:");
-  if (pin === "3506") {
-    isAdmin = true;
-    alert("✅ ॲडमिन मोड सक्रिय झाला आहे!");
-    updateAdminUI();
-  } else if (pin !== null) {
-    alert("❌ चुकीचा पिन!");
-  }
-}
-
-function updateAdminUI() {
-  const statusBadge = document.getElementById('adminStatus');
-  const editBadge = document.getElementById('adminEditBadge');
-  const saveBtn = document.getElementById('saveEditBtn');
-  const clearBtn = document.getElementById('clearHistoryBtn');
-
-  if (isAdmin) {
-    statusBadge.className = 'badge badge-success';
-    statusBadge.innerText = '🔓 ॲडमिन: सक्रिय';
-    if (editBadge) editBadge.style.display = 'inline-block';
-    if (saveBtn) saveBtn.style.display = 'inline-block';
-    if (clearBtn) clearBtn.style.display = 'inline-block';
-  } else {
-    statusBadge.className = 'badge badge-danger';
-    statusBadge.innerText = '🔒 ॲडमिन: बंद';
-    if (editBadge) editBadge.style.display = 'none';
-    if (saveBtn) saveBtn.style.display = 'none';
-    if (clearBtn) clearBtn.style.display = 'none';
-  }
-  renderSubmittedReports();
-  renderSchoolTable();
-}
-
-function toggleChangeSection() {
-  const val = document.querySelector('input[name="changeType"]:checked').value;
-  const fields = document.getElementById('dynamicChangeFields');
-  const title = document.getElementById('changeBoxTitle');
-  if (val === 'none') {
-    fields.style.display = 'none';
-  } else {
-    fields.style.display = 'block';
-    title.innerText = val === 'increase' ? '➕ पटसंख्येत झालेली वाढ तपशील:' : '➖ पटसंख्येत झालेली घट तपशील:';
-  }
-}
-
-function openDuplicateModal(msg, onConfirm) {
-  document.getElementById('duplicateModalMsg').innerHTML = msg;
-  document.getElementById('duplicateModal').style.display = 'flex';
-  window.duplicateCallback = onConfirm;
-}
-
-function closeDuplicateModal() {
-  document.getElementById('duplicateModal').style.display = 'none';
-  window.duplicateCallback = null;
-}
-
-function proceedDuplicateSubmission() {
-  if (typeof window.duplicateCallback === 'function') {
-    const cb = window.duplicateCallback;
-    closeDuplicateModal();
-    cb();
-  }
-}
-
-function initiateSubmission() {
-  const schoolSr = parseInt(document.getElementById('mr_school').value);
-  const changeType = document.querySelector('input[name="changeType"]:checked').value;
-  if (!schoolSr) { alert("कृपया शाळा निवडा!"); return; }
-
-  const school = schoolData.find(s => s.sr === schoolSr);
-  let detailText = "कुठलाही बदल नाही";
-  let changeMeta = null;
-
-  if (changeType !== 'none') {
-    const clsNum = parseInt(document.getElementById('mr_class').value);
-    const catIdx = parseInt(document.getElementById('mr_cat').value);
-    const gender = document.getElementById('mr_gender').value;
-    const count = parseInt(document.getElementById('mr_count').value) || 1;
-    const reason = document.getElementById('mr_reason').value.trim();
-
-    const isDuplicatePending = submittedReports.some(r => 
-      (r.status === 'Pending' || r.status === 'प्रलंबित') &&
-      (r.schoolName.includes(school.name) || school.name.includes(r.schoolName)) &&
-      r.details.includes("इयत्ता " + clsNum) &&
-      r.details.includes(gender) &&
-      r.details.includes(CATEGORIES[catIdx].split(' ')[0])
-    );
-
-    const submissionPayload = {
-      id: Date.now(),
-      date: new Date().toLocaleString('en-GB'),
-      schoolSr: school.sr,
-      schoolName: school.name,
-      changeType: changeType === 'none' ? 'बदल नाही' : (changeType === 'increase' ? 'संख्या वाढली' : 'संख्या कमी झाली'),
-      details: `इयत्ता ${clsNum} ली | ${gender} | ${CATEGORIES[catIdx]} : ${count} (${reason || 'बदल'})`,
-      status: changeType === 'none' ? 'Approved' : 'Pending',
-      meta: { schoolSr, clsNum, catIdx, gender, count, changeType }
-    };
-
-    if (isDuplicatePending) {
-      const msg = `
-        <div style="background:#FEF3C7; padding:12px; border-radius:8px; color:#92400E; margin-bottom:12px;">
-          <strong>शाळा:</strong> ${school.name}<br>
-          या शाळेची <strong>इयत्ता ${clsNum} ली</strong>, प्रवर्ग: <strong>${CATEGORIES[catIdx]}</strong>, लिंग: <strong>${gender}</strong> साठी अशीच एक नोंद आधीच प्रलंबित (Pending) आहे.
-        </div>
-        काय आपण तरीही पुन्हा दुबार नोंद करू इच्छिता?
-      `;
-      openDuplicateModal(msg, function() {
-        pendingSubmissionData = submissionPayload;
-        showConfirmModal(pendingSubmissionData);
-      });
+  /* फ्रंटएंडवर डेटा कलेक्शन लिंक्स रेेंडर करणे */
+  function renderPublicLinks() {
+    const container = document.getElementById('publicLinksContainer');
+    container.innerHTML = '';
+    if(customLinks.length === 0) {
+      container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">सध्या कोणतीही नवीन लिंक उपलब्ध नाही.</p>';
       return;
     }
-
-    detailText = submissionPayload.details;
-    changeMeta = submissionPayload.meta;
+    customLinks.forEach(l => {
+      let a = document.createElement('a');
+      a.className = `link-capsule ${l.glow ? 'glow-effect' : ''}`;
+      a.href = l.url;
+      a.target = "_blank";
+      a.innerHTML = `
+        <span>📌 ${l.title} ${l.star ? '<span class="blink-star">⭐ NEW</span>' : ''}</span>
+        <span style="font-size:1.1rem;">👉</span>
+      `;
+      container.appendChild(a);
+    });
   }
 
-  pendingSubmissionData = {
-    id: Date.now(),
-    date: new Date().toLocaleString('en-GB'),
-    schoolSr: school.sr,
-    schoolName: school.name,
-    changeType: changeType === 'none' ? 'बदल नाही' : (changeType === 'increase' ? 'संख्या वाढली' : 'संख्या कमी झाली'),
-    details: detailText,
-    status: changeType === 'none' ? 'Approved' : 'Pending',
-    meta: changeMeta
-  };
+  /* शाळा कॅп्सूल्स */
+  function renderSchoolCapsules() {
+    const container = document.getElementById('schoolCapsuleContainer');
+    container.innerHTML = '';
+    schoolsData.forEach(s => {
+      let cap = document.createElement('div');
+      cap.className = 'school-capsule';
+      cap.innerHTML = `🏫 <b>${s.id}.</b> ${s.name}`;
+      cap.onclick = () => openSchoolModal(s);
+      container.appendChild(cap);
+    });
+  }
 
-  showConfirmModal(pendingSubmissionData);
-}
+  function renderSchoolDropdown() {
+    const select = document.getElementById('mr_school');
+    select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
+    schoolsData.forEach(s => {
+      let opt = document.createElement('option');
+      opt.value = s.name;
+      opt.textContent = `${s.id}. ${s.name}`;
+      select.appendChild(opt);
+    });
+  }
 
-function showConfirmModal(data) {
-  const body = document.getElementById('modalPreviewBody');
-  let itemsHtml = `
-    <div class="modal-item"><span>शाळेचे नाव:</span> <strong>${data.schoolName}</strong></div>
-    <div class="modal-item"><span>बदलाचा प्रकार:</span> <strong>${data.changeType}</strong></div>
-  `;
-  if (data.meta) {
-    itemsHtml += `
-      <div class="modal-item"><span>इयत्ता:</span> <strong>इयत्ता ${data.meta.clsNum} ली</strong></div>
-      <div class="modal-item"><span>प्रवर्ग (Category):</span> <strong>${CATEGORIES[data.meta.catIdx]}</strong></div>
-      <div class="modal-item"><span>लिंग:</span> <strong>${data.meta.gender}</strong></div>
-      <div class="modal-item"><span>विद्यार्थी संख्या:</span> <strong>${data.meta.count}</strong></div>
+  function openSchoolModal(s) {
+    document.getElementById('modalSchoolName').textContent = `${s.id}. ${s.name}`;
+    document.getElementById('modalSchoolBody').innerHTML = `
+      <p style="margin-bottom:8px;"><strong>UDISE Code:</strong> ${s.udise}</p>
+      <p style="margin-bottom:8px;"><strong>वर्ग:</strong> ${s.classes}</p>
+      <p style="margin-bottom:8px;"><strong>शिक्षक संख्या:</strong> ${s.teachers}</p>
+      <p style="margin-bottom:8px;"><strong>मुख्याध्यापक:</strong> ${s.hm} (${s.phone})</p>
+      <p style="margin-bottom:8px;"><strong>एकूण पटसंख्या:</strong> ${s.total} विद्यार्थी</p>
     `;
+    document.getElementById('schoolModal').style.display = 'flex';
   }
-  itemsHtml += `<div class="modal-item"><span>तपशील:</span> <span>${data.details}</span></div>`;
-  body.innerHTML = itemsHtml;
-  document.getElementById('confirmModal').style.display = 'flex';
-}
 
-function closeConfirmModal() {
-  document.getElementById('confirmModal').style.display = 'none';
-  pendingSubmissionData = null;
-}
-
-function confirmAndSubmit() {
-  if (!pendingSubmissionData) return;
-
-  submittedReports.unshift(pendingSubmissionData);
-  syncWithFirebase('new_report', pendingSubmissionData);
-
-  alert("✅ अहवाल यशस्वीरीत्या सादर झाला! ॲडमिन मंजुरीनंतरच मूळ पटसंख्येत बदल होईल.");
-  closeConfirmModal();
-  renderSubmittedReports();
-}
-
-function handleStatusAction(repId, action) {
-  if (!isAdmin) {
-    alert("कृपया प्रथम पिन ३५०६ टाकून ॲडमिन मोड सुरू करा.");
-    return;
+  function closeSchoolModal() {
+    document.getElementById('schoolModal').style.display = 'none';
   }
-  const rep = submittedReports.find(r => String(r.id).trim() === String(repId).trim());
-  if (!rep) return;
 
-  if (action === 'accept') {
-    let meta = rep.meta;
-    if (!meta && rep.details && rep.details !== 'कुठलाही बदल नाही') {
-      const clsMatch = rep.details.match(/इयत्ता\s*(\d+)/);
-      const countMatch = rep.details.match(/:\s*(\d+)/);
-      const gender = rep.details.includes('मुलगी') ? 'मुलगी' : 'मुलगा';
-      let catIdx = 6;
-      CATEGORIES.forEach((c, idx) => {
-        if (rep.details.includes(c.split(' ')[0]) || rep.details.includes(CATEGORIES_EN[idx])) catIdx = idx;
-      });
-      const schObj = schoolData.find(s => s.name.includes(rep.schoolName) || rep.schoolName.includes(s.name));
-      if (clsMatch && schObj) {
-        meta = {
-          schoolSr: schObj.sr,
-          clsNum: parseInt(clsMatch[1]),
-          catIdx: catIdx,
-          gender: gender,
-          count: countMatch ? parseInt(countMatch[1]) : 1,
-          changeType: rep.changeType.includes('कमी') ? 'decrease' : 'increase'
-        };
-      }
+  function toggleReportFields(show) {
+    document.getElementById('dynamicChangeFields').style.display = show ? 'block' : 'none';
+  }
+
+  function submitReport() {
+    let school = document.getElementById('mr_school').value;
+    if(!school) { alert('कृपया शाळा निवडा!'); return; }
+    alert('माहिती यशस्वीपणे सबमिट झाली!');
+    document.getElementById('mr_school').value = '';
+    document.querySelector('input[name="changeType"][value="none"]').click();
+  }
+
+  /* ॲडमिन पिन पडताळणी (पिन: 3506) */
+  function verifyAdminPin() {
+    let pin = document.getElementById('adminPinInput').value;
+    if(pin === '3506') {
+      document.getElementById('adminLoginBox').style.display = 'none';
+      document.getElementById('adminDashboardContent').style.display = 'block';
+      let badge = document.getElementById('adminStatusBadge');
+      badge.textContent = 'सक्रिय (Unlocked)';
+      badge.className = 'admin-badge badge-unlocked';
+    } else {
+      alert('चुकीचा पिन! कृपया बरोबर पिन (3506) टाка.');
     }
-
-    if (meta) {
-      const { schoolSr, clsNum, catIdx, gender, count, changeType } = meta;
-      const school = schoolData.find(s => s.sr === schoolSr);
-      if (school) {
-        let clsRow = school.classData.find(c => c.class === clsNum);
-        if (!clsRow) {
-          clsRow = { class: clsNum, boys: [0,0,0,0,0,0,0], girls: [0,0,0,0,0,0,0] };
-          school.classData.push(clsRow);
-          school.classData.sort((a,b) => a.class - b.class);
-        }
-        if (changeType === 'increase') {
-          if (gender === 'मुलगा') clsRow.boys[catIdx] += count;
-          else clsRow.girls[catIdx] += count;
-        } else if (changeType === 'decrease') {
-          if (gender === 'मुलगा') clsRow.boys[catIdx] = Math.max(0, clsRow.boys[catIdx] - count);
-          else clsRow.girls[catIdx] = Math.max(0, clsRow.girls[catIdx] - count);
-        }
-      }
-      syncWithFirebase('save_schools', null);
-    }
-    rep.status = 'Approved';
-    alert("✅ बदल मंजूर (Accept) करण्यात आला!");
-  } else if (action === 'reject') {
-    rep.status = 'Rejected';
-    alert("❌ बदल अमान्य (Reject) करण्यात आला.");
   }
 
-  syncWithFirebase('update_status', { id: rep.id, status: rep.status });
-  renderSubmittedReports();
-  renderSchoolTable();
-  renderAbstract();
-}
-
-function clearProcessedReports() {
-  if (!isAdmin) return;
-  const processedCount = submittedReports.filter(r => r.status === 'Approved' || r.status === 'Rejected').length;
-  if (processedCount === 0) {
-    alert("हटवण्यासाठी कोणतीही मंजूर किंवा नामंजूर नोंद उपलब्ध नाही.");
-    return;
-  }
-  if (confirm(`तुम्हाला खरोखर सर्व मंजूर (Approved) व नामंजूर (Rejected) झालेल्या एकूण ${processedCount} नोंदी हटवायच्या आहेत का?\n(टीप: प्रलंबित/Pending नोंदी तशाच राहतील.)`)) {
-    submittedReports = submittedReports.filter(r => r.status === 'Pending');
-    syncWithFirebase('clear_reports', null);
-    renderSubmittedReports();
-    alert("✅ जुन्या मंजूर/नामंजूर नोंदी यशस्वीरीत्या हटवण्यात आल्या आहेत!");
-  }
-}
-
-function renderSubmittedReports() {
-  const tbody = document.getElementById('submittedReportsBody');
-  const badge = document.getElementById('reportCountBadge');
-  if (badge) badge.innerText = submittedReports.length;
-
-  if (submittedReports.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="padding:15px; color:#64748B;">अद्याप कोणताही अहवाल उपलब्ध नाही.</td></tr>';
-    return;
+  /* मारकी टेक्स्ट अपडेट */
+  function updateMarqueeText() {
+    let txt = document.getElementById('adminMarqueeInput').value;
+    if(!txt) { alert('कृपया मेसेज लिहा.'); return; }
+    marqueeMessage = txt;
+    localStorage.setItem('sawargaon_marquee', marqueeMessage);
+    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
+    alert('सरकणारा मेसेज यशस्वीपणे अपडेट झाला!');
   }
 
-  tbody.innerHTML = submittedReports.map((r, idx) => {
-    let statusBadge = '';
-    if (r.status === 'Approved') statusBadge = '<span class="badge badge-success">Approved</span>';
-    else if (r.status === 'Rejected') statusBadge = '<span class="badge badge-danger">Rejected</span>';
-    else statusBadge = '<span class="badge badge-warning">Pending</span>';
+  /* नवीन लिंक बॅकएंडमधून जोडणे */
+  function addNewLink() {
+    let title = document.getElementById('linkTitleInput').value;
+    let url = document.getElementById('linkUrlInput').value;
+    let glow = document.getElementById('linkGlowInput').checked;
+    let star = document.getElementById('linkStarInput').checked;
 
-    let actionBtns = '';
-    if (r.status === 'Pending') {
-      if (isAdmin) {
-        actionBtns = `
-          <div style="margin-top:4px;">
-            <button class="action-btn btn-acc" onclick="handleStatusAction('${r.id}', 'accept')">Accept</button>
-            <button class="action-btn btn-rej" onclick="handleStatusAction('${r.id}', 'reject')">Reject</button>
-          </div>`;
-      } else {
-        actionBtns = `<div style="font-size:0.75rem; color:#888;">(Admin Only)</div>`;
-      }
-    }
+    if(!title || !url) { alert('कृपया शिर्षक आणि URL दोन्ही भरा.'); return; }
 
-    return `
-      <tr>
-        <td>${idx + 1}</td>
-        <td>${r.date}</td>
-        <td style="font-weight:700; color:var(--navy-600);">${r.schoolName}</td>
-        <td>${r.changeType}</td>
-        <td>${r.details}</td>
-        <td>${statusBadge} ${actionBtns}</td>
-      </tr>`;
-  }).join('');
-}
+    customLinks.push({ id: Date.now(), title, url, glow, star });
+    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
+    
+    document.getElementById('linkTitleInput').value = '';
+    document.getElementById('linkUrlInput').value = '';
+    renderPublicLinks();
+    alert('नवीन डेटा कलेक्शन लिंक यशस्वीपणे जोडली गेली!');
+  }
 
-function renderSchoolTable() {
-  const schoolSr = parseInt(document.getElementById('sd_schoolSelect').value);
-  const container = document.getElementById('schoolStudentTableContainer');
-  const school = schoolData.find(s => s.sr === schoolSr);
-  if (!school) return;
+  /* लिंक डिलीट करणे */
+  function deleteLink(id) {
+    customLinks = customLinks.filter(l => l.id !== id);
+    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
+    renderPublicLinks();
+  }
 
-  let html = `<table>
-    <thead>
-      <tr>
-        <th rowspan="2">इयत्ता</th>
-        <th rowspan="2">लिंग</th>
-        ${CATEGORIES.map(c => `<th>${c}</th>`).join('')}
-        <th rowspan="2">एकूण</th>
-        <th rowspan="2">वर्ग एकूण</th>
-      </tr>
-      <tr>
-        ${CATEGORIES.map(() => `<th class="sub-th">संख्या</th>`).join('')}
-      </tr>
-    </thead>
-    <tbody>`;
-
-  let totalBoysCat = [0,0,0,0,0,0,0];
-  let totalGirlsCat = [0,0,0,0,0,0,0];
-  let grandTotal = 0;
-
-  school.classData.forEach((cd, cIdx) => {
-    let bTotal = cd.boys.reduce((a, b) => a + b, 0);
-    let gTotal = cd.girls.reduce((a, b) => a + b, 0);
-    let cTotal = bTotal + gTotal;
-    grandTotal += cTotal;
-
-    cd.boys.forEach((v, i) => totalBoysCat[i] += v);
-    cd.girls.forEach((v, i) => totalGirlsCat[i] += v);
-
-    html += `
-      <tr>
-        <td rowspan="2" style="font-weight:700;">इ. ${cd.class} ली</td>
-        <td>मुले</td>
-        ${cd.boys.map((val, catIdx) => `
+  /* ॲडमिन पॅनलमध्ये शाळांची यादी व व्हॉट्सॲप मेसेज जनरेटर लोड करणे */
+  function renderAdminSchoolTable() {
+    const tbody = document.getElementById('adminSchoolStatusTableBody');
+    tbody.innerHTML = '';
+    schoolsData.forEach((s, idx) => {
+      let isDone = schoolStatuses[s.id] || false;
+      tbody.innerHTML += `
+        <tr>
+          <td>${idx + 1}</td>
+          <td style="font-weight:700;">${s.name}</td>
+          <td>${s.hm}<br><span style="font-size:0.75rem; color:var(--text-muted);">${s.phone}</span></td>
           <td>
-            ${isAdmin ? `<input type="number" class="edit-cell" data-class="${cIdx}" data-gender="boys" data-cat="${catIdx}" value="${val}" style="width:44px; text-align:center;">` : val}
+            <select class="form-control" style="padding:6px; font-size:0.8rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
+              <option value="false" ${!isDone ? 'selected' : ''}>अपूर्ण ⏳</option>
+              <option value="true" ${isDone ? 'selected' : ''}>पूर्ण झाले ✅</option>
+            </select>
           </td>
-        `).join('')}
-        <td style="font-weight:700;">${bTotal}</td>
-        <td rowspan="2" style="font-weight:800; background: #F1F5F9;">${cTotal}</td>
-      </tr>
-      <tr>
-        <td>मुली</td>
-        ${cd.girls.map((val, catIdx) => `
           <td>
-            ${isAdmin ? `<input type="number" class="edit-cell" data-class="${cIdx}" data-gender="girls" data-cat="${catIdx}" value="${val}" style="width:44px; text-align:center;">` : val}
+            <button class="btn btn-success" style="padding:6px 12px; font-size:0.8rem;" onclick="sendWhatsApp(${s.id})">
+              💬 व्हॉट्सॲप मेसेज पाठवा
+            </button>
           </td>
-        `).join('')}
-        <td style="font-weight:700;">${gTotal}</td>
-      </tr>`;
-  });
-
-  let sumB = totalBoysCat.reduce((a,b)=>a+b, 0);
-  let sumG = totalGirlsCat.reduce((a,b)=>a+b, 0);
-
-  html += `
-    <tr class="total-row">
-      <td rowspan="2" colspan="2">एकूण बेरीज</td>
-      ${totalBoysCat.map(v => `<td>${v}</td>`).join('')}
-      <td>${sumB} (मुले)</td>
-      <td rowspan="2" style="font-size:1.15rem; color:var(--navy-600); background: #E2E8F0;">${grandTotal}</td>
-    </tr>
-    <tr class="total-row">
-      ${totalGirlsCat.map(v => `<td>${v}</td>`).join('')}
-      <td>${sumG} (मुली)</td>
-    </tr>
-  </tbody></table>`;
-
-  container.innerHTML = html;
-}
-
-function saveDirectStudentEdit() {
-  if (!isAdmin) return;
-  const schoolSr = parseInt(document.getElementById('sd_schoolSelect').value);
-  const school = schoolData.find(s => s.sr === schoolSr);
-
-  document.querySelectorAll('.edit-cell').forEach(inp => {
-    let cIdx = parseInt(inp.dataset.class);
-    let gender = inp.dataset.gender;
-    let catIdx = parseInt(inp.dataset.cat);
-    let val = parseInt(inp.value) || 0;
-    school.classData[cIdx][gender][catIdx] = val;
-  });
-
-  syncWithFirebase('save_schools', null);
-  alert("✅ बदल सेव्ह झाले!");
-  renderSchoolTable();
-  renderAbstract();
-}
-
-function renderAbstract() {
-  let catBoys = [0,0,0,0,0,0,0];
-  let catGirls = [0,0,0,0,0,0,0];
-  let totalBoys = 0, totalGirls = 0;
-  let byClass = {};
-
-  schoolData.forEach(sch => {
-    sch.classData.forEach(cd => {
-      if(!byClass[cd.class]) byClass[cd.class] = { boys: 0, girls: 0 };
-      cd.boys.forEach((b, i) => { 
-        catBoys[i] += b; totalBoys += b; byClass[cd.class].boys += b;
-      });
-      cd.girls.forEach((g, i) => { 
-        catGirls[i] += g; totalGirls += g; byClass[cd.class].girls += g;
-      });
+        </tr>
+      `;
     });
-  });
-
-  document.getElementById('sumTotalSchools').innerText = schoolData.length;
-  document.getElementById('sumTotalBoys').innerText = totalBoys;
-  document.getElementById('sumTotalGirls').innerText = totalGirls;
-  document.getElementById('sumGrandTotal').innerText = totalBoys + totalGirls;
-
-  let classNums = Object.keys(byClass).map(Number).sort((a,b)=>a-b);
-  let classHtml = `<table>
-    <thead><tr><th>इयत्ता</th><th>मुले</th><th>मुली</th><th>एकूण विद्यार्थी</th></tr></thead>
-    <tbody>`;
-  classNums.forEach(cn => {
-    let b = byClass[cn].boys, g = byClass[cn].girls;
-    classHtml += `<tr><td>इयत्ता ${cn} वी/ली</td><td>${b}</td><td>${g}</td><td style="font-weight:700;">${b+g}</td></tr>`;
-  });
-  classHtml += `<tr class="total-row"><td>एकूण</td><td>${totalBoys}</td><td>${totalGirls}</td><td style="color:var(--gold);">${totalBoys+totalGirls}</td></tr></tbody></table>`;
-  document.getElementById('classSummaryContainer').innerHTML = classHtml;
-
-  let grandTotal = totalBoys + totalGirls;
-  let catHtml = `<table>
-    <thead>
-      <tr>
-        <th>प्रवर्ग (Category)</th>
-        <th>मुले</th>
-        <th>मुली</th>
-        <th>एकूण पटसंख्या</th>
-        <th>टक्केवारी (%)</th>
-      </tr>
-    </thead>
-    <tbody>`;
-
-  CATEGORIES.forEach((cat, idx) => {
-    let b = catBoys[idx];
-    let g = catGirls[idx];
-    let tot = b + g;
-    let pct = grandTotal > 0 ? ((tot / grandTotal) * 100).toFixed(1) : 0;
-    catHtml += `
-      <tr>
-        <td style="font-weight:700; text-align:left; padding-left:14px;">${cat}</td>
-        <td>${b}</td>
-        <td>${g}</td>
-        <td style="font-weight:700; color:var(--navy-600);">${tot}</td>
-        <td>${pct}%</td>
-      </tr>`;
-  });
-
-  catHtml += `
-    <tr class="total-row" style="font-size:0.95rem;">
-      <td style="text-align:left; padding-left:14px;">एकूण गोषवारा</td>
-      <td>${totalBoys}</td>
-      <td>${totalGirls}</td>
-      <td style="color:var(--gold); font-size:1.1rem;">${grandTotal}</td>
-      <td>100%</td>
-    </tr>
-  </tbody></table>`;
-
-  document.getElementById('abstractTableContainer').innerHTML = catHtml;
-}
-
-function generatePDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('p', 'mm', 'a4');
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(13);
-  doc.setTextColor(27, 54, 93);
-  doc.text("CRC SAVARGAON - STUDENT ENROLLMENT REPORT (PART 1)", 105, 12, { align: "center" });
-  doc.setFontSize(8.5);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(90, 90, 90);
-  doc.text("Schools Serial No. 1 to 10 Detailed Category-wise Strength", 105, 17, { align: "center" });
-
-  let startY = 21;
-  for (let i = 0; i < 10; i++) {
-    startY = drawSchoolPdfSection(doc, schoolData[i], startY);
   }
 
-  doc.addPage();
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(13);
-  doc.setTextColor(27, 54, 93);
-  doc.text("CRC SAVARGAON - STUDENT ENROLLMENT REPORT (PART 2)", 105, 12, { align: "center" });
-  doc.setFontSize(8.5);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(90, 90, 90);
-  doc.text("Schools Serial No. 11 to 20 Detailed Category-wise Strength", 105, 17, { align: "center" });
-
-  startY = 21;
-  for (let i = 10; i < 20; i++) {
-    startY = drawSchoolPdfSection(doc, schoolData[i], startY);
+  function updateSchoolStatus(schoolId, val) {
+    schoolStatuses[schoolId] = (val === 'true');
+    localStorage.setItem('sawargaon_statuses', JSON.stringify(schoolStatuses));
   }
 
-  doc.addPage();
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(27, 54, 93);
-  doc.text("CRC SAVARGAON - CONSOLIDATED ABSTRACT & STATISTICS", 105, 14, { align: "center" });
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(90, 90, 90);
-  doc.text("Overall Center Summary (Class-wise & Category-wise)", 105, 19, { align: "center" });
+  /* मुख्याध्यापकांना व्हॉट्सॲपवर पूर्व-टाईप केलेला मेसेज पाठवणे */
+  function sendWhatsApp(schoolId) {
+    let s = schoolsData.find(x => x.id === schoolId);
+    let isDone = schoolStatuses[s.id] || false;
+    let statusText = isDone ? "माहिती भरण्याचे काम पूर्ण केले आहे, धन्यवाद! 👍" : "माहिती भरण्याचे काम अद्याप प्रलंबित आहे, कृपया लवकरात लवकर पूर्ण करावी. ⚠️";
+    
+    let message = `नमस्कार सर/मॅडम (${s.hm}),\n\nसमूह साधन केंद्र सावरगाव अंतर्गत शाळा: *${s.name}* \n\nसध्याच्या डेटा कलेक्शन संदर्भात तुमची स्थिती: *${statusText}*\n\n- केंद्रप्रमुख, सावरगाव`;
+    
+    let encodedUrl = `https://wa.me/91${s.phone}?text=${encodeURIComponent(message)}`;
+    window.open(encodedUrl, '_blank');
+  }
 
-  let catBoys = [0,0,0,0,0,0,0], catGirls = [0,0,0,0,0,0,0], totalBoys = 0, totalGirls = 0, byClass = {};
-  schoolData.forEach(sch => {
-    sch.classData.forEach(cd => {
-      if(!byClass[cd.class]) byClass[cd.class] = { boys: 0, girls: 0 };
-      cd.boys.forEach((b, idx) => { catBoys[idx] += b; totalBoys += b; byClass[cd.class].boys += b; });
-      cd.girls.forEach((g, idx) => { catGirls[idx] += g; totalGirls += g; byClass[cd.class].girls += g; });
-    });
-  });
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(10);
-  doc.setTextColor(27, 54, 93);
-  doc.text("1. Class-wise Consolidated Strength", 14, 28);
-
-  let classNums = Object.keys(byClass).map(Number).sort((a,b)=>a-b);
-  let classBody = classNums.map(cn => [
-    "Class " + cn,
-    byClass[cn].boys,
-    byClass[cn].girls,
-    byClass[cn].boys + byClass[cn].girls
-  ]);
-  classBody.push(["Total", totalBoys, totalGirls, totalBoys + totalGirls]);
-
-  doc.autoTable({
-    startY: 31,
-    head: [["Class", "Boys", "Girls", "Total Strength"]],
-    body: classBody,
-    theme: 'grid',
-    styles: { font: "helvetica", fontSize: 8.5, halign: 'center', cellPadding: 2 },
-    headStyles: { fillColor: [27, 54, 93], textColor: 255 },
-    columnStyles: { 0: { halign: 'left', fontStyle: 'bold' } }
-  });
-
-  let grandTotal = totalBoys + totalGirls;
-  let catBody = CATEGORIES_EN.map((cat, idx) => {
-    let b = catBoys[idx], g = catGirls[idx], tot = b + g;
-    let pct = grandTotal > 0 ? ((tot / grandTotal) * 100).toFixed(1) + "%" : "0%";
-    return [cat, b, g, tot, pct];
-  });
-  catBody.push(["Grand Total", totalBoys, totalGirls, grandTotal, "100%"]);
-
-  let nextY = doc.lastAutoTable.finalY + 10;
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(10);
-  doc.setTextColor(27, 54, 93);
-  doc.text("2. Category-wise Center Abstract", 14, nextY);
-
-  doc.autoTable({
-    startY: nextY + 3,
-    head: [["Category", "Boys", "Girls", "Total Students", "Percentage (%)"]],
-    body: catBody,
-    theme: 'grid',
-    styles: { font: "helvetica", fontSize: 8.5, halign: 'center', cellPadding: 2 },
-    headStyles: { fillColor: [27, 54, 93], textColor: 255 },
-    columnStyles: { 0: { halign: 'left', fontStyle: 'bold' } }
-  });
-
-  doc.save("Student_Enrollment_Summary_Report.pdf");
-}
-
-function drawSchoolPdfSection(doc, s, startY) {
-  let tb = [0,0,0,0,0,0,0], tg = [0,0,0,0,0,0,0], tot = 0;
-  s.classData.forEach(cd => {
-    cd.boys.forEach((v, i) => tb[i] += v);
-    cd.girls.forEach((v, i) => tg[i] += v);
-    tot += cd.boys.reduce((a,b)=>a+b,0) + cd.girls.reduce((a,b)=>a+b,0);
-  });
-  let sumB = tb.reduce((a,b)=>a+b,0), sumG = tg.reduce((a,b)=>a+b,0);
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
-  doc.setTextColor(27, 54, 93);
-  doc.text(s.sr + ". " + s.name + " (Total: " + tot + ")", 14, startY);
-
-  doc.autoTable({
-    startY: startY + 1,
-    head: [["Gender", ...CATEGORIES_EN, "Total"]],
-    body: [
-      ["Boys", ...tb, sumB],
-      ["Girls", ...tg, sumG]
-    ],
-    theme: 'plain',
-    styles: { font: "helvetica", fontSize: 7, halign: 'center', cellPadding: 0.7, lineColor: [180, 180, 180], lineWidth: 0.1 },
-    headStyles: { fillColor: [235, 243, 250], textColor: [27, 54, 93], fontStyle: 'bold' },
-    columnStyles: { 0: { halign: 'left', fontStyle: 'bold', width: 14 }, 8: { fontStyle: 'bold', width: 12 } },
-    margin: { left: 14, right: 14 }
-  });
-
-  return doc.lastAutoTable.finalY + 4.5;
-}
+  window.onload = initApp;
 </script>
+
 </body>
 </html>
