@@ -8,6 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<!-- Firebase App & Firestore SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDCKNTNVcsmUf0qbLLIpOSZRVmoYUTtKkM",
+    authDomain: "crc-links-d1aad.firebaseapp.com",
+    projectId: "crc-links-d1aad",
+    storageBucket: "crc-links-d1aad.firebasestorage.app",
+    messagingSenderId: "284084725148",
+    appId: "1:284084725148:web:d2a0f18b3bed91fac05459",
+    measurementId: "G-66BSZ925BE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  window.db = getFirestore(app);
+  
+  // App initialization after Firebase ready
+  if(typeof window.initApp === 'function') {
+    window.initApp();
+  }
+</script>
+
 <style>
   :root {
     --bg-page: #F8FAFC;
@@ -18,7 +42,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Professional Header with Local Logo & Two-Line Title */
   header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.8rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; display: flex; align-items: center; gap: 12px; cursor: pointer; }
   .header-logo-box { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2.5px solid #FF9933; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -26,11 +49,9 @@
   .header-main-title { font-size: 1.25rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
   .header-sub-title { font-size: 0.85rem; font-weight: 700; color: #E2E8F0; letter-spacing: 0.3px; }
 
-  /* Compact Marquee Ticker */
   .marquee-bar { background: #FEF3C7; color: #92400E; padding: 4px 8px; font-size: 0.82rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; height: 28px; display: flex; align-items: center; }
   .marquee-bar marquee { width: 100%; }
 
-  /* Stunning Rectangle Navigation Tabs with Glow Shading */
   .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 8px 10px; }
   .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 8px; justify-content: center; align-items: center; }
   .nav-tab { flex: 1; max-width: 160px; text-align: center; padding: 11px 10px; font-size: 1.05rem; font-weight: 800; color: #1E3A8A; border: 2px solid #CBD5E1; background: #F8FAFC; cursor: pointer; border-radius: 8px; transition: 0.25s; box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15), 0 3px 10px rgba(16, 185, 129, 0.15); white-space: nowrap; }
@@ -40,10 +61,8 @@
   .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
   .card-title { font-size: 1.15rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; }
 
-  /* Glossy Purple Links Section */
   .links-glossy-purple { background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%) !important; border: 2.5px solid #9333EA !important; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15) !important; }
 
-  /* Soft Pastel School Capsules */
   .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
   .school-capsule { padding: 13px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.25s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 54px; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1.5px solid rgba(0,0,0,0.06); }
@@ -53,7 +72,6 @@
   .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1.5px solid rgba(0,0,0,0.06); transition: 0.2s; }
   .link-capsule:hover { transform: scale(1.01); filter: brightness(0.96); }
 
-  /* 1.5x Larger Font Size for Report and Summary Tabs */
   #reportTab, #summaryTab { font-size: 1.15rem !important; }
   #reportTab label, #reportTab .form-control, #reportTab .radio-label, #reportTab .btn,
   #summaryTab table th, #summaryTab table td, #summaryTab .card-title span { font-size: 1.15rem !important; }
@@ -89,7 +107,6 @@
   #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  /* Custom Modals */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
   .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
   .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
@@ -104,7 +121,6 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- CUSTOM ALERT MODAL -->
 <div class="modal-overlay" id="customAlertModal">
   <div class="modal-box">
     <h3>📢 सूचना</h3>
@@ -115,7 +131,6 @@
   </div>
 </div>
 
-<!-- SECURE ADMIN LOGIN MODAL -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-box">
     <h3>🔐 ॲडमिन गुप्त पिन</h3>
@@ -128,7 +143,6 @@
   </div>
 </div>
 
-<!-- CONFIRMATION MODAL -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-box">
     <h3>⚠️ पटसंख्या बदल पडताळणी (Confirmation)</h3>
@@ -140,7 +154,6 @@
   </div>
 </div>
 
-<!-- PROFESSIONAL HEADER WITH LOCAL LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-logo-box">
     <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
@@ -157,7 +170,6 @@
   </marquee>
 </div>
 
-<!-- NAVIGATION RECTANGLE TABS (SINGLE LINE) -->
 <div class="nav-container">
   <div class="nav-tabs" id="navTabsContainer"></div>
 </div>
@@ -327,12 +339,18 @@
   let pendingReportData = null;
 
   function showCustomAlert(message) {
-    document.getElementById('customAlertBody').textContent = message;
-    document.getElementById('customAlertModal').style.display = 'flex';
+    let alertBox = document.getElementById('customAlertBody');
+    if(alertBox) {
+      alertBox.textContent = message;
+      document.getElementById('customAlertModal').style.display = 'flex';
+    } else {
+      alert(message);
+    }
   }
 
   function closeCustomAlert() {
-    document.getElementById('customAlertModal').style.display = 'none';
+    let modal = document.getElementById('customAlertModal');
+    if(modal) modal.style.display = 'none';
   }
 
   function handleHeaderClick() {
@@ -346,17 +364,22 @@
   }
 
   function openAdminLoginModal() {
-    document.getElementById('adminPinField').value = '';
-    document.getElementById('adminLoginModal').style.display = 'flex';
+    let pinField = document.getElementById('adminPinField');
+    let modal = document.getElementById('adminLoginModal');
+    if(pinField && modal) {
+      pinField.value = '';
+      modal.style.display = 'flex';
+    }
   }
 
   function closeAdminLoginModal() {
-    document.getElementById('adminLoginModal').style.display = 'none';
+    let modal = document.getElementById('adminLoginModal');
+    if(modal) modal.style.display = 'none';
   }
 
   function verifyAdminLoginPin() {
-    let pin = document.getElementById('adminPinField').value;
-    if(pin === "3506") {
+    let pinField = document.getElementById('adminPinField');
+    if(pinField && pinField.value === "3506") {
       closeAdminLoginModal();
       renderFullAdminView();
       history.pushState({view: 'admin'}, "", "#adminPanel");
@@ -367,6 +390,7 @@
 
   function showToast(msg) {
     let t = document.getElementById('toastMessage');
+    if(!t) return;
     t.textContent = msg;
     t.classList.add('show');
     setTimeout(() => { t.classList.remove('show'); }, 2000);
@@ -385,24 +409,32 @@
   }
 
   window.addEventListener('popstate', (event) => {
-    if(event.state && event.state.view === 'school') {
-      renderDashboard();
-    } else if(event.state && event.state.view === 'admin') {
-      renderFullAdminView();
-    } else {
+    try {
+      if(event.state && event.state.view === 'school') {
+        openFullSchoolView(event.state.schoolId, event.state.type || 'ZP');
+      } else if(event.state && event.state.view === 'admin') {
+        renderFullAdminView();
+      } else {
+        renderDashboard();
+      }
+    } catch(e) {
       renderDashboard();
     }
   });
 
   function initApp() {
-    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
+    let marquee = document.getElementById('marqueeTextDisplay');
+    if(marquee) marquee.textContent = marqueeMessage;
     renderNavTabs();
     renderDashboard();
-    history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+    if(!window.location.hash) {
+      history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+    }
   }
 
   function renderNavTabs() {
     let container = document.getElementById('navTabsContainer');
+    if(!container) return;
     container.innerHTML = '';
     navTabs.forEach((tab, index) => {
       let btn = document.createElement('button');
@@ -416,6 +448,8 @@
   function renderDashboard() {
     renderNavTabs();
     let container = document.getElementById('mainContainerViews');
+    if(!container) return;
+
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
 
     let softColors = [
@@ -447,7 +481,6 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
-        <!-- Distinct Prominent Glossy Purple Links Section -->
         <div class="card links-glossy-purple">
           <div class="card-title" style="color: #7E22CE;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
@@ -530,18 +563,18 @@
 
   function toggleReportFields(show) {
     let dynamicDiv = document.getElementById('dynamicChangeFields');
-    if(show) {
-      dynamicDiv.style.display = 'block';
-    } else {
-      dynamicDiv.style.display = 'none';
+    if(dynamicDiv) {
+      dynamicDiv.style.display = show ? 'block' : 'none';
     }
   }
 
   function prepareReportSubmit() {
-    let schoolName = document.getElementById('mr_school').value;
-    if(!schoolName) { showCustomAlert('कृपया शाळा निवडा!'); return; }
+    let schoolSelect = document.getElementById('mr_school');
+    if(!schoolSelect || !schoolSelect.value) { showCustomAlert('कृपया शाळा निवडा!'); return; }
+    let schoolName = schoolSelect.value;
 
-    let changeType = document.querySelector('input[name="changeType"]:checked').value;
+    let changeTypeInput = document.querySelector('input[name="changeType"]:checked');
+    let changeType = changeTypeInput ? changeTypeInput.value : 'none';
     
     if(changeType === 'none') {
       pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
@@ -579,7 +612,8 @@
   }
 
   function closeConfirmModal() {
-    document.getElementById('confirmModal').style.display = 'none';
+    let modal = document.getElementById('confirmModal');
+    if(modal) modal.style.display = 'none';
     pendingReportData = null;
   }
 
@@ -605,20 +639,6 @@
         else school.classCounts[cls].girls = Math.max(0, school.classCounts[cls].girls - count);
       }
 
-      if(!school.categoryCounts[cat]) { school.categoryCounts[cat] = {boys: 0, girls: 0}; }
-      if(typeof school.categoryCounts[cat] === 'number') {
-        let oldCatTotal = school.categoryCounts[cat];
-        school.categoryCounts[cat] = {boys: Math.floor(oldCatTotal/2), girls: oldCatTotal - Math.floor(oldCatTotal/2)};
-      }
-
-      if(gender === 'मुलगा') {
-        if(changeType === 'increase') school.categoryCounts[cat].boys += count;
-        else school.categoryCounts[cat].boys = Math.max(0, school.categoryCounts[cat].boys - count);
-      } else {
-        if(changeType === 'increase') school.categoryCounts[cat].girls += count;
-        else school.categoryCounts[cat].girls = Math.max(0, school.categoryCounts[cat].girls - count);
-      }
-
       let newTotal = 0;
       Object.values(school.classCounts).forEach(obj => {
         newTotal += (obj.boys || 0) + (obj.girls || 0);
@@ -640,6 +660,7 @@
   /* FULL-SIZE ADMIN PANEL VIEW WITH BOTH CLASS-WISE AND CAST-WISE FULL TABLES EDIT */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
+    if(!container) return;
     
     let linksAdminHtml = customLinks.map(l => `
       <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.92rem; margin-bottom:8px; gap:8px;">
@@ -672,7 +693,6 @@
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
-        <!-- ZP Schools & Teachers Count Manager -->
         <div style="background:#EFF6FF; padding:14px; border-radius:10px; border:2px solid #3B82F6; margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#1D4ED8; margin-bottom:8px;">🏫 जिल्हा परिषद शाळा व शिक्षक संख्या व्यवस्थापन:</h4>
           <div class="form-grid" style="margin-bottom:8px;">
@@ -688,7 +708,6 @@
           <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
         </div>
 
-        <!-- Class-wise & Cast-wise Full Tables Edit Feature -->
         <div style="background:#FFFBEB; padding:14px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#D97706; margin-bottom:8px;">✏️ वर्गनिहाय व प्रवर्गनिहाय पटसंख्या तक्ता बदला (Full Tables Edit):</h4>
           <div class="form-grid" style="margin-bottom:10px;">
@@ -707,7 +726,6 @@
           <button class="btn btn-warning" onclick="manualUpdateAllTablesStrength()">सर्व तक्त्यांची पटसंख्या एकाच वेळी जतन करा 💾</button>
         </div>
 
-        <!-- Add Private School with Institution Type Dropdown & Teacher Count -->
         <div style="background:#FDF2F8; padding:14px; border-radius:10px; border:2px solid #EC4899; margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#9D174D; margin-bottom:8px;">➕ खाजगी/संस्थेची शाळा जोडा (Add Private School):</h4>
           <div class="form-grid" style="margin-bottom:8px;">
@@ -765,14 +783,15 @@
   }
 
   function loadAllTablesForAdmin() {
-    let schoolName = document.getElementById('adm_school_select').value;
+    let schoolSelect = document.getElementById('adm_school_select');
+    if(!schoolSelect) return;
+    let schoolName = schoolSelect.value;
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     let classContainer = document.getElementById('adminClassesTableContainer');
     let castContainer = document.getElementById('adminCastTableContainer');
     if(!school || !classContainer || !castContainer) return;
 
-    // 1. Classes Table
     let classes = Object.keys(school.classCounts || {"वर्ग 1": {boys:0, girls:0}});
     let classHtml = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
     classes.forEach(cls => {
@@ -788,7 +807,6 @@
     classHtml += '</tbody></table>';
     classContainer.innerHTML = classHtml;
 
-    // 2. Cast Table
     let casts = Object.keys(school.categoryCounts || {"SC": {boys:0, girls:0}});
     let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
     casts.forEach(cat => {
@@ -806,12 +824,13 @@
   }
 
   function manualUpdateAllTablesStrength() {
-    let schoolName = document.getElementById('adm_school_select').value;
+    let schoolSelect = document.getElementById('adm_school_select');
+    if(!schoolSelect) return;
+    let schoolName = schoolSelect.value;
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     if(!school) return;
 
-    // Update Classes
     let classes = Object.keys(school.classCounts || {});
     let newTotal = 0;
     classes.forEach(cls => {
@@ -828,7 +847,6 @@
     });
     school.total = newTotal;
 
-    // Update Casts
     let casts = Object.keys(school.categoryCounts || {});
     casts.forEach(cat => {
       let bInput = document.getElementById(`adm_cb_${cat}`);
@@ -851,19 +869,24 @@
   }
 
   function updateMarqueeText() {
-    let txt = document.getElementById('adminMarqueeInput').value;
+    let input = document.getElementById('adminMarqueeInput');
+    let txt = input ? input.value : '';
     if(!txt) { showCustomAlert('कृपया मेसेज लिहा.'); return; }
     marqueeMessage = txt;
     localStorage.setItem('sawargaon_marquee', marqueeMessage);
-    document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
+    let display = document.getElementById('marqueeTextDisplay');
+    if(display) display.textContent = marqueeMessage;
     showToast('सरकणारा मेसेज अपडेट झाला! 💾');
   }
 
   function addNewLink() {
-    let title = document.getElementById('linkTitleInput').value;
-    let url = document.getElementById('linkUrlInput').value;
-    if(!title || !url) { showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); return; }
-    customLinks.push({ id: Date.now(), title, url });
+    let titleInput = document.getElementById('linkTitleInput');
+    let urlInput = document.getElementById('linkUrlInput');
+    if(!titleInput || !urlInput || !titleInput.value || !urlInput.value) { 
+      showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); 
+      return; 
+    }
+    customLinks.push({ id: Date.now(), title: titleInput.value, url: urlInput.value });
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
     renderFullAdminView();
     showToast('नवीन लिंक यशस्वीपणे जोडली! 🚀');
@@ -873,10 +896,9 @@
     customLinks = customLinks.filter(l => l.id !== id);
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
     renderFullAdminView();
-    showToast('लिंक काढून टाकली! 🗑️');
+    showToast('लिंक काढून टाकाली! 🗑️');
   }
 
-  /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK */
   function sendSingleLinkNotification(title, url) {
     if (!("Notification" in window)) {
       showCustomAlert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
@@ -902,10 +924,13 @@
   }
 
   function addNewTab() {
-    let name = document.getElementById('newTabNameInput').value;
-    let id = document.getElementById('newTabIdInput').value;
-    if(!name || !id) { showCustomAlert('टॅबचे नाव आणि आयडी भरा.'); return; }
-    navTabs.push({ id, name });
+    let nameInput = document.getElementById('newTabNameInput');
+    let idInput = document.getElementById('newTabIdInput');
+    if(!nameInput || !idInput || !nameInput.value || !idInput.value) { 
+      showCustomAlert('टॅबचे नाव आणि आयडी भरा.'); 
+      return; 
+    }
+    navTabs.push({ id: idInput.value, name: nameInput.value });
     localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
     renderNavTabs();
     renderFullAdminView();
@@ -921,14 +946,19 @@
   }
 
   function addNewPrivateSchool() {
-    let name = document.getElementById('p_name').value;
+    let nameInput = document.getElementById('p_name');
+    let totalInput = document.getElementById('p_total');
+    if(!nameInput || !totalInput || !nameInput.value || !totalInput.value) { 
+      showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); 
+      return; 
+    }
+
+    let name = nameInput.value;
     let udise = document.getElementById('p_udise').value;
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
-    let total = document.getElementById('p_total').value;
+    let total = Number(totalInput.value);
     let hmStr = document.getElementById('p_hm').value;
-
-    if(!name || !total) { showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); return; }
 
     let privates = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
     let newSchool = {
@@ -964,16 +994,16 @@
     });
   }
 
-  /* FULL-PAGE VERTICAL SCHOOL VIEW (ONLY HEADMASTER INFO) */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
     if(!s) return;
 
-    history.pushState({view: 'school', schoolId: schoolId}, "", "#school-" + schoolId);
+    history.pushState({view: 'school', schoolId: schoolId, type: type}, "", "#school-" + schoolId);
 
     let container = document.getElementById('mainContainerViews');
-    let hm = s.teachers[0];
+    if(!container) return;
+    let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
     
     let totalBoys = 0, totalGirls = 0, grandTotal = 0;
     let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, obj]) => {
@@ -1049,7 +1079,6 @@
     history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
-  /* SUMMARY HTML WITH ZP & PRIVATE COUNTS MANAGED VIA ADMIN */
   function renderSummaryHtml() {
     let zpSchoolsCount = globalZpSchoolsCount;
     let zpTeachersCount = globalZpTeachersCount;
