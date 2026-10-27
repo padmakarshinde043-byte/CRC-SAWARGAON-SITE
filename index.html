@@ -27,7 +27,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 60px; }
 
-  header { background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 50%, #ECFDF5 100%); color: var(--text-main); padding: 1rem; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--accent-orange); display: flex; align-items: center; gap: 12px; }
+  /* Header with Vibrant Tiranga Background */
+  header { background: linear-gradient(135deg, rgba(255, 153, 51, 0.3) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(19, 136, 8, 0.3) 100%); color: var(--text-main); padding: 1rem; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--accent-orange); display: flex; align-items: center; gap: 12px; }
   .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--accent-orange); flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
   .header-text { text-align: left; flex-grow: 1; }
@@ -98,7 +99,7 @@
   #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent-green); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(19, 136, 8, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  /* Modal for Admin Panel */
+  /* Admin Modal */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 17, 33, 0.6); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 12px; }
   .modal-box { background: white; border-radius: var(--radius-lg); max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 18px; box-shadow: var(--shadow-md); border: 1px solid var(--border); }
   .modal-box h3 { color: var(--navy-600); font-size: 1.05rem; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 6px; }
@@ -113,10 +114,10 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- HEADER -->
+<!-- HEADER WITH TRICOLOR BACKGROUND & ZP BEED LOGO -->
 <header>
   <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
-    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="ZP Beed Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>ZP</text></svg>'">
+    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="ZP Beed Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%23FF9933\'/><circle cx=\'25\' cy=\'25\' r=\'20\' fill=\'white\'/><text x=\'50%\' y=\'55%\' fill=\'%23138808\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>ZP</text></svg>'">
   </div>
   <div class="header-text">
     <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
