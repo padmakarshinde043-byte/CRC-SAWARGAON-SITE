@@ -16,38 +16,41 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; }
-  body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 40px; }
+  body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
   /* Compact Rich Tricolor Header */
-  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.5rem 0.8rem; box-shadow: 0 3px 12px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; display: flex; align-items: center; gap: 10px; }
-  .header-logo-box { width: 45px; height: 45px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #FF9933; flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.6rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; display: flex; align-items: center; gap: 12px; }
+  .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #FF9933; flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
   .header-text { text-align: left; flex-grow: 1; cursor: pointer; }
-  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1.5px solid #FF9933; color: #FFEDD5; font-size: 0.68rem; font-weight: 800; padding: 1px 8px; border-radius: 20px; margin-bottom: 2px; }
-  header h1 { font-size: 1.1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
-  header p { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
+  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 20px; margin-bottom: 3px; }
+  header h1 { font-size: 1.15rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
+  header p { font-size: 0.78rem; color: #E2E8F0; font-weight: 600; }
 
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 6px 10px; font-size: 0.85rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
 
-  /* Compact Single Line Rectangle Navigation Tabs with Larger Font */
-  .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 10px rgba(0,0,0,0.04); padding: 6px 8px; }
+  /* Single Line Rectangle Navigation Tabs */
+  .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 8px 10px; }
   .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 6px; justify-content: center; align-items: center; }
-  .nav-tab { flex: 1; max-width: 150px; text-align: center; padding: 8px 6px; font-size: 1rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 6px; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.03); white-space: nowrap; }
-  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); border-color: #1B365D; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+  .nav-tab { flex: 1; max-width: 150px; text-align: center; padding: 9px 8px; font-size: 0.88rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 6px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); white-space: nowrap; }
+  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); border-color: #1B365D; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
 
-  .container { max-width: 1100px; margin: 0.8rem auto; padding: 0 8px; }
-  .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 12px; padding: 0.9rem; margin-bottom: 0.9rem; border: 1.5px solid var(--border); box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05); }
-  .card-title { font-size: 1.05rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 6px; }
+  .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 12px; }
+  .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
+  .card-title { font-size: 1.15rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; }
 
-  /* Compact Soft Pastel School Capsules */
-  .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
+  /* Distinct Prominent Links Section */
+  .links-prominent-card { background: #FEF3C7 !important; border: 2.5px solid #D97706 !important; box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15) !important; }
+
+  /* Soft Pastel School Capsules */
+  .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
-  .school-capsule { padding: 10px 6px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 44px; word-break: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.03); border: 1.5px solid rgba(0,0,0,0.06); }
+  .school-capsule { padding: 13px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.25s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 54px; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1.5px solid rgba(0,0,0,0.06); }
   .school-capsule:hover { transform: translateY(-2px); filter: brightness(0.97); }
 
-  .dynamic-links-box { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-  .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 20px; text-decoration: none; font-weight: 800; font-size: 0.82rem; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1.5px solid rgba(0,0,0,0.06); transition: 0.2s; }
+  .dynamic-links-box { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1.5px solid rgba(0,0,0,0.06); transition: 0.2s; }
   .link-capsule:hover { transform: scale(1.01); filter: brightness(0.96); }
 
   /* 1.5x Larger Font Size for Report and Summary Tabs */
@@ -55,26 +58,26 @@
   #reportTab label, #reportTab .form-control, #reportTab .radio-label, #reportTab .btn,
   #summaryTab table th, #summaryTab table td, #summaryTab .card-title span { font-size: 1.15rem !important; }
 
-  .form-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; }
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
   @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #1E3A8A; }
-  .form-control { padding: 9px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1.1rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+  .form-group label { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; color: #1E3A8A; }
+  .form-control { padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.1rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
   .form-control:focus { border-color: #FF9933; box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15); }
 
-  .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 5px; margin: 4px 0; }
+  .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 4px 0; }
   @media(min-width: 500px) { .radio-box-group { grid-template-columns: repeat(3, 1fr); } }
-  .radio-label { border: 2px solid var(--border); padding: 8px 10px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: 800; font-size: 1.1rem; background: #FAFAFA; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .radio-label { border: 2px solid var(--border); padding: 10px 12px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 800; font-size: 1.1rem; background: #FAFAFA; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
   input[type="radio"]:checked + .radio-label { border-color: #FF9933; background: #FFF7ED; color: #C2410C; }
   input[type="radio"] { display: none; }
 
-  .table-responsive { overflow-x: auto; margin-top: 6px; border-radius: 8px; border: 2px solid var(--border); background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+  .table-responsive { overflow-x: auto; margin-top: 6px; border-radius: 10px; border: 2px solid var(--border); background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
   table { width: 100%; border-collapse: collapse; text-align: center; }
-  th, td { padding: 7px 5px; border: 1px solid #CBD5E1; font-weight: 700; }
+  th, td { padding: 9px 7px; border: 1px solid #CBD5E1; font-weight: 700; }
   th { background: #1B365D; color: white; font-weight: 800; }
   tr:nth-child(2n) { background: #F8FAFC; }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px; font-size: 1.1rem; font-weight: 800; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 16px; font-size: 1.1rem; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   @media(min-width: 500px) { .btn { width: auto; } }
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: #1B365D; color: white; }
@@ -83,15 +86,15 @@
   .btn-danger { background: #EF4444; color: white; }
   .btn-outline { background: white; border: 2px solid #1B365D; color: #1B365D; }
 
-  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 10px 20px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
+  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
   /* Custom Modals (Admin Login & Confirmation) */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
-  .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
-  .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; border-bottom: 2px solid #F1F5F9; padding-bottom: 6px; }
+  .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
+  .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
 
-  footer { text-align: center; padding: 14px; font-size: 0.8rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 1.5rem; background: white; box-shadow: 0 -3px 10px rgba(0,0,0,0.03); }
+  footer { text-align: center; padding: 18px; font-size: 0.85rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2.5rem; background: white; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -306,6 +309,9 @@
   ];
   let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
 
+  let globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count')) || 20;
+  let globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count')) || 73;
+
   let pendingReportData = null;
 
   function handleHeaderClick() {
@@ -418,8 +424,8 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
-        <div class="card" style="border: 2px dashed #F59E0B; background: #FFFBEB;">
-          <div class="card-title" style="color: #D97706;">
+        <div class="card links-prominent-card">
+          <div class="card-title" style="color: #B45309;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
           </div>
           <div class="dynamic-links-box">
@@ -590,7 +596,7 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW (STAYS OPEN ON SAVE) */
+  /* FULL-SIZE ADMIN PANEL VIEW (DOES NOT AUTO-EXIT, INCLUDES ZP COUNTS & INST TYPE) */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
@@ -624,7 +630,23 @@
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
-        <!-- ENHANCED: Class-wise Manual Strength Edit Feature -->
+        <!-- ZP Schools & Teachers Count Manager -->
+        <div style="background:#EFF6FF; padding:14px; border-radius:10px; border:2px solid #3B82F6; margin-bottom:15px;">
+          <h4 style="font-size:1rem; color:#1D4ED8; margin-bottom:8px;">🏫 जि.प. शाळा व शिक्षक संख्या व्यवस्थापन:</h4>
+          <div class="form-grid" style="margin-bottom:8px;">
+            <div class="form-group">
+              <label>जि.प. शाळांची संख्या:</label>
+              <input type="number" id="adm_zp_schools_count" class="form-control" value="${globalZpSchoolsCount}">
+            </div>
+            <div class="form-group">
+              <label>जि.प. शिक्षकांची संख्या:</label>
+              <input type="number" id="adm_zp_teachers_count" class="form-control" value="${globalZpTeachersCount}">
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
+        </div>
+
+        <!-- Class-wise Manual Strength Edit Feature -->
         <div style="background:#FFFBEB; padding:14px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#D97706; margin-bottom:8px;">✏️ शाळा व वर्गानुसार पटसंख्या बदला (Class-wise Edit):</h4>
           <div class="form-grid" style="margin-bottom:8px;">
@@ -651,6 +673,31 @@
           <button class="btn btn-warning" onclick="manualUpdateClassStrength()">वर्गवार पटसंख्या जतन करा 💾</button>
         </div>
 
+        <!-- Add Private School with Institution Type Dropdown & Teacher Count -->
+        <div style="background:#FDF2F8; padding:14px; border-radius:10px; border:2px solid #EC4899; margin-bottom:15px;">
+          <h4 style="font-size:1rem; color:#9D174D; margin-bottom:8px;">➕ खाजगी/संस्थेची शाळा जोडा (Add Private School):</h4>
+          <div class="form-grid" style="margin-bottom:8px;">
+            <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English)">
+            <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
+            <div class="form-group">
+              <label>संस्थेचा प्रकार:</label>
+              <select id="p_type_select" class="form-control">
+                <option value="खाजगी अनुदानित">खाजगी अनुदानित</option>
+                <option value="खाजगी विना अनुदानित">खाजगी विना अनुदानित</option>
+                <option value="समाज कल्याण विभाग">समाज कल्याण विभाग</option>
+                <option value="इंग्रजी स्कूल">इंग्रजी स्कूल</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>शिक्षक संख्या:</label>
+              <input type="number" id="p_teachers_count" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
+            </div>
+            <input type="number" id="p_total" class="form-control" placeholder="एकूण विद्यार्थी पट">
+            <input type="text" id="p_hm" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
+          </div>
+          <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
+        </div>
+
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
           <div style="margin-bottom:10px;">${linksAdminHtml}</div>
@@ -661,7 +708,7 @@
           <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
+        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
           <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
           <div class="form-grid" style="margin-bottom:6px;">
@@ -670,21 +717,17 @@
           </div>
           <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
         </div>
-
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">➕ खाजगी शाळा जोडा (Add Private School):</h4>
-          <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English)">
-            <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
-            <input type="text" id="p_classes" class="form-control" placeholder="वर्ग (उदा. 1 To 8)">
-            <input type="number" id="p_total" class="form-control" placeholder="एकूण विद्यार्थी पट">
-            <input type="text" id="p_hm" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
-          </div>
-          <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
-        </div>
       </div>
     `;
     setTimeout(loadClassStrengthForAdmin, 100);
+  }
+
+  function updateZpCounts() {
+    globalZpSchoolsCount = Number(document.getElementById('adm_zp_schools_count').value) || 20;
+    globalZpTeachersCount = Number(document.getElementById('adm_zp_teachers_count').value) || 73;
+    localStorage.setItem('sawargaon_zp_schools_count', globalZpSchoolsCount);
+    localStorage.setItem('sawargaon_zp_teachers_count', globalZpTeachersCount);
+    showToast('जि.प. शाळा व शिक्षक संख्या अपडेट झाली! ✅');
   }
 
   function loadClassStrengthForAdmin() {
@@ -729,8 +772,7 @@
       } else {
         localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
       }
-      showToast('वर्गवार पटसंख्या यशस्वीपणे अपडेट झाली! ✅');
-      // Admin panel stays open as requested!
+      showToast('वर्गवार पटसंख्या यशस्वीपणे अपडेट झाली! ✅ (पॅनल सुरू आहे)');
     }
   }
 
@@ -782,7 +824,8 @@
   function addNewPrivateSchool() {
     let name = document.getElementById('p_name').value;
     let udise = document.getElementById('p_udise').value;
-    let classes = document.getElementById('p_classes').value;
+    let instType = document.getElementById('p_type_select').value;
+    let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = document.getElementById('p_total').value;
     let hmStr = document.getElementById('p_hm').value;
 
@@ -791,12 +834,13 @@
     let privates = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
     let newSchool = {
       id: Date.now(),
-      name: name,
+      name: `${name} (${instType})`,
       udise: udise || "N/A",
-      classes: classes || "1 To 4",
-      total: Number(total),
+      classes: "1 To 8",
       type: "PRIVATE",
+      instType: instType,
       teachers: [{name: hmStr || "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      teacherCount: teachersCount,
       classCounts: {"वर्ग 1": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}},
       categoryCounts: {"SC": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
     };
@@ -821,7 +865,7 @@
     });
   }
 
-  /* FULL-PAGE VERTICAL SCHOOL VIEW (ONLY HEADMASTER INFO) */
+  /* FULL-PAGE VERTICAL SCHOOL VIEW */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
@@ -862,7 +906,7 @@
         </div>
         <div style="font-size: 0.95rem; line-height: 1.6;">
           <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'}</p>
-          <p><strong>वर्ग:</strong> ${s.classes} | <strong>एकूण पट:</strong> ${grandTotal}</p>
+          <p><strong>वर्ग:</strong> ${s.classes || '1 To 8'} | <strong>एकूण पट:</strong> ${grandTotal}</p>
           
           <div style="margin: 10px 0; background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border);">
             <strong>मुख्याध्यापक व मोबाईल क्रमांक:</strong><br>
@@ -906,15 +950,12 @@
     history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
-  /* SUMMARY HTML WITH BOYS, GIRLS, TOTAL COLUMNS */
+  /* SUMMARY HTML WITH ZP & PRIVATE COUNTS MANAGED VIA ADMIN */
   function renderSummaryHtml() {
-    let zpSchools = zpschoolsData;
-    let privSchools = privateSchoolsData;
-
-    let zpTotalSchools = zpSchools.length;
-    let zpTeachers = 73;
+    let zpSchoolsCount = globalZpSchoolsCount;
+    let zpTeachersCount = globalZpTeachersCount;
     let zpBoys = 0, zpGirls = 0;
-    zpSchools.forEach(s => {
+    zpschoolsData.forEach(s => {
       Object.values(s.classCounts || {}).forEach(obj => {
         let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
         let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
@@ -924,10 +965,10 @@
     });
     let zpTotalStud = zpBoys + zpGirls;
 
-    let privTotalSchools = privSchools.length;
-    let privTeachers = privSchools.reduce((acc, s) => acc + (s.teachers ? s.teachers.length : 1), 0);
+    let privTotalSchools = privateSchoolsData.length;
+    let privTeachers = privateSchoolsData.reduce((acc, s) => acc + (s.teacherCount || 2), 0);
     let privBoys = 0, privGirls = 0;
-    privSchools.forEach(s => {
+    privateSchoolsData.forEach(s => {
       Object.values(s.classCounts || {}).forEach(obj => {
         let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
         let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
@@ -937,8 +978,8 @@
     });
     let privTotalStud = privBoys + privGirls;
 
-    let combSchools = zpTotalSchools + privTotalSchools;
-    let combTeachers = zpTeachers + privTeachers;
+    let combSchools = zpSchoolsCount + privTotalSchools;
+    let combTeachers = zpTeachersCount + privTeachers;
     let combBoys = zpBoys + privBoys;
     let combGirls = zpGirls + privGirls;
     let combTotalStud = zpTotalStud + privTotalStud;
@@ -950,7 +991,7 @@
           <table>
             <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
             <tbody>
-              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">शाळा: ${zpTotalSchools} | शिक्षक: ${zpTeachers}</td></tr>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">शाळा: ${zpSchoolsCount} | शिक्षक: ${zpTeachersCount}</td></tr>
               <tr><td>विद्यार्थी पटसंख्या</td><td>${zpBoys}</td><td>${zpGirls}</td><td style="font-weight:800; color:#1D4ED8;">${zpTotalStud}</td></tr>
             </tbody>
           </table>
