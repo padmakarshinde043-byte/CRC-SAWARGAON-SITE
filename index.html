@@ -19,18 +19,19 @@
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
   /* Professional Attractive Rich Header */
-  header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 1.1rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; text-align: center; cursor: pointer; }
-  header .header-main-title { font-size: 1.35rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px; margin-bottom: 3px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-  header .header-sub-title { font-size: 0.92rem; font-weight: 700; color: #E2E8F0; letter-spacing: 0.3px; }
+  header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; text-align: center; cursor: pointer; }
+  header .header-main-title { font-size: 1.3rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  header .header-sub-title { font-size: 0.88rem; font-weight: 700; color: #E2E8F0; letter-spacing: 0.3px; }
 
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  /* Compact Marquee Ticker */
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 4px 8px; font-size: 0.82rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; height: 28px; display: flex; align-items: center; }
   .marquee-bar marquee { width: 100%; }
 
-  /* Single Line Rectangle Navigation Tabs */
+  /* Stunning Rectangle Navigation Tabs with Orange & Green Glow Shading */
   .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 8px 10px; }
-  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 6px; justify-content: center; align-items: center; }
-  .nav-tab { flex: 1; max-width: 150px; text-align: center; padding: 9px 8px; font-size: 0.88rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 6px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); white-space: nowrap; }
-  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); border-color: #1B365D; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 8px; justify-content: center; align-items: center; }
+  .nav-tab { flex: 1; max-width: 160px; text-align: center; padding: 11px 10px; font-size: 1.05rem; font-weight: 800; color: #1E3A8A; border: 2px solid #CBD5E1; background: #F8FAFC; cursor: pointer; border-radius: 8px; transition: 0.25s; box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15), 0 3px 10px rgba(16, 185, 129, 0.15); white-space: nowrap; }
+  .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); border-color: #1B365D; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); }
 
   .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 12px; }
   .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
@@ -85,7 +86,7 @@
   #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  /* Custom Modals (Admin Login & Confirmation) */
+  /* Custom Modals (Admin Login, Confirmation & Custom Alerts) */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
   .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
   .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
@@ -100,7 +101,18 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- SECURE ADMIN LOGIN MODAL (NO HINT) -->
+<!-- CUSTOM CUSTOM ALERT / INFO MODAL (REPLACES GITHUB BROWSER ALERT) -->
+<div class="modal-overlay" id="customAlertModal">
+  <div class="modal-box">
+    <h3>📢 सूचना</h3>
+    <div id="customAlertBody" style="font-size: 1.05rem; font-weight: 700; line-height: 1.6; margin-bottom: 20px; color: #334155;"></div>
+    <div style="text-align: right;">
+      <button class="btn btn-primary" style="width: auto; padding: 8px 20px;" onclick="closeCustomAlert()">ओके</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECURE ADMIN LOGIN MODAL -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal-box">
     <h3>🔐 ॲडमिन गुप्त पिन</h3>
@@ -125,7 +137,7 @@
   </div>
 </div>
 
-<!-- PROFESSIONAL TWO-LINE HEADER WITH STRICT 3-CLICK ADMIN TRIGGER (NO LOGO) -->
+<!-- PROFESSIONAL TWO-LINE HEADER WITH STRICT 3-CLICK ADMIN TRIGGER -->
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-main-title">समूह साधन केंद्र सावरगाव</div>
   <div class="header-sub-title">तालुका माजलगाव जिल्हा बीड</div>
@@ -306,6 +318,15 @@
   let clickTimer = null;
   let pendingReportData = null;
 
+  function showCustomAlert(message) {
+    document.getElementById('customAlertBody').textContent = message;
+    document.getElementById('customAlertModal').style.display = 'flex';
+  }
+
+  function closeCustomAlert() {
+    document.getElementById('customAlertModal').style.display = 'none';
+  }
+
   function handleHeaderClick() {
     clickCount++;
     clearTimeout(clickTimer);
@@ -332,7 +353,7 @@
       renderFullAdminView();
       history.pushState({view: 'admin'}, "", "#adminPanel");
     } else {
-      alert("चुकीचा पिन! कृपया बरोबर पिन टाका.");
+      showCustomAlert("चुकीचा पिन! कृपया बरोबर पिन टाका.");
     }
   }
 
@@ -418,7 +439,7 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
-        <!-- Distinct Prominent Glossy Purple Links Section -->
+        <!-- Prominent Glossy Purple Links Section -->
         <div class="card links-glossy-purple">
           <div class="card-title" style="color: #7E22CE;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
@@ -499,13 +520,30 @@
     renderReportDropdown();
   }
 
+  function toggleReportFields(show) {
+    let dynamicDiv = document.getElementById('dynamicChangeFields');
+    if(show) {
+      dynamicDiv.style.display = 'block';
+    } else {
+      dynamicDiv.style.display = 'none';
+    }
+  }
+
   function prepareReportSubmit() {
     let schoolName = document.getElementById('mr_school').value;
-    if(!schoolName) { alert('कृपया शाळा निवडा!'); return; }
+    if(!schoolName) { showCustomAlert('कृपया शाळा निवडा!'); return; }
 
     let changeType = document.querySelector('input[name="changeType"]:checked').value;
+    
+    // If option A ("बदल नाही") is selected, accept immediately without requiring increase/decrease details
     if(changeType === 'none') {
-      alert('कृपया पटसंख्येत झालेला बदल (वाढ किंवा घट) निवडा.');
+      pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
+      document.getElementById('confirmModalBody').innerHTML = `
+        शाळा: <b>${schoolName}</b><br>
+        नोंद: <b>मागील महिना अहवालानुसार पटसंख्येत कुठलाही बदल नाही.</b><br><br>
+        ही माहिती कन्फर्म करायची का?
+      `;
+      document.getElementById('confirmModal').style.display = 'flex';
       return;
     }
 
@@ -544,7 +582,8 @@
 
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
-    if(school) {
+    
+    if(school && changeType !== 'none') {
       if(!school.classCounts[cls]) { school.classCounts[cls] = {boys: 0, girls: 0}; }
       if(typeof school.classCounts[cls] === 'number') {
         let oldTotal = school.classCounts[cls];
@@ -801,7 +840,7 @@
   /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK */
   function sendSingleLinkNotification(title, url) {
     if (!("Notification" in window)) {
-      alert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
+      showCustomAlert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
       return;
     }
 
@@ -818,7 +857,7 @@
 
         showToast('सदर लिंकसाठी नोटिफिकेशन पाठवले गेले! 🔔');
       } else {
-        alert("नोटिफिकेशन परवानगी नाकारण्यात आली आहे.");
+        showCustomAlert("नोटिफिकेशन परवानगी नाकारण्यात आली आहे.");
       }
     });
   }
