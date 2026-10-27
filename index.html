@@ -9,9 +9,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <style>
-  /* ==========================================================
-     SECTION 0: CSS VARIABLES & GLOBAL STYLES (वैश्विक डिझाईन शैली)
-     ========================================================== */
   :root {
     --navy-900: #061121;
     --navy-800: #0D1F38;
@@ -25,117 +22,110 @@
     --text-muted: #64748B;
     --border: #E2E8F0;
     --gold: #D97706;
-    --gold-light: #FEF3C7;
     --green: #10B981;
     --green-light: #D1FAE5;
     --red: #EF4444;
     --red-light: #FEE2E2;
-    --radius-lg: 16px;
-    --radius-md: 10px;
-    --radius-sm: 6px;
+    --radius-lg: 14px;
+    --radius-md: 8px;
+    --radius-sm: 4px;
     --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
-    --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 70px; }
 
-  /* ==========================================================
-     SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
-     ========================================================== */
-  header { background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-600) 100%); color: white; padding: 1.4rem 1rem 1.2rem; text-align: center; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--navy-accent); }
-  .header-badge { display: inline-block; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #93C5FD; font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 6px; }
-  header h1 { font-size: 1.35rem; font-weight: 800; }
-  header p { font-size: 0.85rem; opacity: 0.88; margin-top: 4px; color: #CBD5E1; }
+  /* Header & Logo */
+  header { background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-600) 100%); color: white; padding: 1.2rem 1rem; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--navy-accent); display: flex; align-items: center; gap: 12px; }
+  .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+  .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .header-text { text-align: left; flex-grow: 1; }
+  .header-badge { display: inline-block; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25); color: #93C5FD; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-bottom: 4px; }
+  header h1 { font-size: 1.2rem; font-weight: 800; line-height: 1.3; }
+  header p { font-size: 0.78rem; opacity: 0.88; margin-top: 2px; color: #CBD5E1; }
 
-  /* मारकी (Marquee) कस्टम मेसेज पट्टी */
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 700; border-bottom: 1.5px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  /* Marquee */
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 6px 10px; font-size: 0.82rem; font-weight: 700; border-bottom: 1.5px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
 
-  /* ==========================================================
-     SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन टॅब्ज)
-     ========================================================== */
-  .nav-container { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 10px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  /* Navigation Tabs */
+  .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 8px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab { flex: 1; min-width: 130px; text-align: center; padding: 10px 12px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.25s; }
-  .nav-tab.active { color: white; background: linear-gradient(135deg, var(--navy-700), var(--navy-600)); box-shadow: 0 4px 10px rgba(27, 54, 93, 0.25); }
+  .nav-tab { flex: 1; min-width: 110px; text-align: center; padding: 8px 10px; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.2s; }
+  .nav-tab.active { color: white; background: linear-gradient(135deg, var(--navy-700), var(--navy-600)); box-shadow: 0 3px 8px rgba(27, 54, 93, 0.25); }
 
-  .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 14px; }
-  .card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.4rem; margin-bottom: 1.4rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-  .card-title { font-size: 1.1rem; font-weight: 800; color: var(--navy-800); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1.2rem; border-bottom: 1px solid var(--navy-subtle); padding-bottom: 10px; }
+  .container { max-width: 1100px; margin: 1rem auto; padding: 0 12px; }
+  .card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.2rem; margin-bottom: 1.2rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .card-title { font-size: 1.05rem; font-weight: 800; color: var(--navy-800); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; border-bottom: 1px solid var(--navy-subtle); padding-bottom: 8px; }
 
-  /* ==========================================================
-     SECTION 3: DASHBOARD & SCHOOL CAPSULES (डॅशबोर्ड व शाळा कॅप्सूल)
-     ========================================================== */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 1.4rem; }
-  .stat-card { background: white; padding: 15px 10px; border-radius: var(--radius-lg); border-top: 4px solid var(--navy-accent); box-shadow: var(--shadow-sm); text-align: center; }
-  .stat-card h3 { font-size: 0.78rem; color: var(--text-muted); font-weight: 700; }
-  .stat-card .num { font-size: 1.5rem; font-weight: 800; color: var(--navy-800); margin-top: 4px; }
+  /* Stats Grid */
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1.2rem; }
+  @media(min-width: 600px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+  .stat-card { background: white; padding: 12px 8px; border-radius: var(--radius-lg); border-top: 4px solid var(--navy-accent); box-shadow: var(--shadow-sm); text-align: center; }
+  .stat-card h3 { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
+  .stat-card .num { font-size: 1.35rem; font-weight: 800; color: var(--navy-800); margin-top: 2px; }
 
-  .capsule-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; margin-bottom: 20px; }
-  .school-capsule { background: var(--navy-subtle); border: 1.5px solid var(--border); color: var(--navy-800); padding: 8px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-  .school-capsule:hover { background: var(--navy-600); color: white; border-color: var(--navy-600); transform: translateY(-2px); }
+  /* 4 Capsules per row on mobile */
+  .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+  @media(min-width: 450px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
+  .school-capsule { background: var(--navy-subtle); border: 1.5px solid var(--border); color: var(--navy-800); padding: 8px 6px; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 48px; line-height: 1.2; word-break: break-word; }
+  .school-capsule:hover { background: var(--navy-600); color: white; border-color: var(--navy-600); transform: translateY(-1px); }
 
-  /* ==========================================================
-     SECTION 3.5: DYNAMIC DATA COLLECTION LINKS (डेटा कलेक्शन लिंक्स व ग्लोईंग कॅप्सूल)
-     ========================================================== */
-  .dynamic-links-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 12px 18px; border-radius: 30px; text-decoration: none; color: var(--navy-800); font-weight: 700; font-size: 0.95rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
-  .link-capsule:hover { border-color: var(--navy-accent); background: #F8FAFC; transform: scale(1.01); }
-  
-  /* ग्लोईंग व फ्लॅशिंग इफेक्ट्स */
-  .glow-effect { border-color: #3B82F6; box-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
+  /* Dynamic Link Capsules */
+  .dynamic-links-box { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 10px 14px; border-radius: 30px; text-decoration: none; color: var(--navy-800); font-weight: 700; font-size: 0.88rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
+  .link-capsule:hover { border-color: var(--navy-accent); background: #F8FAFC; }
+  .glow-effect { border-color: #3B82F6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.35); }
   @keyframes flashRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-  .blink-star { color: #DC2626; font-size: 1.1rem; animation: flashRed 1s infinite; margin-left: 6px; }
+  .blink-star { color: #DC2626; font-size: 1rem; animation: flashRed 1s infinite; margin-left: 4px; }
 
-  /* ==========================================================
-     SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
-     ========================================================== */
-  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 15px; }
+  /* Forms */
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
+  @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: var(--navy-700); }
-  .form-control { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; outline: none; background: white; color: var(--text-main); }
-  .form-control:focus { border-color: var(--navy-accent); box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.12); }
+  .form-group label { font-size: 0.82rem; font-weight: 700; margin-bottom: 5px; color: var(--navy-700); }
+  .form-control { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.9rem; outline: none; background: white; color: var(--text-main); width: 100%; }
+  .form-control:focus { border-color: var(--navy-accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
 
-  .radio-box-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 8px 0; }
-  .radio-label { border: 1.5px solid var(--border); padding: 12px 14px; border-radius: var(--radius-md); text-align: center; cursor: pointer; font-weight: 700; font-size: 0.85rem; background: #FAFAFA; }
+  .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 6px 0; }
+  @media(min-width: 500px) { .radio-box-group { grid-template-columns: repeat(3, 1fr); } }
+  .radio-label { border: 1.5px solid var(--border); padding: 10px 12px; border-radius: var(--radius-md); text-align: center; cursor: pointer; font-weight: 700; font-size: 0.82rem; background: #FAFAFA; }
   input[type="radio"]:checked + .radio-label { border-color: var(--navy-accent); background: var(--navy-subtle); color: var(--navy-accent); }
   input[type="radio"] { display: none; }
 
-  /* ==========================================================
-     SECTION 5: TABLES & BUTTONS (तक्ते आणि बटन्स)
-     ========================================================== */
-  .table-responsive { overflow-x: auto; margin-top: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 500px; box-shadow: var(--shadow-sm); }
-  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; }
-  th, td { padding: 10px 8px; border: 1px solid #E2E8F0; }
-  th { background: var(--navy-600); color: white; font-weight: 700; position: sticky; top: 0; z-index: 2; font-size: 0.8rem; }
+  /* Tables & Buttons */
+  .table-responsive { overflow-x: auto; margin-top: 8px; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 450px; }
+  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.82rem; min-width: 500px; }
+  th, td { padding: 8px 6px; border: 1px solid #E2E8F0; }
+  th { background: var(--navy-600); color: white; font-weight: 700; position: sticky; top: 0; z-index: 2; font-size: 0.78rem; }
   tr:nth-child(2n) { background: #F8FAFC; }
-  tr:hover { background: #F1F5F9; }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; font-size: 0.9rem; font-weight: 700; border-radius: var(--radius-md); border: none; cursor: pointer; transition: 0.2s; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; font-size: 0.88rem; font-weight: 700; border-radius: var(--radius-md); border: none; cursor: pointer; transition: 0.2s; width: 100%; }
+  @media(min-width: 500px) { .btn { width: auto; } }
   .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--navy-600); color: white; box-shadow: 0 4px 10px rgba(27, 54, 93, 0.2); }
+  .btn-primary { background: var(--navy-600); color: white; box-shadow: 0 3px 8px rgba(27, 54, 93, 0.2); }
   .btn-success { background: var(--green); color: white; }
   .btn-danger { background: var(--red); color: white; }
   .btn-outline { background: white; border: 1.5px solid var(--navy-600); color: var(--navy-600); }
 
-  /* ==========================================================
-     SECTION 6: ADMIN PANEL & BACKEND MANAGEMENT (ॲडमिन पॅनल व बॅकएंड)
-     ========================================================== */
-  .admin-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); }
-  .admin-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
+  /* Admin Badges & Panel */
+  .admin-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; background: #F1F5F9; padding: 10px 12px; border-radius: var(--radius-md); border: 1px solid var(--border); }
+  .admin-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
   .badge-locked { background: var(--red-light); color: #991B1B; }
   .badge-unlocked { background: var(--green-light); color: #065F46; }
 
-  /* ==========================================================
-     SECTION 7: MODALS (पॉपअप विंडोज)
-     ========================================================== */
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 17, 33, 0.7); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-  .modal-box { background: white; border-radius: var(--radius-lg); max-width: 500px; width: 100%; padding: 24px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
-  .modal-box h3 { color: var(--navy-800); font-size: 1.15rem; margin-bottom: 12px; border-bottom: 2px solid var(--navy-subtle); padding-bottom: 8px; }
-  .modal-body { font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
-  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  /* Flash Message (Toast) */
+  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
+  #toastMessage.show { transform: translateX(-50%) translateY(0); }
+
+  /* Modals */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 17, 33, 0.7); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 12px; }
+  .modal-box { background: white; border-radius: var(--radius-lg); max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 18px; box-shadow: var(--shadow-md); border: 1px solid var(--border); }
+  .modal-box h3 { color: var(--navy-800); font-size: 1.05rem; margin-bottom: 10px; border-bottom: 2px solid var(--navy-subtle); padding-bottom: 6px; }
+  .modal-body { font-size: 0.85rem; margin-bottom: 16px; line-height: 1.5; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -143,256 +133,43 @@
 </head>
 <body>
 
-<!-- ==========================================================
-    HTML SECTION 1: HEADER & MARQUEE TICKER (हेडर व सरकणारा मेसेज)
-    ========================================================== -->
+<!-- Green Flash Toast Notification -->
+<div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
+
+<!-- HEADER WITH GITHUB LOGO -->
 <header>
-  <div class="header-badge">समूह साधन केंद्र सावरगाव · तालुका माजलगाव, जिल्हा बीड</div>
-  <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
-  <p>केंद्रातील सर्व शाळा, शिक्षक, पटसंख्या आणि डेटा कलेक्शन व्यवस्थापन</p>
+  <div class="header-logo-box">
+    <!-- तुमच्या GitHub वर अपलोड केलेल्या लोगोची Raw URL इथे टाका -->
+    <img src="https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/logo.png" alt="Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'16\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+  </div>
+  <div class="header-text">
+    <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
+    <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
+    <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
+  </div>
 </header>
 
 <div class="marquee-bar">
   <marquee scrollamount="5" id="marqueeTextDisplay">
-    📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या अद्ययावत करणे बंधनकारक आहे. नवीन डेटा कलेक्शन लिंक्स खालील भागात उपलब्ध केल्या आहेत.
+    📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या अद्ययावत करणे बंधनकारक आहे.
   </marquee>
 </div>
 
-<!-- ==========================================================
-    HTML SECTION 2: NAVIGATION TABS (मुख्य नेव्हिगेशन)
-    ========================================================== -->
+<!-- DYNAMIC NAVIGATION TABS CONTAINER -->
 <div class="nav-container">
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('dashboardTab')">🏠 १. डॅशबोर्ड व लिंक्स</button>
-    <button class="nav-tab" onclick="switchTab('reportTab')">📝 २. मासिक अहवाल सबमिट</button>
-    <button class="nav-tab" onclick="switchTab('summaryTab')">📊 ३. केंद्र गोषवारा</button>
-    <button class="nav-tab" onclick="switchTab('adminTab')">🔐 ४. बॅकएंड ॲडमिन पॅनल</button>
+  <div class="nav-tabs" id="navTabsContainer">
+    <!-- JS द्वारे रेंडर होईल -->
   </div>
 </div>
 
-<div class="container">
-
-  <!-- ==========================================================
-      HTML SECTION 3: DASHBOARD & DYNAMIC LINKS (डॅशबोर्ड व डेटा कलेक्शन लिंक्स)
-      ========================================================== -->
-  <div id="dashboardTab" class="tab-content active">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>एकूण शाळा</h3>
-        <div class="num">20</div>
-      </div>
-      <div class="stat-card">
-        <h3>जि.प. प्राथमिक शाळा</h3>
-        <div class="num">20</div>
-      </div>
-      <div class="stat-card">
-        <h3>खाजगी अनुदानित</h3>
-        <div class="num">0</div>
-      </div>
-      <div class="stat-card" style="border-top-color: var(--green);">
-        <h3>कार्यरत शिक्षक</h3>
-        <div class="num">73</div>
-      </div>
-    </div>
-
-    <!-- नवीन डेटा कलेक्शन लिंक्स सेक्शन (वेबसाईटचा खालचा अर्धा भाग) -->
-    <div class="card" style="border: 2px dashed var(--navy-accent); background: #F8FAFC;">
-      <div class="card-title" style="color: var(--navy-accent);">
-        <span>🔗 नवीन डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स (लिंक्स)</span>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-        केंद्र स्तरावरून पाठवलेल्या नवीन माहिती भरण्याच्या लिंक्स खालीलप्रमाणे आहेत. चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
-      </p>
-      <div class="dynamic-links-box" id="publicLinksContainer">
-        <!-- JS द्वारे बॅकएंडमधून जोडलेल्या लिंक्स इथे कॅप्सूल स्वरूपात लोड होतील -->
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">
-        <span>🏫 केंद्रांतर्गत शाळांची यादी (कॅप्सूल स्वरूपात)</span>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-        शाळेच्या नावावर क्लिक करून शिक्षक, मोबाईल नंबर व पटसंख्या पहा:
-      </p>
-      <div class="capsule-container" id="schoolCapsuleContainer"></div>
-    </div>
-  </div>
-
-  <!-- ==========================================================
-      HTML SECTION 4: MONTHLY REPORT FORM (मासिक अहवाल नोंदणी फॉर्म)
-      ========================================================== -->
-  <div id="reportTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span>
-      </div>
-      <div class="form-grid">
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label>शाळा निवडा:</label>
-          <select id="mr_school" class="form-control">
-            <option value="">-- शाळा निवडा --</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>मागील अहवालानंतर पटसंख्येत झालेला बदल निवडा:</label>
-        <div class="radio-box-group">
-          <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. कुठलाही बदल नाही</div></label>
-          <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. पटसंख्या वाढली</div></label>
-          <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. पटसंख्या कमी झाली</div></label>
-        </div>
-      </div>
-
-      <div id="dynamicChangeFields" style="display: none; background: #F8FAFC; padding: 14px; border-radius: var(--radius-md); border: 1.5px dashed var(--border); margin: 15px 0;">
-        <div style="font-weight: 800; color: var(--navy-600); margin-bottom: 10px; font-size: 0.9rem;">बदलाचा तपशील:</div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>इयत्ता:</label>
-            <select id="mr_class" class="form-control">
-              <option value="1">इयत्ता 1 ली</option>
-              <option value="2">इयत्ता 2 री</option>
-              <option value="3">इयत्ता 3 री</option>
-              <option value="4">इयत्ता 4 थी</option>
-              <option value="5">इयत्ता 5 वी</option>
-              <option value="6">इयत्ता 6 वी</option>
-              <option value="7">इयत्ता 7 वी</option>
-              <option value="8">इयत्ता 8 वी</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>प्रवर्ग (Category):</label>
-            <select id="mr_cat" class="form-control">
-              <option value="SC">अनुसूचित जाती (SC)</option>
-              <option value="ST">अनुसूचित जमाती (ST)</option>
-              <option value="VJ">विमुक्त जाती (VJ)</option>
-              <option value="NT">भटक्या जमाती (NT)</option>
-              <option value="SBC">विशेष मागास (SBC)</option>
-              <option value="OBC">ईतर मागास (OBC)</option>
-              <option value="GENERAL">खुला (GENERAL)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>लिंग:</label>
-            <select id="mr_gender" class="form-control">
-              <option value="मुलगा">मुलगा</option>
-              <option value="मुलगी">मुलगी</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>विद्यार्थी संख्या:</label>
-            <input type="number" id="mr_count" class="form-control" min="1" value="1">
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label>कारण / शेरा:</label>
-            <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
-          </div>
-        </div>
-      </div>
-
-      <div style="text-align: right; margin-top: 15px;">
-        <button class="btn btn-primary" onclick="submitReport()" style="min-width: 220px;">
-          📤 अहवाल सबमिट करा
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================
-      HTML SECTION 5: SUMMARY (केंद्र गोषवारा)
-      ========================================================== -->
-  <div id="summaryTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>📊 केंद्र-स्तरीय एकत्रित गोषवारा व सांख्यिकी</span>
-      </div>
-      <div class="table-responsive">
-        <table>
-          <thead><tr><th>घटक</th><th>संख्या / तपशील</th></tr></thead>
-          <tbody>
-            <tr><td>एकूण शाळा</td><td style="font-weight:700;">20</td></tr>
-            <tr><td>जि.प. प्राथमिक शाळा</td><td style="font-weight:700;">20</td></tr>
-            <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:700;">73</td></tr>
-            <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--gold);">1218 (मुले: 570, मुली: 648)</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================
-      HTML SECTION 6: BACKEND & ADMIN PANEL (बॅकएंड ॲडमिन पॅनल)
-      ========================================================== -->
-  <div id="adminTab" class="tab-content">
-    <div class="card">
-      <div class="card-title">
-        <span>🔐 गुप्त बॅकएंड ॲडमिन पॅनल (लिंक व मेसेज व्यवस्थापन)</span>
-        <span id="adminStatusBadge" class="admin-badge badge-locked">लॉक केले आहे (बंद)</span>
-      </div>
-
-      <div id="adminLoginBox" style="max-width: 360px; margin: 20px auto; text-align: center; background: #F8FAFC; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-        <p style="font-size: 0.9rem; margin-bottom: 12px; font-weight: 700; color: var(--navy-800);">ॲडमिन पॅनल उघडण्यासाठी पिन प्रविष्ट करा:</p>
-        <input type="password" id="adminPinInput" class="form-control" placeholder="4 अंकी ॲडमिन पिन टाका" style="text-align: center; margin-bottom: 10px;" maxlength="4">
-        <button class="btn btn-primary" onclick="verifyAdminPin()" style="width: 100%;">अनलॉक करा 🔓</button>
-      </div>
-
-      <div id="adminDashboardContent" style="display: none;">
-        <div style="background: #E0F2FE; border-left: 4px solid var(--navy-accent); padding: 12px; border-radius: 4px; margin-bottom: 20px; font-size: 0.88rem; color: #0369A1;">
-          ✅ बॅकएंड सक्रिय आहे. खालील साधनांद्वारे तुम्ही वेबसाईटवरील लिंक्स, मारकी मेसेज आणि शाळांच्या व्हॉट्सॲप मेसेज स्टेटस नियंत्रित करू शकता.
-        </div>
-
-        <!-- मारकी मेसेज बदलण्याची सोय -->
-        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
-          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">📢 सरकणारा कस्टम मेसेज (Marquee) बदल करा:</h4>
-          <input type="text" id="adminMarqueeInput" class="form-control" placeholder="मराठीत नवीन मेसेज लिहा..." style="margin-bottom: 8px;">
-          <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
-        </div>
-
-        <!-- नवीन डेटा कलेक्शन लिंक जोडण्याची सोय -->
-        <div style="background: #F8FAFC; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 20px;">
-          <h4 style="font-size: 0.95rem; color: var(--navy-800); margin-bottom: 8px;">➕ नवीन डेटा कलेक्शन लिंक जोडा:</h4>
-          <div class="form-grid" style="margin-bottom: 8px;">
-            <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंक्सचे नाव (उदा. यू डायस भरणा फॉर्म)">
-            <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
-          </div>
-          <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px; font-size: 0.85rem; font-weight: 700;">
-            <label><input type="checkbox" id="linkGlowInput"> ग्लो (Glow) इफेक्ट द्या</label>
-            <label><input type="checkbox" id="linkStarInput" checked> चमकणारा लाल स्टार (⭐ NEW) दाखवा</label>
-          </div>
-          <button class="btn btn-success" onclick="addNewLink()">लिंक जोड करा 🚀</button>
-        </div>
-
-        <!-- शाळांची यादी व व्हॉट्सॲप मेसेज ट्रॅकिंग सेक्शन -->
-        <h4 style="font-size: 1rem; color: var(--navy-800); margin-bottom: 10px;">💬 शाळानिहाय व्हॉट्सॲप रिमाइंडर व काम पूर्ण/अपूर्ण ट्रॅकिंग:</h4>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>अ.क्र.</th>
-                <th>शाळेचे नाव</th>
-                <th>मुख्याध्यापक व मोबाईल</th>
-                <th>कामाची स्थिती</th>
-                <th>व्हॉट्सॲप मेसेज पाठवा</th>
-              </tr>
-            </thead>
-            <tbody id="adminSchoolStatusTableBody">
-              <!-- JS द्वारे शाळा इथे लोड होतील -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<div class="container" id="mainContainerViews">
+  <!-- Dynamic Tab Contents will be injected here -->
 </div>
 
-<!-- ==========================================================
-    HTML SECTION 7: MODAL (शाळा माहिती पॉपअप)
-    ========================================================== -->
+<!-- SCHOOL DETAILS MODAL -->
 <div class="modal-overlay" id="schoolModal">
-  <div class="modal-box" style="max-width: 500px;">
-    <h3 id="modalSchoolName">शाळेचे नाव</h3>
+  <div class="modal-box">
+    <h3 id="modalSchoolName">शाळेची संपूर्ण माहिती</h3>
     <div class="modal-body" id="modalSchoolBody"></div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeSchoolModal()">बंद करा</button>
@@ -400,67 +177,345 @@
   </div>
 </div>
 
-<!-- ==========================================================
-    JAVASCRIPT SECTION: APP LOGIC & STATE (जावास्क्रिप्ट लॉजिक)
-    ========================================================== -->
 <script>
-  /* शाळांचा डेटा */
+  /* शाळांचा सविस्तर डेटा (शिक्षक, मोबाईल, वर्ग व पटसंख्या) */
   const schoolsData = [
-    { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", teachers: 9, hm: "SHINDE SAMADHAN HAMBIRRAO", phone: "9423733799", total: 150 },
-    { id: 2, name: "ZPPS (H) LIMGAON", udise: "27270709701", classes: "1 To 8", teachers: 8, hm: "LAVHALE SHIVAJI SUDAMRAO", phone: "9421279298", total: 172 },
-    { id: 3, name: "ZPPS MANGRUL NO 1", udise: "27270709801", classes: "1 To 8", teachers: 9, hm: "SHINDE UTTAM SHAMRAO", phone: "9421347161", total: 175 },
-    { id: 4, name: "ZPPS KITTI ADGAON", udise: "27270710301", classes: "1 To 7", teachers: 7, hm: "SWAMI VIRBHADRA PANCHAYYA", phone: "9422653562", total: 123 },
-    { id: 5, name: "ZPPS GOVINDWADI", udise: "27270704201", classes: "1 To 8", teachers: 6, hm: "KULKARNI MAHESH ACHYUTRAO", phone: "7875903695", total: 104 },
-    { id: 6, name: "ZPPS GUJAR PANCHSHIL NAGAR", udise: "27270710304", classes: "1 To 4", teachers: 6, hm: "TAUR INDER KASHINATHRAO", phone: "9604846442", total: 152 },
-    { id: 7, name: "ZPPS RAMPIMPALGAON", udise: "27270710001", classes: "1 To 5", teachers: 2, hm: "KAMBLE RAMESH BHAURAO", phone: "9421633621", total: 32 },
-    { id: 8, name: "ZPPS RATHODVASTI BARDITANDA", udise: "27270710202", classes: "1 To 5", teachers: 2, hm: "BANKAR PRAKASH ANNASAHEB", phone: "7350561562", total: 26 },
-    { id: 9, name: "ZPPS KAULITANDA PAITHALWADI", udise: "27270715602", classes: "1 To 5", teachers: 2, hm: "WAGHMARE AMIT LIMBAJI", phone: "9970548696", total: 22 },
-    { id: 10, name: "ZPPS PAITHALWADI", udise: "27270715601", classes: "1 To 5", teachers: 2, hm: "DESHMUKH RAVI SHRINIVASRAO", phone: "9403065744", total: 69 },
-    { id: 11, name: "ZPPS SHELAPURI", udise: "27270710501", classes: "1 To 5", teachers: 2, hm: "MUNDE RADHAKRISHNA BHAGWAN", phone: "9834940152", total: 29 },
-    { id: 12, name: "ZPPS MAULINAGAR LIMGAON", udise: "27270709702", classes: "1 To 4", teachers: 2, hm: "REDEWAR LAXMAN LALBA", phone: "9763673438", total: 14 },
-    { id: 13, name: "ZPPS VASANTNAGAR MANGRUL", udise: "27270709802", classes: "1 To 4", teachers: 2, hm: "JAGTAP SANGEETA RAMESH", phone: "7498108479", total: 3 },
-    { id: 14, name: "ZPPS MANGRUL NO 2", udise: "27270709901", classes: "1 To 4", teachers: 2, hm: "GAROLE TUKARAM SONBA", phone: "9823408706", total: 24 },
-    { id: 15, name: "ZPPS LAMANTANDA", udise: "27270710101", classes: "1 To 4", teachers: 2, hm: "BHAVSAR LAXMIKANT ARUNRAO", phone: "7588521738", total: 16 },
-    { id: 16, name: "ZPPS BARDITANDA", udise: "27270710201", classes: "1 To 4", teachers: 2, hm: "RAUT AMOL MANIKRAO", phone: "9421278871", total: 18 },
-    { id: 17, name: "ZPPS BHIM NAGAR KITTI ADGAON", udise: "27270710302", classes: "1 To 4", teachers: 2, hm: "KATHULE PURUSHOTTAM RAMKISAN", phone: "7020836930", total: 45 },
-    { id: 18, name: "ZPPS RENAPURI", udise: "27270710401", classes: "1 To 4", teachers: 2, hm: "MORE SOMESHWAR DAMODHARRAO", phone: "9421510528", total: 20 },
-    { id: 19, name: "ZPPS SHELAPURI/RENAPURI WASAHAT", udise: "27270710502", classes: "1 To 4", teachers: 2, hm: "SHEIKH SHAFIK DILDAR", phone: "8275798404", total: 3 },
-    { id: 20, name: "ZPPS KHANAPUR", udise: "27270710601", classes: "1 To 4", teachers: 2, hm: "TANGDE TUKARAM RAMBHAU", phone: "9890934032", total: 23 }
+    { id: 1, name: "सावरगाव", udise: "27270709601", classes: "1 ते 7", total: 150, 
+      teachers: [{name: "शिंदे समाधान हम्बीरराव (मु.अ.)", phone: "9423733799"}, {name: "पवार सर", phone: "9822112233"}],
+      classCounts: {"इ. १ ली": 22, "इ. २ री": 20, "इ. ३ री": 25, "इ. ४ थी": 23, "इ. ५ वी": 20, "इ. ६ वी": 20, "इ. ७ वी": 20},
+      categoryCounts: {"SC": 30, "ST": 20, "VJ": 15, "NT": 25, "SBC": 10, "OBC": 30, "GENERAL": 20}
+    },
+    { id: 2, name: "लिमगाव (H)", udise: "27270709701", classes: "1 ते 8", total: 172, 
+      teachers: [{name: "लव्हाळे शिवाजी सुदामराव (मु.अ.)", phone: "9421279298"}],
+      classCounts: {"इ. १ ली": 20, "इ. २ री": 22, "इ. ३ री": 20, "इ. ४ थी": 22, "इ. ५ वी": 22, "इ. ६ वी": 22, "इ. ७ वी": 22, "इ. ८ वी": 22},
+      categoryCounts: {"SC": 35, "ST": 25, "VJ": 12, "NT": 20, "SBC": 10, "OBC": 40, "GENERAL": 30}
+    },
+    { id: 3, name: "मंगरुळ नं. १", udise: "27270709801", classes: "1 ते 8", total: 175, 
+      teachers: [{name: "शिंदे उत्तम शामराव (मु.अ.)", phone: "9421347161"}],
+      classCounts: {"इ. १ ली": 21, "इ. २ री": 22, "इ. ३ री": 22, "इ. ४ थी": 22, "इ. ५ वी": 22, "इ. ६ वी": 22, "इ. ७ वी": 22, "इ. ८ वी": 22},
+      categoryCounts: {"SC": 40, "ST": 20, "VJ": 15, "NT": 20, "SBC": 10, "OBC": 40, "GENERAL": 30}
+    },
+    { id: 4, name: "किट्टी अडगाव", udise: "27270710301", classes: "1 ते 7", total: 123, 
+      teachers: [{name: "स्वामी वीरभद्र पंचाया (मु.अ.)", phone: "9422653562"}],
+      classCounts: {"इ. १ ली": 15, "इ. २ री": 18, "इ. ३ री": 18, "इ. ४ थी": 18, "इ. ५ वी": 18, "इ. ६ वी": 18, "इ. ७ वी": 18},
+      categoryCounts: {"SC": 25, "ST": 15, "VJ": 10, "NT": 15, "SBC": 8, "OBC": 30, "GENERAL": 20}
+    },
+    { id: 5, name: "गोविंदवाडी", udise: "27270704201", classes: "1 ते 8", total: 104, 
+      teachers: [{name: "कुलकर्णी महेश अच्युतराव (मु.अ.)", phone: "7875903695"}],
+      classCounts: {"इ. १ ली": 12, "इ. २ री": 13, "इ. ३ री": 13, "इ. ४ थी": 13, "इ. ५ वी": 13, "इ. ६ वी": 13, "इ. ७ वी": 13, "इ. ८ वी": 14},
+      categoryCounts: {"SC": 20, "ST": 10, "VJ": 10, "NT": 15, "SBC": 5, "OBC": 24, "GENERAL": 20}
+    },
+    { id: 6, name: "गुजर पंचशील नगर", udise: "27270710304", classes: "1 ते 4", total: 152, 
+      teachers: [{name: "ताऊर इंदर काशीनाथराव (मु.अ.)", phone: "9604846442"}],
+      classCounts: {"इ. १ ली": 35, "इ. २ री": 40, "इ. ३ री": 38, "इ. ४ थी": 39},
+      categoryCounts: {"SC": 45, "ST": 20, "VJ": 15, "NT": 22, "SBC": 10, "OBC": 25, "GENERAL": 15}
+    },
+    { id: 7, name: "रामपिंपळगाव", udise: "27270710001", classes: "1 ते 5", total: 32, 
+      teachers: [{name: "कांबळे रमेश भाऊराव (मु.अ.)", phone: "9421633621"}],
+      classCounts: {"इ. १ ली": 6, "इ. २ री": 6, "इ. ३ री": 7, "इ. ४ थी": 6, "इ. ५ वी": 7},
+      categoryCounts: {"SC": 10, "ST": 5, "VJ": 3, "NT": 4, "SBC": 2, "OBC": 5, "GENERAL": 3}
+    },
+    { id: 8, name: "राठोडवस्ती बर्डिटंडा", udise: "27270710202", classes: "1 ते 5", total: 26, 
+      teachers: [{name: "बणकर प्रकाश अण्णासाहेब (मु.अ.)", phone: "7350561562"}],
+      classCounts: {"इ. १ ली": 5, "इ. २ री": 5, "इ. ३ री": 5, "इ. ४ थी": 5, "इ. ५ वी": 6},
+      categoryCounts: {"SC": 5, "ST": 8, "VJ": 4, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
+    },
+    { id: 9, name: "कौलीटांडा पैथलवाडी", udise: "27270715602", classes: "1 ते 5", total: 22, 
+      teachers: [{name: "वाघमारे अमित लिंबाजी (मु.अ.)", phone: "9970548696"}],
+      classCounts: {"इ. १ ली": 4, "इ. २ री": 4, "इ. ३ री": 5, "इ. ४ थी": 4, "इ. ५ वी": 5},
+      categoryCounts: {"SC": 4, "ST": 6, "VJ": 3, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
+    },
+    { id: 10, name: "पैथलवाडी", udise: "27270715601", classes: "1 ते 5", total: 69, 
+      teachers: [{name: "देशमुख रवी श्रीनिवासराव (मु.अ.)", phone: "9403065744"}],
+      classCounts: {"इ. १ ली": 13, "इ. २ री": 14, "इ. ३ री": 14, "इ. ४ थी": 14, "इ. ५ वी": 14},
+      categoryCounts: {"SC": 12, "ST": 10, "VJ": 8, "NT": 10, "SBC": 4, "OBC": 15, "GENERAL": 10}
+    },
+    { id: 11, name: "शेलपुरी", udise: "27270710501", classes: "1 ते 5", total: 29, 
+      teachers: [{name: "मुंडे राधाकृष्ण भगवान (मु.अ.)", phone: "9834940152"}],
+      classCounts: {"इ. १ ली": 5, "इ. २ री": 6, "इ. ३ री": 6, "इ. ४ थी": 6, "इ. ५ वी": 6},
+      categoryCounts: {"SC": 5, "ST": 5, "VJ": 3, "NT": 5, "SBC": 2, "OBC": 5, "GENERAL": 4}
+    },
+    { id: 12, name: "माउलीनगर लिमगाव", udise: "27270709702", classes: "1 ते 4", total: 14, 
+      teachers: [{name: "रेडेवार लक्ष्मण लालबा (मु.अ.)", phone: "9763673438"}],
+      classCounts: {"इ. १ ली": 3, "इ. २ री": 3, "इ. ३ री": 4, "इ. ४ थी": 4},
+      categoryCounts: {"SC": 2, "ST": 2, "VJ": 2, "NT": 2, "SBC": 1, "OBC": 3, "GENERAL": 2}
+    },
+    { id: 13, name: "वसंतनगर मंगरुळ", udise: "27270709802", classes: "1 ते 4", total: 3, 
+      teachers: [{name: "जगताप संगीता रमेश (मु.अ.)", phone: "7498108479"}],
+      classCounts: {"इ. १ ली": 1, "इ. २ री": 1, "इ. ३ री": 1, "इ. ४ थी": 0},
+      categoryCounts: {"SC": 1, "ST": 0, "VJ": 0, "NT": 1, "SBC": 0, "OBC": 1, "GENERAL": 0}
+    },
+    { id: 14, name: "मंगरुळ नं. २", udise: "27270709901", classes: "1 ते 4", total: 24, 
+      teachers: [{name: "गारोले तुकाराम सोनबा (मु.अ.)", phone: "9823408706"}],
+      classCounts: {"इ. १ ली": 6, "इ. २ री": 6, "इ. ३ री": 6, "इ. ४ थी": 6},
+      categoryCounts: {"SC": 5, "ST": 4, "VJ": 3, "NT": 3, "SBC": 1, "OBC": 5, "GENERAL": 3}
+    },
+    { id: 15, name: "लामनटांडा", udise: "27270710101", classes: "1 ते 4", total: 16, 
+      teachers: [{name: "भवसार लक्ष्मीकांत अरुणराव (मु.अ.)", phone: "7588521738"}],
+      classCounts: {"इ. १ ली": 4, "इ. २ री": 4, "इ. ३ री": 4, "इ. ४ थी": 4},
+      categoryCounts: {"SC": 2, "ST": 5, "VJ": 2, "NT": 2, "SBC": 1, "OBC": 2, "GENERAL": 2}
+    },
+    { id: 16, name: "बर्डिटंडा", udise: "27270710201", classes: "1 ते 4", total: 18, 
+      teachers: [{name: "राऊत अमोल माणिकराव (मु.अ.)", phone: "9421278871"}],
+      classCounts: {"इ. १ ली": 4, "इ. २ री": 5, "इ. ३ री": 4, "इ. ४ थी": 5},
+      categoryCounts: {"SC": 3, "ST": 4, "VJ": 2, "NT": 3, "SBC": 1, "OBC": 3, "GENERAL": 2}
+    },
+    { id: 17, name: "भीम नगर किट्टी अडगाव", udise: "27270710302", classes: "1 ते 4", total: 45, 
+      teachers: [{name: "काथुले पुरुषोत्तम रामकिसन (मु.अ.)", phone: "7020836930"}],
+      classCounts: {"इ. १ ली": 11, "इ. २ री": 11, "इ. ३ री": 11, "इ. ४ थी": 12},
+      categoryCounts: {"SC": 12, "ST": 8, "VJ": 5, "NT": 8, "SBC": 2, "OBC": 6, "GENERAL": 4}
+    },
+    { id: 18, name: "रेंनापुरी", udise: "27270710401", classes: "1 ते 4", total: 20, 
+      teachers: [{name: "मोरे सोमेश्वर दामोधरराव (मु.अ.)", phone: "9421510528"}],
+      classCounts: {"इ. १ ली": 5, "इ. २ री": 5, "इ. ३ री": 5, "इ. ४ थी": 5},
+      categoryCounts: {"SC": 4, "ST": 3, "VJ": 2, "NT": 3, "SBC": 1, "OBC": 4, "GENERAL": 3}
+    },
+    { id: 19, name: "शेलपुरी वसाहत", udise: "27270710502", classes: "1 ते 4", total: 3, 
+      teachers: [{name: "शेख शफीक दिलदार (मु.अ.)", phone: "8275798404"}],
+      classCounts: {"इ. १ ली": 1, "इ. २ री": 1, "इ. ३ री": 1, "इ. ४ थी": 0},
+      categoryCounts: {"SC": 0, "ST": 0, "VJ": 1, "NT": 1, "SBC": 0, "OBC": 1, "GENERAL": 0}
+    },
+    { id: 20, name: "खानापूर", udise: "27270710601", classes: "1 ते 4", total: 23, 
+      teachers: [{name: "टांगडे तुकाराम रामभाऊ (मु.अ.)", phone: "9890934032"}],
+      classCounts: {"इ. १ ली": 6, "इ. २ री": 6, "इ. ३ री": 6, "इ. ४ थी": 5},
+      categoryCounts: {"SC": 4, "ST": 3, "VJ": 3, "NT": 4, "SBC": 1, "OBC": 5, "GENERAL": 3}
+    }
   ];
 
-  /* लोकल स्टोरेजमधील स्टेट किंवा डिफॉल्ट लिंक्स */
+  /* डीफॉल्ट नॅव्हिगेशन टॅब्ज (ॲडमिनद्वारे बदलता येतील) */
+  let navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
+    { id: 'dashboardTab', name: '🏠 डॅशबोर्ड व लिंक्स' },
+    { id: 'reportTab', name: '📝 मासिक अहवाल' },
+    { id: 'summaryTab', name: '📊 केंद्र गोषवारा' },
+    { id: 'adminTab', name: '🔐 ॲडमिन पॅनल' }
+  ];
+
   let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
     { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", glow: true, star: true },
     { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", glow: false, star: true }
   ];
 
   let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती व पटसंख्या वेळेत सादर करणे बंधनकारक आहे.";
-
   let schoolStatuses = JSON.parse(localStorage.getItem('sawargaon_statuses')) || {};
 
-  /* टॅब स्विचिंग */
-  function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
+  /* फ्लॅश मेसेज (Toast) दाखवणारे फंक्शन */
+  function showToast(msg) {
+    let t = document.getElementById('toastMessage');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => { t.classList.remove('show'); }, 2000);
   }
 
   /* ॲप इनिशिएलायझेशन */
   function initApp() {
     document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
+    renderNavTabs();
+    renderAllViews();
+  }
+
+  /* नॅव्हिगेशन टॅब्ज रेंडर करणे */
+  function renderNavTabs() {
+    const container = document.getElementById('navTabsContainer');
+    container.innerHTML = '';
+    navTabs.forEach((tab, index) => {
+      let btn = document.createElement('button');
+      btn.className = `nav-tab ${index === 0 ? 'active' : ''}`;
+      btn.textContent = tab.name;
+      btn.onclick = (e) => switchTab(tab.id, e.currentTarget);
+      container.appendChild(btn);
+    });
+  }
+
+  function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
+    let target = document.getElementById(tabId);
+    if(target) target.classList.add('active');
+    if(btnElement) btnElement.classList.add('active');
+  }
+
+  /* सर्व व्ह्यूज (HTML) डायनॅमिकली लोड करणे */
+  function renderAllViews() {
+    const container = document.getElementById('mainContainerViews');
+    container.innerHTML = `
+      <!-- 1. डॅशबोर्ड टॅब -->
+      <div id="dashboardTab" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card"><h3>एकूण शाळा</h3><div class="num">20</div></div>
+          <div class="stat-card"><h3>जि.प. प्राथमिक</h3><div class="num">20</div></div>
+          <div class="stat-card"><h3>खाजगी अनुदानित</h3><div class="num">0</div></div>
+          <div class="stat-card" style="border-top-color: var(--green);"><h3>कार्यरत शिक्षक</h3><div class="num">73</div></div>
+        </div>
+
+        <div class="card" style="border: 2px dashed var(--navy-accent); background: #F8FAFC;">
+          <div class="card-title" style="color: var(--navy-accent);">
+            <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+            चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
+          </p>
+          <div class="dynamic-links-box" id="publicLinksContainer"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>🏫 केंद्रांतर्गत शाळांची यादी</span></div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+            शाळेच्या नावावर क्लिक करून शिक्षक, मोबाईल नंबर व पटसंख्या पहा:
+          </p>
+          <div class="school-capsule-grid" id="schoolCapsuleContainer"></div>
+        </div>
+      </div>
+
+      <!-- 2. मासिक अहवाल टॅब -->
+      <div id="reportTab" class="tab-content">
+        <div class="card">
+          <div class="card-title"><span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span></div>
+          <div class="form-grid">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>शाळा निवडा:</label>
+              <select id="mr_school" class="form-control"><option value="">-- शाळा निवडा --</option></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>मागील अहवालानंतर पटसंख्येत झालेला बदल:</label>
+            <div class="radio-box-group">
+              <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. बदल नाही</div></label>
+              <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. वाढली</div></label>
+              <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. कमी झाली</div></label>
+            </div>
+          </div>
+          <div id="dynamicChangeFields" style="display: none; background: #F8FAFC; padding: 12px; border-radius: var(--radius-md); border: 1.5px dashed var(--border); margin: 12px 0;">
+            <div style="font-weight: 800; color: var(--navy-600); margin-bottom: 8px; font-size: 0.85rem;">बदलाचा तपशील:</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>इयत्ता:</label>
+                <select id="mr_class" class="form-control">
+                  <option value="इ. 1 ली">इ. 1 ली</option><option value="इ. 2 री">इ. 2 री</option><option value="इ. 3 री">इ. 3 री</option><option value="इ. 4 थी">इ. 4 थी</option><option value="इ. 5 वी">इ. 5 वी</option><option value="इ. 6 वी">इ. 6 वी</option><option value="इ. 7 वी">इ. 7 वी</option><option value="इ. 8 वी">इ. 8 वी</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>प्रवर्ग:</label>
+                <select id="mr_cat" class="form-control">
+                  <option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ</option><option value="NT">NT</option><option value="SBC">SBC</option><option value="OBC">OBC</option><option value="GENERAL">GENERAL</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>लिंग:</label>
+                <select id="mr_gender" class="form-control"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
+              </div>
+              <div class="form-group">
+                <label>विद्यार्थी संख्या:</label>
+                <input type="number" id="mr_count" class="form-control" min="1" value="1">
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>कारण / शेरा:</label>
+                <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी.">
+              </div>
+            </div>
+          </div>
+          <div style="text-align: right; margin-top: 12px;">
+            <button class="btn btn-primary" onclick="submitReport()">📤 अहवाल सबमिट करा</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. केंद्र गोषवारा टॅब -->
+      <div id="summaryTab" class="tab-content">
+        <div class="card">
+          <div class="card-title"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>घटक</th><th>संख्या / तपशील</th></tr></thead>
+              <tbody>
+                <tr><td>एकूण शाळा</td><td style="font-weight:700;">20</td></tr>
+                <tr><td>जि.प. प्राथमिक शाळा</td><td style="font-weight:700;">20</td></tr>
+                <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:700;">73</td></tr>
+                <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--gold);">1218 (मुले: 570, मुली: 648)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ॲडमिन पॅनल टॅब -->
+      <div id="adminTab" class="tab-content">
+        <div class="card">
+          <div class="card-title">
+            <span>🔐 ॲडमिन पॅनल व व्यवस्थापन</span>
+            <span id="adminStatusBadge" class="admin-badge badge-locked">लॉक आहे</span>
+          </div>
+
+          <div id="adminLoginBox" style="max-width: 320px; margin: 15px auto; text-align: center; background: #F8FAFC; padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+            <p style="font-size: 0.85rem; margin-bottom: 10px; font-weight: 700; color: var(--navy-800);">ॲडमिन पिन टाка (3506):</p>
+            <input type="password" id="adminPinInput" class="form-control" placeholder="4 अंकी पिन" style="text-align: center; margin-bottom: 8px;" maxlength="4">
+            <button class="btn btn-primary" onclick="verifyAdminPin()" style="width: 100%;">अनलॉक करा 🔓</button>
+          </div>
+
+          <div id="adminDashboardContent" style="display: none;">
+            <div style="background: #E0F2FE; border-left: 4px solid var(--navy-accent); padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 0.82rem; color: #0369A1;">
+              ✅ ॲडमिन पॅनल सक्रिय आहे. तुम्ही खालील साधनांद्वारे वेबसाईटचे टॅब, लिंक्स व मारकी नियंत्रित करू शकता.
+            </div>
+
+            <!-- टॅब व्यवस्थापन (नवीन टॅब जोडणे, बदलणे, कमी करणे) -->
+            <div style="background: #F8FAFC; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 15px;">
+              <h4 style="font-size: 0.9rem; color: var(--navy-800); margin-bottom: 8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
+              <div id="adminTabsListContainer" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;"></div>
+              <div class="form-grid" style="margin-bottom: 8px;">
+                <input type="text" id="newTabNameInput" class="form-control" placeholder="नवीन टॅबचे नाव">
+                <input type="text" id="newTabIdInput" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
+              </div>
+              <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
+            </div>
+
+            <!-- मारकी मेसेज बदलणे -->
+            <div style="background: #F8FAFC; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 15px;">
+              <h4 style="font-size: 0.9rem; color: var(--navy-800); margin-bottom: 6px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
+              <input type="text" id="adminMarqueeInput" class="form-control" placeholder="नवीन मेसेज लिहा..." style="margin-bottom: 6px;">
+              <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
+            </div>
+
+            <!-- नवीन लिंक जोडणे -->
+            <div style="background: #F8FAFC; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 15px;">
+              <h4 style="font-size: 0.9rem; color: var(--navy-800); margin-bottom: 6px;">➕ डेटा कलेक्शन लिंक जोडा:</h4>
+              <div class="form-grid" style="margin-bottom: 6px;">
+                <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंकचे नाव">
+                <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px; font-size: 0.82rem; font-weight: 700;">
+                <label><input type="checkbox" id="linkGlowInput"> ग्लो इफेक्ट</label>
+                <label><input type="checkbox" id="linkStarInput" checked> स्टार ⭐</label>
+              </div>
+              <button class="btn btn-success" onclick="addNewLink()">लिंक जोडा 🚀</button>
+            </div>
+
+            <!-- शाळांची व्हॉट्सॲप ट्रॅकिंग यादी -->
+            <h4 style="font-size: 0.9rem; color: var(--navy-800); margin-bottom: 8px;">💬 शाळानिहाय व्हॉट्सॲप रिमाइंडर:</h4>
+            <div class="table-responsive">
+              <table>
+                <thead><tr><th>अ.क्र.</th><th>शाळेचे नाव</th><th>मुख्याध्यापक व मोबाईल</th><th>स्थिती</th><th>व्हॉट्सॲप</th></tr></thead>
+                <tbody id="adminSchoolStatusTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Render inner dynamic parts
     renderPublicLinks();
     renderSchoolCapsules();
     renderSchoolDropdown();
+    renderAdminTabsManager();
     renderAdminSchoolTable();
   }
 
-  /* फ्रंटएंडवर डेटा कलेक्शन लिंक्स रेेंडर करणे */
+  /* पब्लिक लिंक्स रेंडर */
   function renderPublicLinks() {
     const container = document.getElementById('publicLinksContainer');
+    if(!container) return;
     container.innerHTML = '';
     if(customLinks.length === 0) {
-      container.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">सध्या कोणतीही नवीन लिंक उपलब्ध नाही.</p>';
+      container.innerHTML = '<p style="font-size:0.8rem; color:var(--text-muted); text-align:center;">सध्या कोणतीही लिंक नाही.</p>';
       return;
     }
     customLinks.forEach(l => {
@@ -468,22 +523,20 @@
       a.className = `link-capsule ${l.glow ? 'glow-effect' : ''}`;
       a.href = l.url;
       a.target = "_blank";
-      a.innerHTML = `
-        <span>📌 ${l.title} ${l.star ? '<span class="blink-star">⭐ NEW</span>' : ''}</span>
-        <span style="font-size:1.1rem;">👉</span>
-      `;
+      a.innerHTML = `<span>📌 ${l.title} ${l.star ? '<span class="blink-star">⭐ NEW</span>' : ''}</span><span style="font-size:1rem;">👉</span>`;
       container.appendChild(a);
     });
   }
 
-  /* शाळा कॅп्सूल्स */
+  /* शाळा कॅप्सूल (4 per row) */
   function renderSchoolCapsules() {
     const container = document.getElementById('schoolCapsuleContainer');
+    if(!container) return;
     container.innerHTML = '';
     schoolsData.forEach(s => {
       let cap = document.createElement('div');
       cap.className = 'school-capsule';
-      cap.innerHTML = `🏫 <b>${s.id}.</b> ${s.name}`;
+      cap.textContent = `${s.id}. ${s.name}`;
       cap.onclick = () => openSchoolModal(s);
       container.appendChild(cap);
     });
@@ -491,6 +544,7 @@
 
   function renderSchoolDropdown() {
     const select = document.getElementById('mr_school');
+    if(!select) return;
     select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     schoolsData.forEach(s => {
       let opt = document.createElement('option');
@@ -500,14 +554,29 @@
     });
   }
 
+  /* शाळा क्लिक केल्यावर संपूर्ण माहिती पॉपअप (शिक्षक, मोबाईल, वर्ग व जातनिहाय संख्या) */
   function openSchoolModal(s) {
-    document.getElementById('modalSchoolName').textContent = `${s.id}. ${s.name}`;
+    document.getElementById('modalSchoolName').textContent = `${s.id}. ${s.name} (UDISE: ${s.udise})`;
+    
+    let teachersHtml = s.teachers.map(t => `• ${t.name} - <a href="tel:${t.phone}" style="color:var(--navy-accent); font-weight:700;">${t.phone}</a>`).join('<br>');
+    
+    let classHtml = Object.entries(s.classCounts).map(([cls, cnt]) => `<tr><td>${cls}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('');
+    let catHtml = Object.entries(s.categoryCounts).map(([cat, cnt]) => `<tr><td>${cat}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('');
+
     document.getElementById('modalSchoolBody').innerHTML = `
-      <p style="margin-bottom:8px;"><strong>UDISE Code:</strong> ${s.udise}</p>
-      <p style="margin-bottom:8px;"><strong>वर्ग:</strong> ${s.classes}</p>
-      <p style="margin-bottom:8px;"><strong>शिक्षक संख्या:</strong> ${s.teachers}</p>
-      <p style="margin-bottom:8px;"><strong>मुख्याध्यापक:</strong> ${s.hm} (${s.phone})</p>
-      <p style="margin-bottom:8px;"><strong>एकूण पटसंख्या:</strong> ${s.total} विद्यार्थी</p>
+      <p style="margin-bottom:6px;"><strong>वर्ग रचना:</strong> ${s.classes}</p>
+      <p style="margin-bottom:6px;"><strong>एकूण पटसंख्या:</strong> ${s.total} विद्यार्थी</p>
+      <div style="margin: 8px 0; background: var(--navy-subtle); padding: 8px; border-radius: var(--radius-sm);">
+        <strong>शिक्षक व मोबाईल क्रमांक:</strong><br>${teachersHtml}
+      </div>
+      <div style="font-weight:700; margin-top:8px; color:var(--navy-700);">वर्गानुसार विद्यार्थी संख्या:</div>
+      <div class="table-responsive" style="margin-top:4px; max-height:150px;">
+        <table><thead><tr><th>इयत्ता</th><th>संख्या</th></tr></thead><tbody>${classHtml}</tbody></table>
+      </div>
+      <div style="font-weight:700; margin-top:8px; color:var(--navy-700);">प्रवर्ग / जातनिहाय संख्या:</div>
+      <div class="table-responsive" style="margin-top:4px; max-height:150px;">
+        <table><thead><tr><th>प्रवर्ग</th><th>संख्या</th></tr></thead><tbody>${catHtml}</tbody></table>
+      </div>
     `;
     document.getElementById('schoolModal').style.display = 'flex';
   }
@@ -517,18 +586,19 @@
   }
 
   function toggleReportFields(show) {
-    document.getElementById('dynamicChangeFields').style.display = show ? 'block' : 'none';
+    let f = document.getElementById('dynamicChangeFields');
+    if(f) f.style.display = show ? 'block' : 'none';
   }
 
   function submitReport() {
     let school = document.getElementById('mr_school').value;
     if(!school) { alert('कृपया शाळा निवडा!'); return; }
-    alert('माहिती यशस्वीपणे सबमिट झाली!');
+    showToast('माहिती यशस्वीपणे सबमिट झाली! ✅');
     document.getElementById('mr_school').value = '';
     document.querySelector('input[name="changeType"][value="none"]').click();
   }
 
-  /* ॲडमिन पिन पडताळणी (पिन: 3506) */
+  /* ॲडमिन पिन (3506) */
   function verifyAdminPin() {
     let pin = document.getElementById('adminPinInput').value;
     if(pin === '3506') {
@@ -537,49 +607,72 @@
       let badge = document.getElementById('adminStatusBadge');
       badge.textContent = 'सक्रिय (Unlocked)';
       badge.className = 'admin-badge badge-unlocked';
+      showToast('ॲडमिन पॅनल अनलॉक झाले! 🔓');
     } else {
-      alert('चुकीचा पिन! कृपया बरोबर पिन (3506) टाка.');
+      alert('चुकीचा पिन! (योग्य पिन: 3506)');
     }
   }
 
-  /* मारकी टेक्स्ट अपडेट */
   function updateMarqueeText() {
     let txt = document.getElementById('adminMarqueeInput').value;
     if(!txt) { alert('कृपया मेसेज लिहा.'); return; }
     marqueeMessage = txt;
     localStorage.setItem('sawargaon_marquee', marqueeMessage);
     document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
-    alert('सरकणारा मेसेज यशस्वीपणे अपडेट झाला!');
+    showToast('सरकणारा मेसेज अपडेट झाला! 💾');
   }
 
-  /* नवीन लिंक बॅकएंडमधून जोडणे */
   function addNewLink() {
     let title = document.getElementById('linkTitleInput').value;
     let url = document.getElementById('linkUrlInput').value;
     let glow = document.getElementById('linkGlowInput').checked;
     let star = document.getElementById('linkStarInput').checked;
-
-    if(!title || !url) { alert('कृपया शिर्षक आणि URL दोन्ही भरा.'); return; }
-
+    if(!title || !url) { alert('शीर्षक आणि URL दोन्ही भरा.'); return; }
     customLinks.push({ id: Date.now(), title, url, glow, star });
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
-    
     document.getElementById('linkTitleInput').value = '';
     document.getElementById('linkUrlInput').value = '';
     renderPublicLinks();
-    alert('नवीन डेटा कलेक्शन लिंक यशस्वीपणे जोडली गेली!');
+    showToast('नवीन लिंक यशस्वीपणे जोडली! 🚀');
   }
 
-  /* लिंक डिलीट करणे */
-  function deleteLink(id) {
-    customLinks = customLinks.filter(l => l.id !== id);
-    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
-    renderPublicLinks();
+  /* टॅब व्यवस्थापन (जोडणे व डिलीट करणे) */
+  function renderAdminTabsManager() {
+    const list = document.getElementById('adminTabsListContainer');
+    if(!list) return;
+    list.innerHTML = '';
+    navTabs.forEach((t, idx) => {
+      let div = document.createElement('div');
+      div.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:white; padding:6px 10px; border-radius:6px; border:1px solid var(--border); font-size:0.82rem;";
+      div.innerHTML = `<span><b>${t.name}</b> (${t.id})</span> ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:2px 8px; font-size:0.7rem;" onclick="deleteTab('${t.id}')">कमी करा ❌</button>` : ''}`;
+      list.appendChild(div);
+    });
   }
 
-  /* ॲडमिन पॅनलमध्ये शाळांची यादी व व्हॉट्सॲप मेसेज जनरेटर लोड करणे */
+  function addNewTab() {
+    let name = document.getElementById('newTabNameInput').value;
+    let id = document.getElementById('newTabIdInput').value;
+    if(!name || !id) { alert('कृपया टॅबचे नाव आणि आयडी दोन्ही भरा.'); return; }
+    navTabs.push({ id, name });
+    localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
+    document.getElementById('newTabNameInput').value = '';
+    document.getElementById('newTabIdInput').value = '';
+    renderNavTabs();
+    renderAdminTabsManager();
+    showToast('नवीन टॅब जोडला गेला! ✨');
+  }
+
+  function deleteTab(id) {
+    navTabs = navTabs.filter(t => t.id !== id);
+    localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
+    renderNavTabs();
+    renderAdminTabsManager();
+    showToast('टॅब कमी केला गेला! 🗑️');
+  }
+
   function renderAdminSchoolTable() {
     const tbody = document.getElementById('adminSchoolStatusTableBody');
+    if(!tbody) return;
     tbody.innerHTML = '';
     schoolsData.forEach((s, idx) => {
       let isDone = schoolStatuses[s.id] || false;
@@ -587,17 +680,15 @@
         <tr>
           <td>${idx + 1}</td>
           <td style="font-weight:700;">${s.name}</td>
-          <td>${s.hm}<br><span style="font-size:0.75rem; color:var(--text-muted);">${s.phone}</span></td>
+          <td>${s.teachers[0].name}<br><span style="font-size:0.7rem; color:var(--text-muted);">${s.teachers[0].phone}</span></td>
           <td>
-            <select class="form-control" style="padding:6px; font-size:0.8rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
+            <select class="form-control" style="padding:4px; font-size:0.78rem;" onchange="updateSchoolStatus(${s.id}, this.value)">
               <option value="false" ${!isDone ? 'selected' : ''}>अपूर्ण ⏳</option>
-              <option value="true" ${isDone ? 'selected' : ''}>पूर्ण झाले ✅</option>
+              <option value="true" ${isDone ? 'selected' : ''}>पूर्ण ✅</option>
             </select>
           </td>
           <td>
-            <button class="btn btn-success" style="padding:6px 12px; font-size:0.8rem;" onclick="sendWhatsApp(${s.id})">
-              💬 व्हॉट्सॲप मेसेज पाठवा
-            </button>
+            <button class="btn btn-success" style="padding:4px 8px; font-size:0.75rem;" onclick="sendWhatsApp(${s.id})">💬 मेसेज</button>
           </td>
         </tr>
       `;
@@ -607,17 +698,15 @@
   function updateSchoolStatus(schoolId, val) {
     schoolStatuses[schoolId] = (val === 'true');
     localStorage.setItem('sawargaon_statuses', JSON.stringify(schoolStatuses));
+    showToast('शाळेची स्थिती जतन केली! 💾');
   }
 
-  /* मुख्याध्यापकांना व्हॉट्सॲपवर पूर्व-टाईप केलेला मेसेज पाठवणे */
   function sendWhatsApp(schoolId) {
     let s = schoolsData.find(x => x.id === schoolId);
     let isDone = schoolStatuses[s.id] || false;
-    let statusText = isDone ? "माहिती भरण्याचे काम पूर्ण केले आहे, धन्यवाद! 👍" : "माहिती भरण्याचे काम अद्याप प्रलंबित आहे, कृपया लवकरात लवकर पूर्ण करावी. ⚠️";
-    
-    let message = `नमस्कार सर/मॅडम (${s.hm}),\n\nसमूह साधन केंद्र सावरगाव अंतर्गत शाळा: *${s.name}* \n\nसध्याच्या डेटा कलेक्शन संदर्भात तुमची स्थिती: *${statusText}*\n\n- केंद्रप्रमुख, सावरगाव`;
-    
-    let encodedUrl = `https://wa.me/91${s.phone}?text=${encodeURIComponent(message)}`;
+    let statusText = isDone ? "माहिती भरण्याचे काम पूर्ण केले आहे, धन्यवाद! 👍" : "माहिती भरण्याचे काम प्रलंबित आहे, कृपया लवकरात लवकर पूर्ण करावी. ⚠️";
+    let message = `नमस्कार सर/मॅडम (${s.teachers[0].name}),\n\nसमूह साधन केंद्र सावरगाव अंतर्गत शाळा: *${s.name}* \n\nस्थिती: *${statusText}*\n\n- केंद्रप्रमुख, सावरगाव`;
+    let encodedUrl = `https://wa.me/91${s.teachers[0].phone}?text=${encodeURIComponent(message)}`;
     window.open(encodedUrl, '_blank');
   }
 
