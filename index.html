@@ -10,7 +10,6 @@
 
 <style>
   :root {
-    --navy-900: #061121;
     --navy-600: #1B365D;
     --accent-orange: #FF9933;
     --accent-green: #138808;
@@ -60,7 +59,7 @@
   .stat-card h3 { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
   .stat-card .num { font-size: 1.3rem; font-weight: 800; color: var(--navy-600); margin-top: 2px; }
 
-  /* School Capsules (4 per row on mobile) */
+  /* School Capsules */
   .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
   .school-capsule { background: #FFF7ED; border: 1.5px solid #FED7AA; color: #9A3412; padding: 8px 6px; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 44px; word-break: break-word; }
@@ -119,7 +118,7 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- HEADER WITH LIGHT TRICOLOR BACKGROUND & ZP BEED LOGO -->
+<!-- HEADER -->
 <header>
   <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
     <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="ZP Beed Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>ZP</text></svg>'">
@@ -155,7 +154,6 @@
 </footer>
 
 <script>
-  /* 20 ZP Schools with English names, English teacher names, mobile numbers */
   let zpschoolsData = [
     { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", total: 150, type: "ZP",
       teachers: [{name: "SHINDE SAMADHAN HAMBIRRAO (HM)", phone: "9423733799"}, {name: "PAWAR A. B.", phone: "9822112233"}],
@@ -295,7 +293,6 @@
     setTimeout(() => { t.classList.remove('show'); }, 2000);
   }
 
-  /* History API for Mobile Back Button Support */
   function switchTab(tabId, btnElement, pushHistory = true) {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
@@ -322,7 +319,6 @@
     history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
-  /* DASHBOARD RENDER */
   function renderDashboard() {
     let container = document.getElementById('mainContainerViews');
     
@@ -343,9 +339,7 @@
     `).join('');
 
     container.innerHTML = `
-      <!-- 1. डॅशबोर्ड व लिंक्स -->
       <div id="dashboardTab" class="tab-content active">
-        <!-- लिंक्स सर्वात वर -->
         <div class="card" style="border: 2px dashed var(--accent-orange); background: #FFFBEB;">
           <div class="card-title" style="color: var(--accent-orange);">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
@@ -358,7 +352,6 @@
           </div>
         </div>
 
-        <!-- शाळांची संख्या व आकडेवारी (खालच्या भागात) -->
         <div class="stats-grid">
           <div class="stat-card"><h3>एकूण शाळा</h3><div class="num">${allSchools.length}</div></div>
           <div class="stat-card"><h3>जि.प. शाळा</h3><div class="num">${zpschoolsData.length}</div></div>
@@ -366,7 +359,6 @@
           <div class="stat-card"><h3>कार्यरत शिक्षक</h3><div class="num">${totalTeachers}</div></div>
         </div>
 
-        <!-- शाळांची यादी कॅप्सूल स्वरूपात -->
         <div class="card">
           <div class="card-title"><span>🏫 केंद्रांतर्गत शाळांची यादी (माहिती पाहण्यासाठी क्लिक करा)</span></div>
           <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
@@ -378,7 +370,6 @@
         </div>
       </div>
 
-      <!-- 2. मासिक अहवाल -->
       <div id="reportTab" class="tab-content">
         <div class="card">
           <div class="card-title"><span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span></div>
@@ -431,7 +422,6 @@
         </div>
       </div>
 
-      <!-- 3. केंद्र गोषवारा -->
       <div id="summaryTab" class="tab-content">
         ${renderSummaryHtml()}
       </div>
@@ -453,7 +443,6 @@
     });
   }
 
-  /* FULL-PAGE SCHOOL VIEW (No Scrolling Required, Back button supported) */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
@@ -498,7 +487,6 @@
     history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
-  /* RENDER SUMMARY HTML */
   function renderSummaryHtml() {
     let zpTotalStudents = zpschoolsData.reduce((acc, s) => acc + Number(s.total), 0);
     let privateTotalStudents = privateSchoolsData.reduce((acc, s) => acc + Number(s.total), 0);
@@ -565,7 +553,6 @@
     document.querySelector('input[name="changeType"][value="none"]').click();
   }
 
-  /* SECRET ADMIN MODAL (Opened via ZP Beed Logo 3-clicks + PIN 3506) */
   function openAdminModal() {
     let adminWindow = window.open("", "AdminPanel", "width=600,height=700");
     adminWindow.document.write(`
