@@ -40,8 +40,8 @@
   .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
   .card-title { font-size: 1.15rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; }
 
-  /* Distinct Prominent Links Section */
-  .links-prominent-card { background: #FEF3C7 !important; border: 2.5px solid #D97706 !important; box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15) !important; }
+  /* Glossy Purple Links Section */
+  .links-glossy-purple { background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%) !important; border: 2.5px solid #9333EA !important; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15) !important; }
 
   /* Soft Pastel School Capsules */
   .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
@@ -129,9 +129,9 @@
   </div>
 </div>
 
-<!-- COMPACT HEADER WITH LOGO & ADMIN TRIGGER -->
+<!-- COMPACT HEADER WITH LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
 <header>
-  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर क्लिक करा">
+  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
     <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
   <div class="header-text" onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
@@ -312,14 +312,26 @@
   let globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count')) || 20;
   let globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count')) || 73;
 
+  let clickCount = 0;
+  let clickTimer = null;
   let pendingReportData = null;
 
   function handleHeaderClick() {
-    openAdminLoginModal();
+    triggerAdminTripleClick();
   }
 
   function handleLogoClick() {
-    openAdminLoginModal();
+    triggerAdminTripleClick();
+  }
+
+  function triggerAdminTripleClick() {
+    clickCount++;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => { clickCount = 0; }, 700);
+    if(clickCount >= 3) {
+      clickCount = 0;
+      openAdminLoginModal();
+    }
   }
 
   function openAdminLoginModal() {
@@ -424,6 +436,7 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
+        <!-- Prominent Distinct Links Section -->
         <div class="card links-prominent-card">
           <div class="card-title" style="color: #B45309;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
@@ -596,7 +609,7 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW (DOES NOT AUTO-EXIT, INCLUDES ZP COUNTS & INST TYPE) */
+  /* FULL-SIZE ADMIN PANEL VIEW (STAYS OPEN ON SAVE, INCLUDES ZP COUNTS, INST TYPE & PUSH NOTIFICATION) */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
@@ -632,14 +645,14 @@
 
         <!-- ZP Schools & Teachers Count Manager -->
         <div style="background:#EFF6FF; padding:14px; border-radius:10px; border:2px solid #3B82F6; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1D4ED8; margin-bottom:8px;">🏫 जि.प. शाळा व शिक्षक संख्या व्यवस्थापन:</h4>
+          <h4 style="font-size:1rem; color:#1D4ED8; margin-bottom:8px;">🏫 जिल्हा परिषद शाळा व शिक्षक संख्या व्यवस्थापन:</h4>
           <div class="form-grid" style="margin-bottom:8px;">
             <div class="form-group">
-              <label>जि.प. शाळांची संख्या:</label>
+              <label>जिल्हा परिषद शाळांची संख्या:</label>
               <input type="number" id="adm_zp_schools_count" class="form-control" value="${globalZpSchoolsCount}">
             </div>
             <div class="form-group">
-              <label>जि.प. शिक्षकांची संख्या:</label>
+              <label>जिल्हा परिषद शाळेतील शिक्षकांची संख्या:</label>
               <input type="number" id="adm_zp_teachers_count" class="form-control" value="${globalZpTeachersCount}">
             </div>
           </div>
@@ -698,14 +711,18 @@
           <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
         </div>
 
+        <!-- Links Management & Push Notification Broadcast -->
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
+          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व नोटिफिकेशन व्यवस्थापन:</h4>
           <div style="margin-bottom:10px;">${linksAdminHtml}</div>
           <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंकचे नाव">
+            <input type="text" id="linkTitleInput" class="form-control" placeholder="नवीन लिंकचे नाव">
             <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
           </div>
-          <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-success" style="flex:1;" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
+            <button class="btn btn-warning" style="flex:1;" onclick="sendPushNotificationToAll()">🔔 सर्वांना नोटिफाय करा</button>
+          </div>
         </div>
 
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
@@ -802,6 +819,26 @@
     showToast('लिंक काढून टाकली! 🗑️');
   }
 
+  /* WEB PUSH NOTIFICATION BROADCAST */
+  function sendPushNotificationToAll() {
+    if (!("Notification" in window)) {
+      alert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
+      return;
+    }
+
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        new Notification("समूह साधन केंद्र सावरगाव", {
+          body: "📢 नवीन डेटा कलेक्शन लिंक किंवा माहिती अद्ययावत करण्यात आली आहे. कृपया पोर्टल तपासा!",
+          icon: "https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg"
+        });
+        showToast('सर्व शाळांना पुश नोटिफिकेशन पाठवले गेले! 🔔');
+      } else {
+        alert("नोटिफिकेशन परवानगी नाकारण्यात आली आहे.");
+      }
+    });
+  }
+
   function addNewTab() {
     let name = document.getElementById('newTabNameInput').value;
     let id = document.getElementById('newTabIdInput').value;
@@ -849,7 +886,7 @@
     localStorage.setItem('sawargaon_private_schools', JSON.stringify(privates));
     privateSchoolsData = privates;
     renderFullAdminView();
-    showToast('खाजगी शाळा यशस्वीपणे जोडली गेली! ✅');
+    showToast('खाजगी संस्था/शाळा यशस्वीपणे जोडली गेली! ✅');
   }
 
   function renderReportDropdown() {
@@ -865,7 +902,7 @@
     });
   }
 
-  /* FULL-PAGE VERTICAL SCHOOL VIEW */
+  /* FULL-PAGE VERTICAL SCHOOL VIEW (ONLY HEADMASTER INFO) */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
