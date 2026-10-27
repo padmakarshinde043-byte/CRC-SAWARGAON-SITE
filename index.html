@@ -15,60 +15,61 @@
     --border: #CBD5E1;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; }
-  body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 60px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.92rem; }
+  body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Header with New CRC Logo on Top-Left */
-  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.6rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; display: flex; align-items: center; gap: 12px; }
+  /* Compact Rich Tricolor Header */
+  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.7rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; display: flex; align-items: center; gap: 12px; }
   .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #FF9933; flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
-  .header-text { text-align: left; flex-grow: 1; }
-  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.68rem; font-weight: 800; padding: 1px 8px; border-radius: 20px; margin-bottom: 2px; }
-  header h1 { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
-  header p { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
+  .header-text { text-align: left; flex-grow: 1; cursor: pointer; }
+  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.75rem; font-weight: 800; padding: 2px 10px; border-radius: 20px; margin-bottom: 3px; }
+  header h1 { font-size: 1.2rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
+  header p { font-size: 0.8rem; color: #E2E8F0; font-weight: 600; }
 
-  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 7px 12px; font-size: 0.85rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
+  .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
 
+  /* Single Line Rectangle Navigation Tabs */
   .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 8px 10px; }
-  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .nav-tab { padding: 8px 16px; font-size: 0.82rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 25px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); white-space: nowrap; }
+  .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 6px; justify-content: center; align-items: center; }
+  .nav-tab { flex: 1; max-width: 150px; text-align: center; padding: 9px 8px; font-size: 0.88rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 6px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); white-space: nowrap; }
   .nav-tab.active { color: white; background: linear-gradient(135deg, #1B365D, #2563EB); border-color: #1B365D; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
 
   .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 12px; }
-  .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.2rem; margin-bottom: 1.2rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
-  .card-title { font-size: 1.05rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 6px; }
+  .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
+  .card-title { font-size: 1.15rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; }
 
-  /* Ultra-Soft Pastel School Capsules */
+  /* Soft Pastel School Capsules */
   .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
-  .school-capsule { padding: 12px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: 800; cursor: pointer; transition: 0.25s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 52px; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1.5px solid rgba(0,0,0,0.06); }
+  .school-capsule { padding: 13px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer; transition: 0.25s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 54px; word-break: break-word; box-shadow: 0 2px 6px rgba(0,0,0,0.03); border: 1.5px solid rgba(0,0,0,0.06); }
   .school-capsule:hover { transform: translateY(-2px); filter: brightness(0.97); }
 
   .dynamic-links-box { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1.5px solid rgba(0,0,0,0.06); transition: 0.2s; }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1.5px solid rgba(0,0,0,0.06); transition: 0.2s; }
   .link-capsule:hover { transform: scale(1.01); filter: brightness(0.96); }
 
   .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
   @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.85rem; font-weight: 800; margin-bottom: 5px; color: #1E3A8A; }
-  .form-control { padding: 10px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.92rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+  .form-group label { font-size: 0.9rem; font-weight: 800; margin-bottom: 5px; color: #1E3A8A; }
+  .form-control { padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.98rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
   .form-control:focus { border-color: #FF9933; box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15); }
 
   .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 4px 0; }
   @media(min-width: 500px) { .radio-box-group { grid-template-columns: repeat(3, 1fr); } }
-  .radio-label { border: 2px solid var(--border); padding: 8px 10px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 800; font-size: 0.82rem; background: #FAFAFA; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+  .radio-label { border: 2px solid var(--border); padding: 10px 12px; border-radius: 10px; text-align: center; cursor: pointer; font-weight: 800; font-size: 0.88rem; background: #FAFAFA; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
   input[type="radio"]:checked + .radio-label { border-color: #FF9933; background: #FFF7ED; color: #C2410C; }
   input[type="radio"] { display: none; }
 
   .table-responsive { overflow-x: auto; margin-top: 6px; border-radius: 10px; border: 2px solid var(--border); background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.82rem; }
-  th, td { padding: 8px 6px; border: 1px solid #CBD5E1; font-weight: 700; }
-  th { background: #1B365D; color: white; font-weight: 800; font-size: 0.78rem; }
+  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.88rem; }
+  th, td { padding: 9px 7px; border: 1px solid #CBD5E1; font-weight: 700; }
+  th { background: #1B365D; color: white; font-weight: 800; font-size: 0.82rem; }
   tr:nth-child(2n) { background: #F8FAFC; }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; font-size: 0.85rem; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 16px; font-size: 0.92rem; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   @media(min-width: 500px) { .btn { width: auto; } }
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: #1B365D; color: white; }
@@ -77,15 +78,15 @@
   .btn-danger { background: #EF4444; color: white; }
   .btn-outline { background: white; border: 2px solid #1B365D; color: #1B365D; }
 
-  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 10px 20px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
+  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10B981; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 0.92rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
-  /* Custom Confirmation Modal */
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
-  .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid var(--border); }
-  .modal-box h3 { color: #1E3A8A; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
+  /* Custom Modals (Admin Login & Confirmation) */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
+  .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
+  .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
 
-  footer { text-align: center; padding: 16px; font-size: 0.78rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2rem; background: white; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
+  footer { text-align: center; padding: 18px; font-size: 0.85rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2.5rem; background: white; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; }
@@ -95,11 +96,24 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
+<!-- SECURE ADMIN LOGIN MODAL (PIN MASKED WITH DOTS) -->
+<div class="modal-overlay" id="adminLoginModal">
+  <div class="modal-box">
+    <h3>🔐 ॲडमिन गुप्त पिन</h3>
+    <p style="font-size: 0.9rem; font-weight: 700; color: #475569; margin-bottom: 10px;">कृपया ॲडमिन पिन प्रविष्ट करा (3506):</p>
+    <input type="password" id="adminPinField" class="form-control" placeholder="••••" style="text-align: center; font-size: 1.2rem; letter-spacing: 4px; margin-bottom: 15px;" maxlength="4">
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button class="btn btn-outline" style="width: auto;" onclick="closeAdminLoginModal()">रद्द करा</button>
+      <button class="btn btn-primary" style="width: auto;" onclick="verifyAdminLoginPin()">अनलॉक करा 🔓</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRMATION MODAL -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-box">
     <h3>⚠️ पटसंख्या बदल पडताळणी (Confirmation)</h3>
-    <div id="confirmModalBody" style="font-size: 0.88rem; font-weight: 700; line-height: 1.6; margin-bottom: 20px; color: #334155;"></div>
+    <div id="confirmModalBody" style="font-size: 0.92rem; font-weight: 700; line-height: 1.6; margin-bottom: 20px; color: #334155;"></div>
     <div style="display: flex; gap: 10px; justify-content: flex-end;">
       <button class="btn btn-outline" style="width: auto;" onclick="closeConfirmModal()">रद्द करा</button>
       <button class="btn btn-success" style="width: auto;" onclick="executeReportSubmit()">कन्फर्म करा ✔️</button>
@@ -107,12 +121,12 @@
   </div>
 </div>
 
-<!-- HEADER WITH NEW CRC LOGO ON TOP-LEFT AND 3-CLICK ADMIN TRIGGER -->
+<!-- COMPACT HEADER WITH LOGO & 3-CLICK ADMIN TRIGGER -->
 <header>
-  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
-    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर क्लिक करा">
+    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
-  <div class="header-text" onclick="handleHeaderClick()">
+  <div class="header-text" onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
     <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
     <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
     <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
@@ -125,7 +139,7 @@
   </marquee>
 </div>
 
-<!-- NAVIGATION CAPSULE TABS -->
+<!-- NAVIGATION RECTANGLE TABS (SINGLE LINE) -->
 <div class="nav-container">
   <div class="nav-tabs" id="navTabsContainer"></div>
 </div>
@@ -281,9 +295,9 @@
     { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#" }
   ];
   let navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
-    { id: 'dashboardTab', name: '🏠 डॅशबोर्ड व लिंक्स' },
-    { id: 'reportTab', name: '📝 मासिक अहवाल' },
-    { id: 'summaryTab', name: '📊 केंद्र गोषवारा' }
+    { id: 'dashboardTab', name: 'डॅशबोर्ड' },
+    { id: 'reportTab', name: 'मासिक अहवाल' },
+    { id: 'summaryTab', name: 'गोषवारा' }
   ];
   let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
 
@@ -297,21 +311,31 @@
     headerTimer = setTimeout(() => { headerClickCount = 0; }, 700);
     if(headerClickCount >= 3) {
       headerClickCount = 0;
-      promptAdminAccess();
+      openAdminLoginModal();
     }
   }
 
   function handleLogoClick() {
-    promptAdminAccess();
+    openAdminLoginModal();
   }
 
-  function promptAdminAccess() {
-    let pin = prompt("ॲडमिन गुप्त पिन टाका (3506):");
+  function openAdminLoginModal() {
+    document.getElementById('adminPinField').value = '';
+    document.getElementById('adminLoginModal').style.display = 'flex';
+  }
+
+  function closeAdminLoginModal() {
+    document.getElementById('adminLoginModal').style.display = 'none';
+  }
+
+  function verifyAdminLoginPin() {
+    let pin = document.getElementById('adminPinField').value;
     if(pin === "3506") {
+      closeAdminLoginModal();
       renderFullAdminView();
       history.pushState({view: 'admin'}, "", "#adminPanel");
-    } else if(pin !== null) {
-      alert("चुकीचा पिन!");
+    } else {
+      alert("चुकीचा पिन! कृपया बरोबर पिन टाका.");
     }
   }
 
@@ -368,7 +392,6 @@
     let container = document.getElementById('mainContainerViews');
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
 
-    /* Ultra-soft silent pastel colors assigned to every 4 capsules */
     let softColors = [
       {bg: '#FFFBEB', border: '#FDE68A', text: '#78350F'},
       {bg: '#ECFDF5', border: '#A7F3D0', text: '#065F46'},
@@ -403,13 +426,13 @@
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
           </div>
           <div class="dynamic-links-box">
-            ${linksHtml || '<p style="font-size:0.85rem; text-align:center;">सध्या कोणतीही लिंक उपलब्ध नाही.</p>'}
+            ${linksHtml || '<p style="font-size:0.9rem; text-align:center;">सध्या कोणतीही लिंक उपलब्ध नाही.</p>'}
           </div>
         </div>
 
         <div class="card">
           <div class="card-title"><span>🏫 केंद्राअंतर्गत शाळांची यादी</span></div>
-          <p style="font-size: 0.82rem; color: #334155; font-weight: 800; margin-bottom: 10px; text-align: center; background: #F1F5F9; padding: 8px; border-radius: 8px;">
+          <p style="font-size: 0.88rem; color: #334155; font-weight: 800; margin-bottom: 10px; text-align: center; background: #F1F5F9; padding: 10px; border-radius: 8px;">
             केंद्राअंतर्गत शाळांची माहिती पाहण्यासाठी शाळा निवडा
           </p>
           <div class="school-capsule-grid">
@@ -436,7 +459,7 @@
             </div>
           </div>
           <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 12px; border-radius: 8px; border: 2px dashed #F59E0B; margin: 10px 0;">
-            <div style="font-weight: 800; color: #D97706; margin-bottom: 8px; font-size: 0.85rem;">बदलाचा तपशील:</div>
+            <div style="font-weight: 800; color: #D97706; margin-bottom: 8px; font-size: 0.9rem;">बदलाचा तपशील:</div>
             <div class="form-grid">
               <div class="form-group">
                 <label>वर्ग:</label>
@@ -478,7 +501,6 @@
     renderReportDropdown();
   }
 
-  /* CONFIRMATION MODAL LOGIC FOR MONTHLY REPORT */
   function prepareReportSubmit() {
     let schoolName = document.getElementById('mr_school').value;
     if(!schoolName) { alert('कृपया शाळा निवडा!'); return; }
@@ -571,21 +593,21 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW (NO WHATSAPP REMINDER) */
+  /* FULL-SIZE ADMIN PANEL VIEW WITH CLASS-WISE MANUAL STRENGTH EDIT */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
     let linksAdminHtml = customLinks.map(l => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.82rem; margin-bottom:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.88rem; margin-bottom:8px;">
         <span><b>${l.title}</b> (${l.url})</span>
-        <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
+        <button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
       </div>
     `).join('');
 
     let tabsAdminHtml = navTabs.map(t => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:8px; border:2px solid var(--border); font-size:0.82rem; margin-bottom:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.88rem; margin-bottom:8px;">
         <span><b>${t.name}</b> (${t.id})</span>
-        ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
+        ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
       </div>
     `).join('');
 
@@ -595,23 +617,30 @@
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>🔐 पूर्ण आकारात गुप्त ॲडमिन पॅनल व व्यवस्थापन</span>
-          <button class="btn btn-outline" style="padding:6px 12px; font-size:0.8rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
+          <span>🔐 पूर्ण आकारात ॲडमिन पॅनल व व्यवस्थापन</span>
+          <button class="btn btn-outline" style="padding:6px 12px; font-size:0.85rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
-          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
-          <input type="text" id="adminMarqueeInput" class="form-control" value="${marqueeMessage}" style="margin-bottom:6px;">
+        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
+          <h4 style="font-size:0.98rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
+          <input type="text" id="adminMarqueeInput" class="form-control" value="${marqueeMessage}" style="margin-bottom:8px;">
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
-        <!-- MANUAL STRENGTH UPDATE FEATURE -->
-        <div style="background:#FFFBEB; padding:12px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:12px;">
-          <h4 style="font-size:0.9rem; color:#D97706; margin-bottom:6px;">✏️ शाळेची पटसंख्या मॅन्युअली बदला (Manual Strength Edit):</h4>
-          <div class="form-grid" style="margin-bottom:6px;">
+        <!-- ENHANCED: Class-wise Manual Strength Edit Feature -->
+        <div style="background:#FFFBEB; padding:14px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:15px;">
+          <h4 style="font-size:0.98rem; color:#D97706; margin-bottom:8px;">✏️ शाळा व वर्गानुसार पटसंख्या बदला (Class-wise Edit):</h4>
+          <div class="form-grid" style="margin-bottom:8px;">
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>शाळा निवडा:</label>
-              <select id="adm_school_select" class="form-control">${schoolOptionsHtml}</select>
+              <select id="adm_school_select" class="form-control" onchange="loadSchoolClassesForAdmin()">${schoolOptionsHtml}</select>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>वर्ग निवडा:</label>
+              <select id="adm_class_select" class="form-control" onchange="loadClassStrengthForAdmin()">
+                <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option>
+                <option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
+              </select>
             </div>
             <div class="form-group">
               <label>मुले संख्या:</label>
@@ -622,32 +651,32 @@
               <input type="number" id="adm_girls_input" class="form-control" min="0" placeholder="मुली पट">
             </div>
           </div>
-          <button class="btn btn-warning" onclick="manualUpdateSchoolStrength()">पटसंख्या जतन करा 💾</button>
+          <button class="btn btn-warning" onclick="manualUpdateClassStrength()">वर्गवार पटसंख्या जतन करा 💾</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
-          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
-          <div style="margin-bottom:8px;">${linksAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:6px;">
+        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
+          <h4 style="font-size:0.98rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
+          <div style="margin-bottom:10px;">${linksAdminHtml}</div>
+          <div class="form-grid" style="margin-bottom:8px;">
             <input type="text" id="linkTitleInput" class="form-control" placeholder="लिंकचे नाव">
             <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
           </div>
           <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border); margin-bottom:12px;">
-          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
-          <div style="margin-bottom:8px;">${tabsAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:6px;">
+        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
+          <h4 style="font-size:0.98rem; color:#1E3A8A; margin-bottom:8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
+          <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
+          <div class="form-grid" style="margin-bottom:8px;">
             <input type="text" id="newTabNameInput" class="form-control" placeholder="नवीन टॅबचे नाव">
             <input type="text" id="newTabIdInput" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
           </div>
           <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:2px solid var(--border);">
-          <h4 style="font-size:0.9rem; color:#1E3A8A; margin-bottom:6px;">➕ खाजगी शाळा जोडा (Add Private School):</h4>
-          <div class="form-grid" style="margin-bottom:6px;">
+        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
+          <h4 style="font-size:0.98rem; color:#1E3A8A; margin-bottom:8px;">➕ खाजगी शाळा जोडा (Add Private School):</h4>
+          <div class="form-grid" style="margin-bottom:8px;">
             <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English)">
             <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
             <input type="text" id="p_classes" class="form-control" placeholder="वर्ग (उदा. 1 To 8)">
@@ -658,27 +687,51 @@
         </div>
       </div>
     `;
+    setTimeout(loadClassStrengthForAdmin, 100);
   }
 
-  function manualUpdateSchoolStrength() {
+  function loadClassStrengthForAdmin() {
     let schoolName = document.getElementById('adm_school_select').value;
+    let className = document.getElementById('adm_class_select').value;
+    let allSchools = [...zpschoolsData, ...privateSchoolsData];
+    let school = allSchools.find(x => x.name === schoolName);
+    if(school && school.classCounts && school.classCounts[className]) {
+      document.getElementById('adm_boys_input').value = school.classCounts[className].boys || 0;
+      document.getElementById('adm_girls_input').value = school.classCounts[className].girls || 0;
+    } else {
+      document.getElementById('adm_boys_input').value = 0;
+      document.getElementById('adm_girls_input').value = 0;
+    }
+  }
+
+  function loadSchoolClassesForAdmin() {
+    loadClassStrengthForAdmin();
+  }
+
+  function manualUpdateClassStrength() {
+    let schoolName = document.getElementById('adm_school_select').value;
+    let className = document.getElementById('adm_class_select').value;
     let boys = Number(document.getElementById('adm_boys_input').value) || 0;
     let girls = Number(document.getElementById('adm_girls_input').value) || 0;
 
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     if(school) {
-      if(!school.classCounts["वर्ग 1"]) { school.classCounts["वर्ग 1"] = {boys: 0, girls: 0}; }
-      school.classCounts["वर्ग 1"].boys = boys;
-      school.classCounts["वर्ग 1"].girls = girls;
-      school.total = boys + girls;
+      if(!school.classCounts) { school.classCounts = {}; }
+      school.classCounts[className] = {boys: boys, girls: girls};
+
+      let newTotal = 0;
+      Object.values(school.classCounts).forEach(obj => {
+        newTotal += (obj.boys || 0) + (obj.girls || 0);
+      });
+      school.total = newTotal;
 
       if(school.type === 'ZP') {
         localStorage.setItem('sawargaon_zp_schools', JSON.stringify(zpschoolsData));
       } else {
         localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
       }
-      showToast('पटसंख्या यशस्वीपणे अपडेट केली गेली! ✅');
+      showToast('वर्गवार पटसंख्या यशस्वीपणे अपडेट झाली! ✅');
       renderDashboard();
     }
   }
@@ -807,20 +860,20 @@
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
           <span>🏫 ${s.id}. ${s.name} (${s.type})</span>
-          <button class="btn btn-outline" style="padding:5px 10px; font-size:0.78rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
+          <button class="btn btn-outline" style="padding:6px 12px; font-size:0.82rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
-        <div style="font-size: 0.85rem; line-height: 1.5;">
+        <div style="font-size: 0.9rem; line-height: 1.6;">
           <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'}</p>
           <p><strong>वर्ग:</strong> ${s.classes} | <strong>एकूण पट:</strong> ${grandTotal}</p>
           
-          <div style="margin: 10px 0; background: #F8FAFC; padding: 10px; border-radius: 8px; border: 2px solid var(--border);">
+          <div style="margin: 10px 0; background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border);">
             <strong>मुख्याध्यापक व मोबाईल क्रमांक:</strong><br>
             • <b>${hm.name}</b> (${hm.designation}) - <a href="tel:${hm.phone}" style="color:#D97706; font-weight:800;">${hm.phone}</a>
           </div>
           
           <div style="display:flex; flex-direction:column; gap: 14px; margin-top: 10px;">
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या:</div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.9rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या:</div>
               <div class="table-responsive">
                 <table>
                   <thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
@@ -833,7 +886,7 @@
             </div>
             
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.85rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.9rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
               <div class="table-responsive">
                 <table>
                   <thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
