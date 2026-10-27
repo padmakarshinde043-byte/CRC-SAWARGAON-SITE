@@ -15,7 +15,7 @@
     --border: #CBD5E1;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
   /* Compact Rich Tricolor Header */
@@ -62,7 +62,7 @@
   @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
   .form-group label { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; color: #1E3A8A; }
-  .form-control { padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.1rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+  .form-control { padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 1.1rem; outline: none; background: white; color: var(--text-main); font-weight: 700; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); user-select: text; -webkit-user-select: text; }
   .form-control:focus { border-color: #FF9933; box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15); }
 
   .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 4px 0; }
@@ -109,7 +109,7 @@
   <div class="modal-box">
     <h3>🔐 ॲडमिन गुप्त पिन</h3>
     <p style="font-size: 0.9rem; font-weight: 700; color: #475569; margin-bottom: 8px;">कृपया ॲडमिन पिन प्रविष्ट करा:</p>
-    <input type="password" id="adminPinField" class="form-control" placeholder="••••" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 12px;" maxlength="4">
+    <input type="password" id="adminPinField" class="form-control" autocomplete="off" placeholder="••••" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 12px;" maxlength="4">
     <div style="display: flex; gap: 8px; justify-content: flex-end;">
       <button class="btn btn-outline" style="width: auto; padding: 8px 12px;" onclick="closeAdminLoginModal()">रद्द करा</button>
       <button class="btn btn-primary" style="width: auto; padding: 8px 12px;" onclick="verifyAdminLoginPin()">अनलॉक करा 🔓</button>
@@ -131,7 +131,7 @@
 
 <!-- COMPACT HEADER WITH LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
 <header>
-  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
+  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर क्लिक करा">
     <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
   <div class="header-text" onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
@@ -436,9 +436,9 @@
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
-        <!-- Prominent Distinct Links Section -->
-        <div class="card links-prominent-card">
-          <div class="card-title" style="color: #B45309;">
+        <!-- Prominent Glossy Purple Links Section -->
+        <div class="card links-glossy-purple">
+          <div class="card-title" style="color: #7E22CE;">
             <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
           </div>
           <div class="dynamic-links-box">
@@ -463,7 +463,7 @@
           <div class="form-grid">
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>शाळा निवडा:</label>
-              <select id="mr_school" class="form-control"><option value="">-- शाळा निवडा --</option></select>
+              <select id="mr_school" class="form-control" autocomplete="off"><option value="">-- शाळा निवडा --</option></select>
             </div>
           </div>
           <div class="form-group">
@@ -479,27 +479,27 @@
             <div class="form-grid">
               <div class="form-group">
                 <label>वर्ग:</label>
-                <select id="mr_class" class="form-control">
+                <select id="mr_class" class="form-control" autocomplete="off">
                   <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>प्रवर्ग:</label>
-                <select id="mr_cat" class="form-control">
+                <select id="mr_cat" class="form-control" autocomplete="off">
                   <option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ</option><option value="NT">NT</option><option value="SBC">SBC</option><option value="OBC">OBC</option><option value="GENERAL">GENERAL</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>लिंग:</label>
-                <select id="mr_gender" class="form-control"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
+                <select id="mr_gender" class="form-control" autocomplete="off"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
               </div>
               <div class="form-group">
                 <label>विद्यार्थी संख्या:</label>
-                <input type="number" id="mr_count" class="form-control" min="1" value="1">
+                <input type="number" id="mr_count" class="form-control" autocomplete="off" min="1" value="1">
               </div>
               <div class="form-group" style="grid-column: 1 / -1;">
                 <label>कारण / शेरा:</label>
-                <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
+                <input type="text" id="mr_reason" class="form-control" autocomplete="off" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
               </div>
             </div>
           </div>
@@ -609,14 +609,15 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW (STAYS OPEN ON SAVE, INCLUDES ZP COUNTS, INST TYPE & PUSH NOTIFICATION) */
+  /* FULL-SIZE ADMIN PANEL VIEW (EACH LINK HAS NOTIFY BUTTON) */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
     let linksAdminHtml = customLinks.map(l => `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.92rem; margin-bottom:8px;">
-        <span><b>${l.title}</b> (${l.url})</span>
-        <button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.92rem; margin-bottom:8px; gap:8px;">
+        <span style="flex-grow:1;"><b>${l.title}</b><br><a href="${l.url}" target="_blank" style="font-size:0.75rem; color:#2563EB;">${l.url}</a></span>
+        <button class="btn btn-warning" style="padding:5px 10px; font-size:0.78rem; width:auto;" onclick="sendSingleLinkNotification('${l.title}', '${l.url}')">🔔 नोटिफाय करा</button>
+        <button class="btn btn-danger" style="padding:5px 10px; font-size:0.78rem; width:auto;" onclick="deleteAdminLink(${l.id})">काढून टाका ❌</button>
       </div>
     `).join('');
 
@@ -639,7 +640,7 @@
 
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
-          <input type="text" id="adminMarqueeInput" class="form-control" value="${marqueeMessage}" style="margin-bottom:8px;">
+          <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${marqueeMessage}" style="margin-bottom:8px;">
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
@@ -649,11 +650,11 @@
           <div class="form-grid" style="margin-bottom:8px;">
             <div class="form-group">
               <label>जिल्हा परिषद शाळांची संख्या:</label>
-              <input type="number" id="adm_zp_schools_count" class="form-control" value="${globalZpSchoolsCount}">
+              <input type="number" id="adm_zp_schools_count" autocomplete="off" class="form-control" value="${globalZpSchoolsCount}">
             </div>
             <div class="form-group">
               <label>जिल्हा परिषद शाळेतील शिक्षकांची संख्या:</label>
-              <input type="number" id="adm_zp_teachers_count" class="form-control" value="${globalZpTeachersCount}">
+              <input type="number" id="adm_zp_teachers_count" autocomplete="off" class="form-control" value="${globalZpTeachersCount}">
             </div>
           </div>
           <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
@@ -665,22 +666,22 @@
           <div class="form-grid" style="margin-bottom:8px;">
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>शाळा निवडा:</label>
-              <select id="adm_school_select" class="form-control" onchange="loadClassStrengthForAdmin()">${schoolOptionsHtml}</select>
+              <select id="adm_school_select" autocomplete="off" class="form-control" onchange="loadClassStrengthForAdmin()">${schoolOptionsHtml}</select>
             </div>
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>वर्ग निवडा:</label>
-              <select id="adm_class_select" class="form-control" onchange="loadClassStrengthForAdmin()">
+              <select id="adm_class_select" autocomplete="off" class="form-control" onchange="loadClassStrengthForAdmin()">
                 <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option>
                 <option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
               </select>
             </div>
             <div class="form-group">
               <label>मुले संख्या:</label>
-              <input type="number" id="adm_boys_input" class="form-control" min="0" placeholder="मुले पट">
+              <input type="number" id="adm_boys_input" autocomplete="off" class="form-control" min="0" placeholder="मुले पट">
             </div>
             <div class="form-group">
               <label>मुली संख्या:</label>
-              <input type="number" id="adm_girls_input" class="form-control" min="0" placeholder="मुली पट">
+              <input type="number" id="adm_girls_input" autocomplete="off" class="form-control" min="0" placeholder="मुली पट">
             </div>
           </div>
           <button class="btn btn-warning" onclick="manualUpdateClassStrength()">वर्गवार पटसंख्या जतन करा 💾</button>
@@ -690,11 +691,11 @@
         <div style="background:#FDF2F8; padding:14px; border-radius:10px; border:2px solid #EC4899; margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#9D174D; margin-bottom:8px;">➕ खाजगी/संस्थेची शाळा जोडा (Add Private School):</h4>
           <div class="form-grid" style="margin-bottom:8px;">
-            <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English)">
-            <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
+            <input type="text" id="p_name" autocomplete="off" class="form-control" placeholder="शाळेचे नाव (English)">
+            <input type="text" id="p_udise" autocomplete="off" class="form-control" placeholder="यु-डायस कोड (UDISE)">
             <div class="form-group">
               <label>संस्थेचा प्रकार:</label>
-              <select id="p_type_select" class="form-control">
+              <select id="p_type_select" autocomplete="off" class="form-control">
                 <option value="खाजगी अनुदानित">खाजगी अनुदानित</option>
                 <option value="खाजगी विना अनुदानित">खाजगी विना अनुदानित</option>
                 <option value="समाज कल्याण विभाग">समाज कल्याण विभाग</option>
@@ -703,34 +704,30 @@
             </div>
             <div class="form-group">
               <label>शिक्षक संख्या:</label>
-              <input type="number" id="p_teachers_count" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
+              <input type="number" id="p_teachers_count" autocomplete="off" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
             </div>
-            <input type="number" id="p_total" class="form-control" placeholder="एकूण विद्यार्थी पट">
-            <input type="text" id="p_hm" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
+            <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
+            <input type="text" id="p_hm" autocomplete="off" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
           </div>
           <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
         </div>
 
-        <!-- Links Management & Push Notification Broadcast -->
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व नोटिफिकेशन व्यवस्थापन:</h4>
+          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
           <div style="margin-bottom:10px;">${linksAdminHtml}</div>
           <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="linkTitleInput" class="form-control" placeholder="नवीन लिंकचे नाव">
-            <input type="url" id="linkUrlInput" class="form-control" placeholder="URL (https://...)">
+            <input type="text" id="linkTitleInput" autocomplete="off" class="form-control" placeholder="लिंकचे नाव">
+            <input type="url" id="linkUrlInput" autocomplete="off" class="form-control" placeholder="URL (https://...)">
           </div>
-          <div style="display:flex; gap:10px;">
-            <button class="btn btn-success" style="flex:1;" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
-            <button class="btn btn-warning" style="flex:1;" onclick="sendPushNotificationToAll()">🔔 सर्वांना नोटिफाय करा</button>
-          </div>
+          <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
         </div>
 
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
           <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
           <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="newTabNameInput" class="form-control" placeholder="नवीन टॅबचे नाव">
-            <input type="text" id="newTabIdInput" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
+            <input type="text" id="newTabNameInput" autocomplete="off" class="form-control" placeholder="नवीन टॅबचे नाव">
+            <input type="text" id="newTabIdInput" autocomplete="off" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
           </div>
           <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडा ➕</button>
         </div>
@@ -819,8 +816,8 @@
     showToast('लिंक काढून टाकली! 🗑️');
   }
 
-  /* WEB PUSH NOTIFICATION BROADCAST */
-  function sendPushNotificationToAll() {
+  /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK */
+  function sendSingleLinkNotification(title, url) {
     if (!("Notification" in window)) {
       alert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
       return;
@@ -828,11 +825,16 @@
 
     Notification.requestPermission().then(permission => {
       if (permission === "granted") {
-        new Notification("समूह साधन केंद्र सावरगाव", {
-          body: "📢 नवीन डेटा कलेक्शन लिंक किंवा माहिती अद्ययावत करण्यात आली आहे. कृपया पोर्टल तपासा!",
+        let notification = new Notification("समूह साधन केंद्र सावरगाव", {
+          body: `📢 आवश्यक सूचना: "${title}" ही माहिती भरणे बंधनकारक आहे. क्लिक करून माहिती भरा!`,
           icon: "https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg"
         });
-        showToast('सर्व शाळांना पुश नोटिफिकेशन पाठवले गेले! 🔔');
+
+        notification.onclick = function() {
+          window.open(url, '_blank');
+        };
+
+        showToast('सदर लिंकसाठी नोटिफिकेशन पाठवले गेले! 🔔');
       } else {
         alert("नोटिफिकेशन परवानगी नाकारण्यात आली आहे.");
       }
