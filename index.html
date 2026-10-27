@@ -11,32 +11,31 @@
 <style>
   :root {
     --navy-900: #061121;
-    --navy-800: #0D1F38;
     --navy-600: #1B365D;
-    --accent-orange: #F97316;
-    --accent-green: #10B981;
+    --accent-orange: #FF9933;
+    --accent-green: #138808;
     --bg-page: #F8FAFC;
     --surface: #FFFFFF;
     --text-main: #0F172A;
-    --text-muted: #64748B;
+    --text-muted: #475569;
     --border: #E2E8F0;
     --radius-lg: 14px;
     --radius-md: 8px;
     --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-    --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.1);
+    --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 50px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 60px; }
 
-  /* Header & Logo (GitHub raw image with 3-click secret admin) */
-  header { background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-600) 100%); color: white; padding: 1rem; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--accent-orange); display: flex; align-items: center; gap: 12px; }
-  .header-logo-box { width: 48px; height: 48px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--accent-orange); flex-shrink: 0; cursor: pointer; }
+  /* Header with Light Tricolor Background */
+  header { background: linear-gradient(135deg, #FFF7ED 0%, #FFFFFF 50%, #ECFDF5 100%); color: var(--text-main); padding: 1rem; box-shadow: var(--shadow-md); border-bottom: 3px solid var(--accent-orange); display: flex; align-items: center; gap: 12px; }
+  .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--accent-orange); flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
   .header-text { text-align: left; flex-grow: 1; }
-  .header-badge { display: inline-block; background: rgba(249, 115, 22, 0.2); border: 1px solid var(--accent-orange); color: #FFEDD5; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 3px; }
-  header h1 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
-  header p { font-size: 0.75rem; color: #CBD5E1; margin-top: 2px; }
+  .header-badge { display: inline-block; background: #FFEDD5; border: 1px solid var(--accent-orange); color: #C2410C; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 3px; }
+  header h1 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; color: #1E293B; }
+  header p { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
 
   /* Marquee */
   .marquee-bar { background: #FEF3C7; color: #92400E; padding: 6px 10px; font-size: 0.8rem; font-weight: 700; border-bottom: 1.5px solid #FDE68A; overflow: hidden; white-space: nowrap; }
@@ -46,12 +45,12 @@
   .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; padding: 6px 8px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
   .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab { flex: 1; min-width: 120px; text-align: center; padding: 8px 10px; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.2s; }
+  .nav-tab { flex: 1; min-width: 110px; text-align: center; padding: 8px 10px; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap; transition: 0.2s; }
   .nav-tab.active { color: white; background: linear-gradient(135deg, var(--navy-600), #2563EB); box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25); }
 
   .container { max-width: 1100px; margin: 1rem auto; padding: 0 12px; }
   .card { background: var(--surface); border-radius: var(--radius-lg); padding: 1.1rem; margin-bottom: 1.1rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-  .card-title { font-size: 1rem; font-weight: 800; color: var(--navy-800); display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; border-bottom: 2px solid #F1F5F9; padding-bottom: 6px; }
+  .card-title { font-size: 1rem; font-weight: 800; color: var(--navy-600); display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; border-bottom: 2px solid #F1F5F9; padding-bottom: 6px; }
 
   /* Stats Grid */
   .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1rem; }
@@ -59,30 +58,30 @@
   .stat-card { background: white; padding: 10px; border-radius: var(--radius-lg); border-top: 4px solid var(--accent-green); box-shadow: var(--shadow-sm); text-align: center; }
   .stat-card:nth-child(even) { border-top-color: var(--accent-orange); }
   .stat-card h3 { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
-  .stat-card .num { font-size: 1.3rem; font-weight: 800; color: var(--navy-800); margin-top: 2px; }
+  .stat-card .num { font-size: 1.3rem; font-weight: 800; color: var(--navy-600); margin-top: 2px; }
 
-  /* School Capsules (Professional Orange & Green accents) */
+  /* School Capsules (4 per row on mobile) */
   .school-capsule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
   @media(min-width: 500px) { .school-capsule-grid { grid-template-columns: repeat(4, 1fr); } }
   .school-capsule { background: #FFF7ED; border: 1.5px solid #FED7AA; color: #9A3412; padding: 8px 6px; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 44px; word-break: break-word; }
   .school-capsule.private { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
   .school-capsule:hover { background: var(--navy-600); color: white; border-color: var(--navy-600); transform: translateY(-1px); }
 
-  /* Dynamic Link Capsules */
+  /* Dynamic Links */
   .dynamic-links-box { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 9px 14px; border-radius: 30px; text-decoration: none; color: var(--navy-800); font-weight: 700; font-size: 0.85rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
+  .link-capsule { display: flex; align-items: center; justify-content: space-between; background: white; border: 2px solid var(--border); padding: 9px 14px; border-radius: 30px; text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.85rem; transition: 0.2s; box-shadow: var(--shadow-sm); }
   .link-capsule:hover { border-color: var(--accent-orange); background: #FFFBEB; }
-  .glow-effect { border-color: var(--accent-orange); box-shadow: 0 0 10px rgba(249, 115, 22, 0.3); }
+  .glow-effect { border-color: var(--accent-orange); box-shadow: 0 0 10px rgba(255, 153, 51, 0.3); }
   @keyframes flashRed { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-  .blink-star { color: var(--accent-orange); font-size: 0.95rem; animation: flashRed 1s infinite; margin-left: 4px; }
+  .blink-star { color: #DC2626; font-size: 0.95rem; animation: flashRed 1s infinite; margin-left: 4px; }
 
   /* Forms */
   .form-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
   @media(min-width: 600px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; color: var(--navy-800); }
+  .form-group label { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; color: var(--navy-600); }
   .form-control { padding: 9px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.88rem; outline: none; background: white; color: var(--text-main); width: 100%; }
-  .form-control:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12); }
+  .form-control:focus { border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.12); }
 
   .radio-box-group { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 4px 0; }
   @media(min-width: 500px) { .radio-box-group { grid-template-columns: repeat(3, 1fr); } }
@@ -103,11 +102,10 @@
   .btn-primary { background: var(--navy-600); color: white; box-shadow: 0 3px 8px rgba(27, 54, 93, 0.2); }
   .btn-success { background: var(--accent-green); color: white; }
   .btn-warning { background: var(--accent-orange); color: white; }
-  .btn-danger { background: #EF4444; color: white; }
   .btn-outline { background: white; border: 1.5px solid var(--navy-600); color: var(--navy-600); }
 
-  /* Flash Toast Notification */
-  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent-green); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
+  /* Toast */
+  #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent-green); color: white; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(19, 136, 8, 0.4); z-index: 2000; transition: transform 0.3s ease; text-align: center; }
   #toastMessage.show { transform: translateX(-50%) translateY(0); }
 
   /* Footer */
@@ -121,35 +119,35 @@
 
 <div id="toastMessage">माहिती यशस्वीपणे जतन केली गेली! ✅</div>
 
-<!-- HEADER WITH GITHUB LOGO & 3-CLICK ADMIN TRIGGER -->
+<!-- HEADER WITH LIGHT TRICOLOR BACKGROUND & ZP BEED LOGO -->
 <header>
-  <div class="header-logo-box" onclick="handleLogoClick()" title="Logo (Click 3 times for Admin)">
-    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\'><rect width=\'48\' height=\'48\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
+    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="ZP Beed Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'14\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>ZP</text></svg>'">
   </div>
   <div class="header-text">
-    <div class="header-badge">Samuh Sadhan Kendra Sawargaon · Tal. Majalgaon, Dist. Beed</div>
-    <h1>School Info & Monthly Report Portal</h1>
-    <p>Cluster Educational & Data Management Portal</p>
+    <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
+    <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
+    <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
   </div>
 </header>
 
 <div class="marquee-bar">
   <marquee scrollamount="5" id="marqueeTextDisplay">
-    📢 Samuh Sadhan Kendra Sawargaon antargat sarva shalanchi mahiti va patsuchya lavkar ajyavat karavi.
+    📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.
   </marquee>
 </div>
 
 <!-- NAVIGATION TABS -->
 <div class="nav-container">
   <div class="nav-tabs" id="navTabsContainer">
-    <button class="nav-tab active" onclick="switchTab('dashboardTab', this)">🏠 Dashboard</button>
-    <button class="nav-tab" onclick="switchTab('reportTab', this)">📝 Monthly Report</button>
-    <button class="nav-tab" onclick="switchTab('summaryTab', this)">📊 Summary</button>
+    <button class="nav-tab active" onclick="switchTab('dashboardTab', this)">🏠 डॅशबोर्ड व लिंक्स</button>
+    <button class="nav-tab" onclick="switchTab('reportTab', this)">📝 मासिक अहवाल</button>
+    <button class="nav-tab" onclick="switchTab('summaryTab', this)">📊 केंद्र गोषवारा</button>
   </div>
 </div>
 
 <div class="container" id="mainContainerViews">
-  <!-- DYNAMIC VIEWS INJECTED HERE -->
+  <!-- DYNAMIC VIEWS -->
 </div>
 
 <footer>
@@ -157,7 +155,7 @@
 </footer>
 
 <script>
-  /* 20 ZP Schools with English names, English teacher names, and mobile numbers */
+  /* 20 ZP Schools with English names, English teacher names, mobile numbers */
   let zpschoolsData = [
     { id: 1, name: "ZPCPS SAVARGAON", udise: "27270709601", classes: "1 To 7", total: 150, type: "ZP",
       teachers: [{name: "SHINDE SAMADHAN HAMBIRRAO (HM)", phone: "9423733799"}, {name: "PAWAR A. B.", phone: "9822112233"}],
@@ -261,14 +259,12 @@
     }
   ];
 
-  /* LocalStorage for Private Schools & Links */
   let privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
   let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
-    { id: 1, title: "October Monthly Enrollment Form Link", url: "https://forms.google.com", glow: true, star: true },
-    { id: 2, title: "U-DISE+ School Data Submission Form", url: "https://udiseplus.gov.in", glow: false, star: true }
+    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com", glow: true, star: true },
+    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in", glow: false, star: true }
   ];
-  let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 Samuh Sadhan Kendra Sawargaon antargat sarva shalanchi mahiti lavkar sadar karavi.";
-  let schoolStatuses = JSON.parse(localStorage.getItem('sawargaon_statuses')) || {};
+  let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
 
   let logoClickCount = 0;
   let logoTimer = null;
@@ -284,11 +280,11 @@
   }
 
   function promptAdminAccess() {
-    let pin = prompt("Enter Admin Secret PIN (3506):");
+    let pin = prompt("ॲडमिन गुप्त पिन टाका (3506):");
     if(pin === "3506") {
       openAdminModal();
     } else if(pin !== null) {
-      alert("Incorrect PIN!");
+      alert("चुकीचा पिन!");
     }
   }
 
@@ -299,28 +295,39 @@
     setTimeout(() => { t.classList.remove('show'); }, 2000);
   }
 
-  function switchTab(tabId, btnElement) {
+  /* History API for Mobile Back Button Support */
+  function switchTab(tabId, btnElement, pushHistory = true) {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
     let target = document.getElementById(tabId);
     if(target) target.classList.add('active');
     if(btnElement) btnElement.classList.add('active');
+
+    if(pushHistory) {
+      history.pushState({view: 'tab', tabId: tabId}, "", "#" + tabId);
+    }
   }
+
+  window.addEventListener('popstate', (event) => {
+    if(event.state && event.state.view === 'school') {
+      renderDashboard();
+    } else {
+      renderDashboard();
+    }
+  });
 
   function initApp() {
     document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
     renderDashboard();
-    renderReportDropdown();
-    renderSummary();
+    history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
-  /* RENDER DASHBOARD (Links at Top, School Capsules at Bottom) */
+  /* DASHBOARD RENDER */
   function renderDashboard() {
     let container = document.getElementById('mainContainerViews');
     
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let totalTeachers = 73 + privateSchoolsData.reduce((acc, s) => acc + (s.teachers ? s.teachers.length : 1), 0);
-    let totalStudents = allSchools.reduce((acc, s) => acc + Number(s.total), 0);
 
     let linksHtml = customLinks.map(l => `
       <a class="link-capsule ${l.glow ? 'glow-effect' : ''}" href="${l.url}" target="_blank">
@@ -336,34 +343,34 @@
     `).join('');
 
     container.innerHTML = `
-      <!-- 1. DASHBOARD TAB -->
+      <!-- 1. डॅशबोर्ड व लिंक्स -->
       <div id="dashboardTab" class="tab-content active">
-        <!-- Links on Top -->
+        <!-- लिंक्स सर्वात वर -->
         <div class="card" style="border: 2px dashed var(--accent-orange); background: #FFFBEB;">
           <div class="card-title" style="color: var(--accent-orange);">
-            <span>🔗 Data Collection & Information Links</span>
+            <span>🔗 डेटा कलेक्शन व माहिती भरण्याचे फॉर्म्स</span>
           </div>
           <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
-            Please fill information immediately on links marked with ⭐:
+            चमकणारा लाल स्टार ⭐ असलेल्या लिंक्सवर तातडीने माहिती भरावी:
           </p>
           <div class="dynamic-links-box">
-            ${linksHtml || '<p style="font-size:0.8rem; text-align:center;">No links available.</p>'}
+            ${linksHtml || '<p style="font-size:0.8rem; text-align:center;">सध्या कोणतीही लिंक उपलब्ध नाही.</p>'}
           </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- शाळांची संख्या व आकडेवारी (खालच्या भागात) -->
         <div class="stats-grid">
-          <div class="stat-card"><h3>Total Schools</h3><div class="num">${allSchools.length}</div></div>
-          <div class="stat-card"><h3>ZP Schools</h3><div class="num">${zpschoolsData.length}</div></div>
-          <div class="stat-card"><h3>Private Schools</h3><div class="num">${privateSchoolsData.length}</div></div>
-          <div class="stat-card"><h3>Active Teachers</h3><div class="num">${totalTeachers}</div></div>
+          <div class="stat-card"><h3>एकूण शाळा</h3><div class="num">${allSchools.length}</div></div>
+          <div class="stat-card"><h3>जि.प. शाळा</h3><div class="num">${zpschoolsData.length}</div></div>
+          <div class="stat-card"><h3>खाजगी शाळा</h3><div class="num">${privateSchoolsData.length}</div></div>
+          <div class="stat-card"><h3>कार्यरत शिक्षक</h3><div class="num">${totalTeachers}</div></div>
         </div>
 
-        <!-- School Capsules at Bottom -->
+        <!-- शाळांची यादी कॅप्सूल स्वरूपात -->
         <div class="card">
-          <div class="card-title"><span>🏫 Cluster Schools List (Click to View Details)</span></div>
+          <div class="card-title"><span>🏫 केंद्रांतर्गत शाळांची यादी (माहिती पाहण्यासाठी क्लिक करा)</span></div>
           <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
-            Click on any school name to view complete teachers list and mobile numbers in a full page view:
+            शाळेच्या नावावर क्लिक केल्यास पूर्ण पानावर शिक्षकांची नावे, मोबाईल नंबर व पटसंख्या दिसेल:
           </p>
           <div class="school-capsule-grid">
             ${capsulesHtml}
@@ -371,74 +378,73 @@
         </div>
       </div>
 
-      <!-- 2. MONTHLY REPORT TAB -->
+      <!-- 2. मासिक अहवाल -->
       <div id="reportTab" class="tab-content">
         <div class="card">
-          <div class="card-title"><span>📝 Monthly Enrollment Change Form</span></div>
+          <div class="card-title"><span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span></div>
           <div class="form-grid">
             <div class="form-group" style="grid-column: 1 / -1;">
-              <label>Select School:</label>
-              <select id="mr_school" class="form-control"><option value="">-- Select School --</option></select>
+              <label>शाळा निवडा:</label>
+              <select id="mr_school" class="form-control"><option value="">-- शाळा निवडा --</option></select>
             </div>
           </div>
           <div class="form-group">
-            <label>Select Enrollment Change Type:</label>
+            <label>मागील अहवालानंतर पटसंख्येत झालेला बदल:</label>
             <div class="radio-box-group">
-              <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">A. No Change</div></label>
-              <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">B. Increased</div></label>
-              <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">C. Decreased</div></label>
+              <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. बदल नाही</div></label>
+              <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. वाढली</div></label>
+              <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. कमी झाली</div></label>
             </div>
           </div>
           <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 10px; border-radius: var(--radius-md); border: 1.5px dashed var(--accent-orange); margin: 10px 0;">
-            <div style="font-weight: 800; color: var(--accent-orange); margin-bottom: 6px; font-size: 0.8rem;">Change Details:</div>
+            <div style="font-weight: 800; color: var(--accent-orange); margin-bottom: 6px; font-size: 0.8rem;">बदलाचा तपशील:</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>Class:</label>
+                <label>इयत्ता:</label>
                 <select id="mr_class" class="form-control">
-                  <option value="Class 1">Class 1</option><option value="Class 2">Class 2</option><option value="Class 3">Class 3</option><option value="Class 4">Class 4</option><option value="Class 5">Class 5</option><option value="Class 6">Class 6</option><option value="Class 7">Class 7</option><option value="Class 8">Class 8</option>
+                  <option value="इ. 1 ली">इ. 1 ली</option><option value="इ. 2 री">इ. 2 री</option><option value="इ. 3 री">इ. 3 री</option><option value="इ. 4 थी">इ. 4 थी</option><option value="इ. 5 वी">इ. 5 वी</option><option value="इ. 6 वी">इ. 6 वी</option><option value="इ. 7 वी">इ. 7 वी</option><option value="इ. 8 वी">इ. 8 वी</option>
                 </select>
               </div>
               <div class="form-group">
-                <label>Category:</label>
+                <label>प्रवर्ग:</label>
                 <select id="mr_cat" class="form-control">
                   <option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ</option><option value="NT">NT</option><option value="SBC">SBC</option><option value="OBC">OBC</option><option value="GENERAL">GENERAL</option>
                 </select>
               </div>
               <div class="form-group">
-                <label>Gender:</label>
-                <select id="mr_gender" class="form-control"><option value="Male">Male</option><option value="Female">Female</option></select>
+                <label>लिंग:</label>
+                <select id="mr_gender" class="form-control"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
               </div>
               <div class="form-group">
-                <label>Student Count:</label>
+                <label>विद्यार्थी संख्या:</label>
                 <input type="number" id="mr_count" class="form-control" min="1" value="1">
               </div>
               <div class="form-group" style="grid-column: 1 / -1;">
-                <label>Reason / Remark:</label>
-                <input type="text" id="mr_reason" class="form-control" placeholder="e.g. New Admission / TC / Migration">
+                <label>कारण / शेरा:</label>
+                <input type="text" id="mr_reason" class="form-control" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
               </div>
             </div>
           </div>
           <div style="text-align: right; margin-top: 10px;">
-            <button class="btn btn-warning" onclick="submitReport()">📤 Submit Report</button>
+            <button class="btn btn-warning" onclick="submitReport()">📤 अहवाल सबमिट करा</button>
           </div>
         </div>
       </div>
 
-      <!-- 3. SUMMARY TAB -->
+      <!-- 3. केंद्र गोषवारा -->
       <div id="summaryTab" class="tab-content">
-        <div id="summaryContainerContent"></div>
+        ${renderSummaryHtml()}
       </div>
     `;
 
     renderReportDropdown();
-    renderSummary();
   }
 
   function renderReportDropdown() {
     let select = document.getElementById('mr_school');
     if(!select) return;
     let all = [...zpschoolsData, ...privateSchoolsData];
-    select.innerHTML = '<option value="">-- Select School --</option>';
+    select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     all.forEach(s => {
       let opt = document.createElement('option');
       opt.value = s.name;
@@ -447,37 +453,39 @@
     });
   }
 
-  /* FULL-PAGE SCHOOL VIEW (No Scrolling Required, Clean Single Glance) */
+  /* FULL-PAGE SCHOOL VIEW (No Scrolling Required, Back button supported) */
   function openFullSchoolView(schoolId, type) {
     let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
     let s = all.find(x => x.id === schoolId);
     if(!s) return;
 
+    history.pushState({view: 'school', schoolId: schoolId}, "", "#school-" + schoolId);
+
     let container = document.getElementById('mainContainerViews');
     let teachersHtml = s.teachers.map(t => `• ${t.name} - <a href="tel:${t.phone}" style="color:var(--accent-orange); font-weight:700;">${t.phone}</a>`).join('<br>');
     
-    let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, cnt]) => `<tr><td>${cls}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">N/A</td></tr>';
-    let catHtml = s.categoryCounts ? Object.entries(s.categoryCounts).map(([cat, cnt]) => `<tr><td>${cat}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">N/A</td></tr>';
+    let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, cnt]) => `<tr><td>${cls}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
+    let catHtml = s.categoryCounts ? Object.entries(s.categoryCounts).map(([cat, cnt]) => `<tr><td>${cat}</td><td style="font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2">माहिती नाही</td></tr>';
 
     container.innerHTML = `
       <div class="card" style="border: 2px solid var(--navy-600);">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
           <span>🏫 ${s.id}. ${s.name} (${s.type})</span>
-          <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="renderDashboard()">⬅ Back</button>
+          <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
         <div style="font-size: 0.82rem; line-height: 1.4;">
-          <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'} | <strong>Classes:</strong> ${s.classes} | <strong>Total Students:</strong> ${s.total}</p>
+          <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'} | <strong>वर्ग:</strong> ${s.classes} | <strong>एकूण पट:</strong> ${s.total}</p>
           <div style="margin: 6px 0; background: #F8FAFC; padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-            <strong>Teachers & Mobile Numbers:</strong><br>${teachersHtml}
+            <strong>शिक्षक व मोबाईल क्रमांक:</strong><br>${teachersHtml}
           </div>
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
             <div>
-              <div style="font-weight:700; color:var(--navy-800); font-size:0.75rem;">Class-wise Students:</div>
-              <div class="table-responsive" style="max-height:120px;"><table><thead><tr><th>Class</th><th>Count</th></tr></thead><tbody>${classHtml}</tbody></table></div>
+              <div style="font-weight:700; color:var(--navy-600); font-size:0.75rem;">इयत्तानिहाय संख्या:</div>
+              <div class="table-responsive" style="max-height:120px;"><table><thead><tr><th>इयत्ता</th><th>संख्या</th></tr></thead><tbody>${classHtml}</tbody></table></div>
             </div>
             <div>
-              <div style="font-weight:700; color:var(--navy-800); font-size:0.75rem;">Category-wise Students:</div>
-              <div class="table-responsive" style="max-height:120px;"><table><thead><tr><th>Category</th><th>Count</th></tr></thead><tbody>${catHtml}</tbody></table></div>
+              <div style="font-weight:700; color:var(--navy-600); font-size:0.75rem;">प्रवर्गनिहाय संख्या:</div>
+              <div class="table-responsive" style="max-height:120px;"><table><thead><tr><th>प्रवर्ग</th><th>संख्या</th></tr></thead><tbody>${catHtml}</tbody></table></div>
             </div>
           </div>
         </div>
@@ -485,11 +493,13 @@
     `;
   }
 
-  /* RENDER SUMMARY (ZP and Private Separated & Combined) */
-  function renderSummary() {
-    let summaryContent = document.getElementById('summaryContainerContent');
-    if(!summaryContent) return;
+  function goBackToDashboard() {
+    renderDashboard();
+    history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+  }
 
+  /* RENDER SUMMARY HTML */
+  function renderSummaryHtml() {
     let zpTotalStudents = zpschoolsData.reduce((acc, s) => acc + Number(s.total), 0);
     let privateTotalStudents = privateSchoolsData.reduce((acc, s) => acc + Number(s.total), 0);
     let combinedStudents = zpTotalStudents + privateTotalStudents;
@@ -497,44 +507,44 @@
     let zpTeachers = 73;
     let privTeachers = privateSchoolsData.reduce((acc, s) => acc + (s.teachers ? s.teachers.length : 1), 0);
 
-    summaryContent.innerHTML = `
+    return `
       <div class="card">
-        <div class="card-title"><span>📊 District Council (ZP) Schools Summary</span></div>
+        <div class="card-title"><span>📊 जिल्हा परिषद (ZP) शाळा गोषवारा</span></div>
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Component</th><th>Details</th></tr></thead>
+            <thead><tr><th>घटक</th><th>तपशील</th></tr></thead>
             <tbody>
-              <tr><td>Total ZP Schools</td><td style="font-weight:700;">${zpschoolsData.length}</td></tr>
-              <tr><td>Total ZP Teachers</td><td style="font-weight:700;">${zpTeachers}</td></tr>
-              <tr><td>Total ZP Students Enrollment</td><td style="font-weight:700; color:var(--accent-green);">${zpTotalStudents}</td></tr>
+              <tr><td>एकूण जि.प. शाळा</td><td style="font-weight:700;">${zpschoolsData.length}</td></tr>
+              <tr><td>एकूण जि.प. शिक्षक</td><td style="font-weight:700;">${zpTeachers}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--accent-green);">${zpTotalStudents}</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title"><span>📊 Private Schools Summary</span></div>
+        <div class="card-title"><span>📊 खाजगी शाळा गोषवारा</span></div>
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Component</th><th>Details</th></tr></thead>
+            <thead><tr><th>घटक</th><th>तपशील</th></tr></thead>
             <tbody>
-              <tr><td>Total Private Schools</td><td style="font-weight:700;">${privateSchoolsData.length}</td></tr>
-              <tr><td>Total Private Teachers</td><td style="font-weight:700;">${privTeachers}</td></tr>
-              <tr><td>Total Private Students Enrollment</td><td style="font-weight:700; color:var(--accent-orange);">${privateTotalStudents}</td></tr>
+              <tr><td>एकूण खाजगी शाळा</td><td style="font-weight:700;">${privateSchoolsData.length}</td></tr>
+              <tr><td>एकूण खाजगी शिक्षक</td><td style="font-weight:700;">${privTeachers}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--accent-orange);">${privateTotalStudents}</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="card" style="border: 2px solid var(--accent-green);">
-        <div class="card-title" style="color:var(--accent-green);"><span>📊 Combined Cluster Overview</span></div>
+        <div class="card-title" style="color:var(--accent-green);"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
         <div class="table-responsive">
           <table>
-            <thead><tr><th>Component</th><th>Total Count</th></tr></thead>
+            <thead><tr><th>घटक</th><th>एकूण संख्या</th></tr></thead>
             <tbody>
-              <tr><td>Total Schools (ZP + Private)</td><td style="font-weight:700;">${zpschoolsData.length + privateSchoolsData.length}</td></tr>
-              <tr><td>Total Active Teachers</td><td style="font-weight:700;">${zpTeachers + privTeachers}</td></tr>
-              <tr><td>Total Cluster Students</td><td style="font-weight:700; color:var(--navy-600);">${combinedStudents}</td></tr>
+              <tr><td>एकूण शाळा (जि.प. + खाजगी)</td><td style="font-weight:700;">${zpschoolsData.length + privateSchoolsData.length}</td></tr>
+              <tr><td>एकूण कार्यरत शिक्षक</td><td style="font-weight:700;">${zpTeachers + privTeachers}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td style="font-weight:700; color:var(--navy-600);">${combinedStudents}</td></tr>
             </tbody>
           </table>
         </div>
@@ -549,21 +559,21 @@
 
   function submitReport() {
     let school = document.getElementById('mr_school').value;
-    if(!school) { alert('Please select a school!'); return; }
-    showToast('Report submitted successfully! ✅');
+    if(!school) { alert('कृपया शाळा निवडा!'); return; }
+    showToast('अहवाल यशस्वीपणे सबमिट झाला! ✅');
     document.getElementById('mr_school').value = '';
     document.querySelector('input[name="changeType"][value="none"]').click();
   }
 
-  /* SECRET ADMIN MODAL (Opened via Logo 3-clicks + PIN 3506) */
+  /* SECRET ADMIN MODAL (Opened via ZP Beed Logo 3-clicks + PIN 3506) */
   function openAdminModal() {
     let adminWindow = window.open("", "AdminPanel", "width=600,height=700");
     adminWindow.document.write(`
       <!DOCTYPE html>
-      <html lang="en">
+      <html lang="mr">
       <head>
         <meta charset="UTF-8">
-        <title>Secret Admin Panel</title>
+        <title>गुप्त ॲडमिन पॅनल</title>
         <style>
           body { font-family: sans-serif; padding: 20px; background: #F8FAFC; color: #0F172A; }
           h2 { color: #1B365D; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; margin-bottom: 15px; }
@@ -574,22 +584,22 @@
         </style>
       </head>
       <body>
-        <h2>🔐 Secret Admin Panel</h2>
+        <h2>🔐 गुप्त ॲडमिन पॅनल</h2>
         
         <div class="section">
-          <h3>➕ Add Private School (खाजगी शाळा जोडा)</h3>
-          <input type="text" id="p_name" class="form-control" placeholder="School Name (English)">
-          <input type="text" id="p_udise" class="form-control" placeholder="UDISE Code">
-          <input type="text" id="p_classes" class="form-control" placeholder="Classes (e.g. 1 To 8)">
-          <input type="number" id="p_total" class="form-control" placeholder="Total Students">
-          <input type="text" id="p_hm" class="form-control" placeholder="Headmaster Name & Phone">
-          <button class="btn btn-success" onclick="addNewPrivateSchool()">Add Private School 🚀</button>
+          <h3>➕ खाजगी शाळा जोडा (Add Private School)</h3>
+          <input type="text" id="p_name" class="form-control" placeholder="शाळेचे नाव (English/Marathi)">
+          <input type="text" id="p_udise" class="form-control" placeholder="यु-डायस कोड (UDISE)">
+          <input type="text" id="p_classes" class="form-control" placeholder="वर्ग (उदा. 1 To 8)">
+          <input type="number" id="p_total" class="form-control" placeholder="एकूण विद्यार्थी संख्या">
+          <input type="text" id="p_hm" class="form-control" placeholder="मुख्याध्यापक नाव व मोबाईल">
+          <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जोडा 🚀</button>
         </div>
 
         <div class="section">
-          <h3>📢 Update Marquee Message</h3>
+          <h3>📢 सरकणारा मेसेज (Marquee) बदला</h3>
           <input type="text" id="m_input" class="form-control" value="${marqueeMessage}">
-          <button class="btn" onclick="updateMarquee()">Save Marquee</button>
+          <button class="btn" onclick="updateMarquee()">मेसेज जतन करा</button>
         </div>
 
         <script>
@@ -600,7 +610,7 @@
             let total = document.getElementById('p_total').value;
             let hmStr = document.getElementById('p_hm').value;
 
-            if(!name || !total) { alert('Please enter school name and total students.'); return; }
+            if(!name || !total) { alert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); return; }
 
             let privates = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
             let newSchool = {
@@ -617,14 +627,14 @@
 
             privates.push(newSchool);
             localStorage.setItem('sawargaon_private_schools', JSON.stringify(privates));
-            alert('Private school added successfully! Refresh main page.');
+            alert('खाजगी शाळा यशस्वीपणे जोडली गेली! मुख्य पेज रिफ्रेश करा.');
             window.close();
           }
 
           function updateMarquee() {
             let txt = document.getElementById('m_input').value;
             localStorage.setItem('sawargaon_marquee', txt);
-            alert('Marquee updated! Refresh main page.');
+            alert('मेसेज अपडेट झाला! मुख्य पेज रिफ्रेश करा.');
             window.close();
           }
         </script>
