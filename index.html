@@ -18,9 +18,10 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Light Tricolor Background Header without Logo */
-  header { background: linear-gradient(135deg, rgba(255, 153, 51, 0.18) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(19, 136, 8, 0.18) 100%); color: var(--text-main); padding: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-bottom: 3px solid #FF9933; text-align: center; cursor: pointer; }
-  header h1 { font-size: 1.25rem; font-weight: 800; color: #0F172A; line-height: 1.3; }
+  /* Professional Attractive Rich Header */
+  header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 1.1rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; text-align: center; cursor: pointer; }
+  header .header-main-title { font-size: 1.35rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px; margin-bottom: 3px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  header .header-sub-title { font-size: 0.92rem; font-weight: 700; color: #E2E8F0; letter-spacing: 0.3px; }
 
   .marquee-bar { background: #FEF3C7; color: #92400E; padding: 8px 12px; font-size: 0.9rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
@@ -124,9 +125,10 @@
   </div>
 </div>
 
-<!-- COMPACT HEADER WITH LIGHT TRICOLOR BACKGROUND & STRICT 3-CLICK ADMIN TRIGGER (NO LOGO) -->
+<!-- PROFESSIONAL TWO-LINE HEADER WITH STRICT 3-CLICK ADMIN TRIGGER (NO LOGO) -->
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
-  <h1>समूह साधन केंद्र सावरगाव तालुका, माजलगाव जिल्हा बीड</h1>
+  <div class="header-main-title">समूह साधन केंद्र सावरगाव</div>
+  <div class="header-sub-title">तालुका माजलगाव जिल्हा बीड</div>
 </header>
 
 <div class="marquee-bar">
@@ -305,14 +307,6 @@
   let pendingReportData = null;
 
   function handleHeaderClick() {
-    triggerAdminTripleClick();
-  }
-
-  function handleLogoClick() {
-    triggerAdminTripleClick();
-  }
-
-  function triggerAdminTripleClick() {
     clickCount++;
     clearTimeout(clickTimer);
     clickTimer = setTimeout(() => { clickCount = 0; }, 700);
@@ -804,7 +798,7 @@
     showToast('लिंक काढून टाकली! 🗑️');
   }
 
-  /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK WITH CLICK TO OPEN */
+  /* WEB PUSH NOTIFICATION FOR SPECIFIC LINK */
   function sendSingleLinkNotification(title, url) {
     if (!("Notification" in window)) {
       alert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
