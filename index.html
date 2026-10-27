@@ -18,7 +18,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; font-size: 0.95rem; user-select: none; -webkit-user-select: none; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
 
-  /* Professional Header with Circular Logo on Top-Left */
+  /* Professional Header with GitHub Logo on Top-Left */
   header { background: linear-gradient(135deg, #0F172A 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.8rem 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.25); border-bottom: 4px solid #FF9933; display: flex; align-items: center; gap: 12px; cursor: pointer; }
   .header-logo-box { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2.5px solid #FF9933; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
   .header-logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -140,7 +140,7 @@
   </div>
 </div>
 
-<!-- PROFESSIONAL HEADER WITH CIRCULAR LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
+<!-- PROFESSIONAL HEADER WITH GITHUB LOGO & STRICT 3-CLICK ADMIN TRIGGER -->
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-logo-box">
     <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
@@ -528,15 +528,6 @@
     renderReportDropdown();
   }
 
-  function toggleReportFields(show) {
-    let dynamicDiv = document.getElementById('dynamicChangeFields');
-    if(show) {
-      dynamicDiv.style.display = 'block';
-    } else {
-      dynamicDiv.style.display = 'none';
-    }
-  }
-
   function prepareReportSubmit() {
     let schoolName = document.getElementById('mr_school').value;
     if(!schoolName) { showCustomAlert('कृपया शाळा निवडा!'); return; }
@@ -821,7 +812,7 @@
 
   function updateMarqueeText() {
     let txt = document.getElementById('adminMarqueeInput').value;
-    if(!txt) { alert('कृपया मेसेज लिहा.'); return; }
+    if(!txt) { showCustomAlert('कृपया मेसेज लिहा.'); return; }
     marqueeMessage = txt;
     localStorage.setItem('sawargaon_marquee', marqueeMessage);
     document.getElementById('marqueeTextDisplay').textContent = marqueeMessage;
@@ -831,7 +822,7 @@
   function addNewLink() {
     let title = document.getElementById('linkTitleInput').value;
     let url = document.getElementById('linkUrlInput').value;
-    if(!title || !url) { alert('शीर्षक आणि URL दोन्ही भरा.'); return; }
+    if(!title || !url) { showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); return; }
     customLinks.push({ id: Date.now(), title, url });
     localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
     renderFullAdminView();
@@ -873,7 +864,7 @@
   function addNewTab() {
     let name = document.getElementById('newTabNameInput').value;
     let id = document.getElementById('newTabIdInput').value;
-    if(!name || !id) { alert('टॅबचे नाव आणि आयडी भरा.'); return; }
+    if(!name || !id) { showCustomAlert('टॅबचे नाव आणि आयडी भरा.'); return; }
     navTabs.push({ id, name });
     localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
     renderNavTabs();
@@ -897,7 +888,7 @@
     let total = document.getElementById('p_total').value;
     let hmStr = document.getElementById('p_hm').value;
 
-    if(!name || !total) { alert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); return; }
+    if(!name || !total) { showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); return; }
 
     let privates = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
     let newSchool = {
