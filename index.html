@@ -18,16 +18,18 @@
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; font-weight: 700; }
   body { background: var(--bg-page); color: var(--text-main); line-height: 1.4; padding-bottom: 60px; }
 
-  /* Compact Rich Tricolor Header */
-  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.6rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; cursor: pointer; text-align: center; }
-  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 20px; margin-bottom: 3px; }
-  header h1 { font-size: 1.15rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
-  header p { font-size: 0.78rem; color: #E2E8F0; font-weight: 600; }
+  /* Header with New CRC Logo on Top-Left */
+  header { background: linear-gradient(135deg, #7C2D12 0%, #1B365D 50%, #064E3B 100%); color: white; padding: 0.6rem 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.15); border-bottom: 3px solid #FF9933; display: flex; align-items: center; gap: 12px; }
+  .header-logo-box { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #FF9933; flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .header-logo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .header-text { text-align: left; flex-grow: 1; }
+  .header-badge { display: inline-block; background: rgba(255, 153, 51, 0.25); border: 1px solid #FF9933; color: #FFEDD5; font-size: 0.68rem; font-weight: 800; padding: 1px 8px; border-radius: 20px; margin-bottom: 2px; }
+  header h1 { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #FFFFFF; }
+  header p { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
 
   .marquee-bar { background: #FEF3C7; color: #92400E; padding: 7px 12px; font-size: 0.85rem; font-weight: 800; border-bottom: 2px solid #FDE68A; overflow: hidden; white-space: nowrap; }
   .marquee-bar marquee { width: 100%; }
 
-  /* Non-overlapping Attractive Capsule Navigation Tabs */
   .nav-container { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 8px 10px; }
   .nav-tabs { display: flex; max-width: 1100px; margin: 0 auto; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .nav-tab { padding: 8px 16px; font-size: 0.82rem; font-weight: 800; color: #334155; border: 1.5px solid #CBD5E1; background: #F1F5F9; cursor: pointer; border-radius: 25px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); white-space: nowrap; }
@@ -105,11 +107,16 @@
   </div>
 </div>
 
-<!-- COMPACT HEADER WITH 3-CLICK ADMIN TRIGGER -->
-<header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
-  <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
-  <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
-  <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
+<!-- HEADER WITH NEW CRC LOGO ON TOP-LEFT AND 3-CLICK ADMIN TRIGGER -->
+<header>
+  <div class="header-logo-box" onclick="handleLogoClick()" title="लोगोवर ३ वेळा क्लिक करा">
+    <img src="https://raw.githubusercontent.com/padmakarshinde03-byte/CRC-SAWARGAON-SITE/main/logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+  </div>
+  <div class="header-text" onclick="handleHeaderClick()">
+    <div class="header-badge">समूह साधन केंद्र सावरगाव · ता. माजलगाव, जि. बीड</div>
+    <h1>शालेय माहिती व मासिक अहवाल पोर्टल</h1>
+    <p>केंद्रातील सर्व शाळा, शिक्षक व डेटा व्यवस्थापन</p>
+  </div>
 </header>
 
 <div class="marquee-bar">
@@ -292,6 +299,10 @@
       headerClickCount = 0;
       promptAdminAccess();
     }
+  }
+
+  function handleLogoClick() {
+    promptAdminAccess();
   }
 
   function promptAdminAccess() {
@@ -560,7 +571,7 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW WITH MANUAL STRENGTH UPDATE */
+  /* FULL-SIZE ADMIN PANEL VIEW (NO WHATSAPP REMINDER) */
   function renderFullAdminView() {
     let container = document.getElementById('mainContainerViews');
     
@@ -594,7 +605,7 @@
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
-        <!-- NEW: Manual Strength Update Feature -->
+        <!-- MANUAL STRENGTH UPDATE FEATURE -->
         <div style="background:#FFFBEB; padding:12px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:12px;">
           <h4 style="font-size:0.9rem; color:#D97706; margin-bottom:6px;">✏️ शाळेची पटसंख्या मॅन्युअली बदला (Manual Strength Edit):</h4>
           <div class="form-grid" style="margin-bottom:6px;">
@@ -657,7 +668,6 @@
     let allSchools = [...zpschoolsData, ...privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     if(school) {
-      // Distribute evenly across class 1
       if(!school.classCounts["वर्ग 1"]) { school.classCounts["वर्ग 1"] = {boys: 0, girls: 0}; }
       school.classCounts["वर्ग 1"].boys = boys;
       school.classCounts["वर्ग 1"].girls = girls;
@@ -669,6 +679,7 @@
         localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
       }
       showToast('पटसंख्या यशस्वीपणे अपडेट केली गेली! ✅');
+      renderDashboard();
     }
   }
 
@@ -897,8 +908,7 @@
           <table>
             <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
             <tbody>
-              <tr><td>एकूण खाजगी शाळा</td><td style="font-weight:800;">${privTotalSchools}</td></tr>
-              <tr><td>एकूण खाजगी शिक्षक</td><td style="font-weight:800;">${privTeachers}</td></tr>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">शाळा: ${privTotalSchools} | शिक्षक: ${privTeachers}</td></tr>
               <tr><td>विद्यार्थी पटसंख्या</td><td>${privBoys}</td><td>${privGirls}</td><td style="font-weight:800; color:#B45309;">${privTotalStud}</td></tr>
             </tbody>
           </table>
