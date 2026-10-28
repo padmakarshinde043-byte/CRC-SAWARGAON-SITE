@@ -1282,14 +1282,13 @@
   window.addNewPrivateSchool = function() {
     let nameInput = document.getElementById('p_name');
     let totalInput = document.getElementById('p_total');
-    let udiseInput = document.getElementById('p_udise');
     if(!nameInput || !totalInput || !nameInput.value || !totalInput.value) { 
       showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); 
       return; 
     }
 
     let name = nameInput.value;
-    let udise = udiseInput ? udiseInput.value : "N/A";
+    let udise = document.getElementById('p_udise').value || "N/A";
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = Number(totalInput.value);
@@ -1300,7 +1299,7 @@
     let newSchool = {
       id: nextId,
       name: `${name} (${instType})`,
-      udise: udise || "N/A",
+      udise: udise,
       classes: "5 To 10",
       type: "PRIVATE",
       instType: instType,
