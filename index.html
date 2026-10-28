@@ -1,3 +1,14 @@
+तुम्ही पाठवलेल्या दोन्ही स्क्रीनशॉट्समध्ये एक महत्त्वाची गोष्ट स्पष्टपणे दिसत आहे:
+ * लॅपटॉपच्या स्क्रीनवर (पहिला फोटो): जुन्या लिंक्स दिसत आहेत (उदा. "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक").
+ * मोबाईलच्या स्क्रीनवर (दुसरा फोटो): नव्या लिंक्स दिसत आहेत (उदा. "5 वी नवोदय आणि 4थी/7वी शिष्यवृत्ती सराव चाचणी गुण भरा.").
+असे का घडत आहे?
+याचे मुख्य कारण ब্ৰाऊजर कॅश (Browser Cache) आणि सर्व्हर सिंक डिले (Sync Delay) हे आहे. तुम्ही जेव्हा GitHub वर नवीन कोड पुश (Deploy) करता, तेव्हा GitHub Pages किंवा तुमच्या कस्टम डोमेनवर तो अपडेट होण्यासाठी थोडा वेळ (साधारण ५ ते १५ मिनिटे) घेऊ शकतो. तसेच, लॅपटॉप आणि मोबाईलचे ब्राऊजर जुनी माहिती कॅश (Memory) मध्ये साठवून ठेवतात, त्यामुळे एका डिव्हाइसवर नवीन डेटा दिसतो तर दुसऱ्यावर जुनाच डेटा लोड होतो.
+यावर कायमस्वरूपी उपाय (Permanent Fix):
+या समस्येवर पूर्ण नियंत्रण मिळवण्यासाठी आपण कोडमध्ये दोन महत्त्वाचे बदल केले आहेत:
+ * Real-time Listener (onSnapshot): आता आपण फक्त एकदा डेटा लोड करण्याऐवजी फायरबेसचा onSnapshot हा फिचर जोडला आहे. यामुळे जगातल्या कोणत्याही डिव्हाइसवर (किंवा ॲडमिन पॅनलमध्ये) माहिती बदलली की, सेकंदाच्या आत उघड्या असलेल्या सर्व मोबाईल आणि लॅपटॉपवर ती आपोआप लाईव्ह रिफ्रेश (Live Sync) होईल.
+ * Cache Buster: वेबसाईट रीलोड करताना जुनी कॅश न घेता नेहमी सर्व्हरवरून ताचू डेटा लोड व्हावा यासाठी सिस्टीम अपडेट केली आहे.
+संपूर्ण आणि अचूक कोड (Real-Time Live Sync Version):
+खालील संपूर्ण कोड कॉपी करून आपल्या index.html मध्ये टाका आणि GitHub वर सेव्ह करा:
 <!DOCTYPE html>
 <html lang="mr">
 <head>
@@ -8,10 +19,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<!-- Firebase SDK & Database Setup with Auto Sync -->
+<!-- Firebase SDK & Real-time Live Sync (onSnapshot) Setup -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDCKNTNVcsmUf0qbLLIpOSZRVmoYUTtKkM",
@@ -27,26 +38,30 @@
   window.db = getFirestore(app);
   window.dbDocRef = doc(window.db, "portalData", "mainStore");
 
-  // Load Data from Firebase on Startup
-  window.loadDataFromFirebase = async function() {
-    try {
-      let snap = await getDoc(window.dbDocRef);
-      if (snap.exists()) {
-        let data = snap.data();
-        if(data.zpschools) window.zpschoolsData = data.zpschools;
-        if(data.privateschools) window.privateSchoolsData = data.privateschools;
-        if(data.links) window.customLinks = data.links;
-        if(data.zpCount !== undefined) window.globalZpSchoolsCount = data.zpCount;
-        if(data.zpTeachCount !== undefined) window.globalZpTeachersCount = data.zpTeachCount;
-        if(data.marquee) window.marqueeMessage = data.marquee;
+  // Real-time listener: Any change anywhere will instantly sync across all devices!
+  onSnapshot(window.dbDocRef, (docSnap) => {
+    if (docSnap.exists()) {
+      let data = docSnap.data();
+      if(data.zpschools) window.zpschoolsData = data.zpschools;
+      if(data.privateschools) window.privateSchoolsData = data.privateschools;
+      if(data.links) window.customLinks = data.links;
+      if(data.zpCount !== undefined) window.globalZpSchoolsCount = data.zpCount;
+      if(data.zpTeachCount !== undefined) window.globalZpTeachersCount = data.zpTeachCount;
+      if(data.marquee) window.marqueeMessage = data.marquee;
+
+      // Refresh UI instantly if already loaded
+      if(typeof window.renderDashboard === 'function') {
+        let activeTab = document.querySelector('.tab-content.active');
+        if(activeTab && activeTab.id === 'dashboardTab') {
+          window.renderDashboard();
+        }
       }
-    } catch(e) {
-      console.log("Firebase Load Error, using local fallback");
     }
-    if(typeof window.initAppAfterLoad === 'function') {
+    if(typeof window.initAppAfterLoad === 'function' && !window._appInitialized) {
+      window._appInitialized = true;
       window.initAppAfterLoad();
     }
-  };
+  });
 
   // Save Data to Firebase
   window.saveDataToFirebase = async function() {
@@ -59,13 +74,11 @@
         zpTeachCount: window.globalZpTeachersCount,
         marquee: window.marqueeMessage
       });
-      window.showToast('डेटा क्लाऊड (Firebase) वर लाईव्ह सेव्ह झाला! ☁️');
+      window.showToast('डेटा क्लाऊडवर यशस्वीपणे लाईव्ह सेव्ह झाला! ☁️');
     } catch(e) {
       window.showToast('क्लाऊड सेव्ह करताना एरर आली!');
     }
   };
-
-  window.loadDataFromFirebase();
 </script>
 
 <style>
@@ -353,22 +366,21 @@
     }
   ];
 
-  window.zpschoolsData = JSON.parse(localStorage.getItem('sawargaon_zp_schools')) || defaultZpSchools;
-  window.privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
-  window.customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
+  window.zpschoolsData = defaultZpSchools;
+  window.privateSchoolsData = [];
+  window.customLinks = [
     { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com" },
     { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in" },
     { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#" }
   ];
-  window.navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
+  window.navTabs = [
     { id: 'dashboardTab', name: 'डॅशबोर्ड' },
     { id: 'reportTab', name: 'मासिक अहवाल' },
     { id: 'summaryTab', name: 'गोषवारा' }
   ];
-  window.marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
-
-  window.globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count')) || 20;
-  window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count')) || 73;
+  window.marqueeMessage = "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
+  window.globalZpSchoolsCount = 20;
+  window.globalZpTeachersCount = 73;
 
   let clickCount = 0;
   let clickTimer = null;
@@ -464,7 +476,6 @@
     if(marquee) marquee.textContent = window.marqueeMessage;
     renderNavTabs();
     
-    // Auto-fix URL hash if it was pointing to old school view on refresh
     if(window.location.hash.includes('school-')) {
       let sId = window.location.hash.replace('#school-', '');
       openFullSchoolView(Number(sId), 'ZP');
@@ -1181,3 +1192,4 @@
 </script>
 </body>
 </html>
+
