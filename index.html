@@ -420,16 +420,14 @@
       categoryCounts: {"SC": {boys: 2, girls: 2}, "ST": {boys: 2, girls: 1}, "VJ": {boys: 2, girls: 1}, "NT": {boys: 2, girls: 2}, "SBC": {boys: 1, girls: 0}, "OBC": {boys: 3, girls: 2}, "GENERAL": {boys: 2, girls: 1}}
     },
     { id: 21, name: "Kai Dr. Sonajirao Ranjwan Madhyamik Vidhyalaya Sawargaon (खाजगी अनुदानित)", udise: "1793162364919", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
-      teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
-      teacherCount: 2,
-      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
-      categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
+      teachers: [{name: "SHINDE D B", designation: "Headmaster", phone: "9876543210"}],
+      teacherCount: 14,
+      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}}
     },
     { id: 22, name: "Dyaneshwar Vid Kitti Adgaon (खाजगी अनुदानित)", udise: "1793162427207", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
       teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
       teacherCount: 2,
-      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
-      categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
+      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}}
     }
   ];
 
@@ -951,7 +949,6 @@
       return `<option value="${s.id}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
-    // School deletion rows list
     let schoolDeleteRows = allSchoolsForAdmin.map(s => {
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       return `
@@ -1055,7 +1052,7 @@
                 <input type="number" id="p_teachers_count" autocomplete="off" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
               </div>
               <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
-              <input type="text" id="p_hm_name" autocomplete="off" class="form-control" placeholder="मुख्याध्यापक नाव">
+              <input type="text" id="p_hm_name" autocomplete="off" class="form-control" placeholder="मुख्याध्यापकाचे नाव">
               <input type="text" id="p_hm_phone" autocomplete="off" class="form-control" placeholder="मोबाईल नंबर">
             </div>
             <button class="btn btn-success" onclick="addNewPrivateSchool()" style="margin-bottom: 15px;">खाजगी शाळा जतन करा 🚀</button>
@@ -1096,7 +1093,6 @@
           </div>
         </div>
 
-        <!-- School Delete Management Section -->
         <div class="admin-section-box" style="border-color: #EF4444; background: #FEF2F2;">
           <div class="admin-section-header" style="color: #991B1B;" onclick="toggleAdminSection('secSchoolDelete')">
             <span>🗑️ शाळा / संस्था डिलीट व्यवस्थापन (Delete School)</span>
@@ -1248,21 +1244,27 @@
     classHtml += '</tbody></table>';
     classContainer.innerHTML = classHtml;
 
-    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
-    let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
-    fixedCasts.forEach(cat => {
-      let obj = school.categoryCounts[cat] || {boys: 0, girls: 0};
-      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      castHtml += `<tr>
-        <td style="font-weight:800; padding:8px;">${cat}</td>
-        <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control cast-b-input" value="${b}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
-        <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control cast-g-input" value="${g}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
-      </tr>`;
-    });
-    castHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td id="sum_cast_b">0</td><td id="sum_cast_g">0</td></tr>`;
-    castHtml += '</tbody></table>';
-    castContainer.innerHTML = castHtml;
+    // For private schools added later, categoryCounts might be empty or not shown
+    let isPrivateAddedLater = school.type === 'PRIVATE' && !school.categoryCounts;
+    if(isPrivateAddedLater) {
+      castContainer.innerHTML = '<p style="padding:10px; font-size:0.9rem; color:#64748B; text-align:center;">या खाजगी शाळेसाठी प्रवर्गनिहाय (Cast) माहिती उपलब्ध नाही.</p>';
+    } else {
+      let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
+      let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
+      fixedCasts.forEach(cat => {
+        let obj = school.categoryCounts[cat] || {boys: 0, girls: 0};
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        castHtml += `<tr>
+          <td style="font-weight:800; padding:8px;">${cat}</td>
+          <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control cast-b-input" value="${b}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
+          <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control cast-g-input" value="${g}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
+        </tr>`;
+      });
+      castHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td id="sum_cast_b">0</td><td id="sum_cast_g">0</td></tr>`;
+      castHtml += '</tbody></table>';
+      castContainer.innerHTML = castHtml;
+    }
 
     recalcAdminTotals();
   }
@@ -1427,8 +1429,7 @@
       instType: instType,
       teachers: [{name: hmName || "Headmaster", designation: "Headmaster", phone: hmPhone || "9876543210"}],
       teacherCount: teachersCount,
-      classCounts: {"वर्ग 5": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}},
-      categoryCounts: {"SC": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
+      classCounts: {"वर्ग 5": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
     };
 
     window.privateSchoolsData.push(newSchool);
@@ -1483,22 +1484,41 @@
     });
     if(!classHtml) classHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
 
-    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
-    let catBoys = 0, catGirls = 0, catGrandTotal = 0;
-    let catHtml = '';
-    fixedCasts.forEach(cat => {
-      if(s.categoryCounts && s.categoryCounts[cat]) {
-        let obj = s.categoryCounts[cat];
-        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-        let t = b + g;
-        catBoys += b;
-        catGirls += g;
-        catGrandTotal += t;
-        catHtml += `<tr><td>${cat}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
+    let castSectionHtml = '';
+    let isPrivateAddedLater = s.type === 'PRIVATE' && !s.categoryCounts;
+    if(!isPrivateAddedLater && s.categoryCounts) {
+      let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
+      let catBoys = 0, catGirls = 0, catGrandTotal = 0;
+      let catHtml = '';
+      fixedCasts.forEach(cat => {
+        if(s.categoryCounts[cat]) {
+          let obj = s.categoryCounts[cat];
+          let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+          let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+          let t = b + g;
+          catBoys += b;
+          catGirls += g;
+          catGrandTotal += t;
+          catHtml += `<tr><td>${cat}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
+        }
+      });
+      if(catHtml) {
+        castSectionHtml = `
+          <div>
+            <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
+            <div class="table-responsive">
+              <table>
+                <thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+                <tbody>
+                  ${catHtml}
+                  <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${catBoys}</td><td>${catGirls}</td><td>${catGrandTotal}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
       }
-    });
-    if(!catHtml) catHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
+    }
 
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
@@ -1529,18 +1549,7 @@
               </div>
             </div>
             
-            <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
-              <div class="table-responsive">
-                <table>
-                  <thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
-                  <tbody>
-                    ${catHtml}
-                    <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${catBoys}</td><td>${catGirls}</td><td>${catGrandTotal}</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            ${castSectionHtml}
           </div>
         </div>
       </div>
