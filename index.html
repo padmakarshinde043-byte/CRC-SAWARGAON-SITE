@@ -421,11 +421,13 @@
     },
     { id: 21, name: "Kai Dr. Sonajirao Ranjwan Madhyamik Vidhyalaya Sawargaon (खाजगी अनुदानित)", udise: "1793162364919", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
       teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      teacherCount: 2,
       classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
       categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
     },
     { id: 22, name: "Dyaneshwar Vid Kitti Adgaon (खाजगी अनुदानित)", udise: "1793162427207", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
       teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      teacherCount: 2,
       classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
       categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
     }
@@ -590,7 +592,6 @@
       return `<option value="${s.name}" data-udise="${s.udise}">${s.id}. ${displayName}</option>`;
     }).join('');
 
-    // Build history HTML for report tab if a school is verified
     let historyHtml = '';
     if(selectedSchoolForPinCheck) {
       let udise = selectedSchoolForPinCheck.udise;
@@ -761,7 +762,7 @@
       } else {
         document.getElementById('schoolPinModal').style.display = 'none';
         document.getElementById('reportFormBody').style.display = 'block';
-        renderDashboard(); // Re-render to show history table below
+        renderDashboard();
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
       }
     } else {
@@ -881,7 +882,6 @@
         school.total = newTotal;
       }
 
-      // Record in History
       let udise = school.udise;
       if(!window.schoolReportHistory) window.schoolReportHistory = {};
       if(!window.schoolReportHistory[udise]) window.schoolReportHistory[udise] = [];
@@ -901,7 +901,6 @@
     closeConfirmModal();
     window.saveDataToFirebase();
     renderDashboard();
-    // Re-select school in dropdown and open form body
     setTimeout(() => {
       let sel = document.getElementById('mr_school');
       if(sel) {
@@ -1115,7 +1114,7 @@
     let castContainer = document.getElementById('adminCastTableContainer');
     if(!school || !classContainer || !castContainer) return;
 
-    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
     let classHtml = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
     sortedClasses.forEach(cls => {
       let obj = school.classCounts[cls] || {boys: 0, girls: 0};
@@ -1176,7 +1175,7 @@
     let school = allSchools.find(x => x.name === schoolName);
     if(!school) return;
 
-    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
     let newTotal = 0;
     sortedClasses.forEach(cls => {
       let bInput = document.getElementById(`adm_b_${cls}`);
