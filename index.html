@@ -8,10 +8,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<!-- Firebase App & Firestore SDKs -->
+<!-- Firebase SDK & Database Setup -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDCKNTNVcsmUf0qbLLIpOSZRVmoYUTtKkM",
@@ -25,11 +25,47 @@
 
   const app = initializeApp(firebaseConfig);
   window.db = getFirestore(app);
-  
-  // App initialization after Firebase ready
-  if(typeof window.initApp === 'function') {
-    window.initApp();
-  }
+  window.dbDocRef = doc(window.db, "portalData", "mainStore");
+
+  // Load Data from Firebase on Startup
+  window.loadDataFromFirebase = async function() {
+    try {
+      let snap = await getDoc(window.dbDocRef);
+      if (snap.exists()) {
+        let data = snap.data();
+        if(data.zpschools) window.zpschoolsData = data.zpschools;
+        if(data.privateschools) window.privateSchoolsData = data.privateschools;
+        if(data.links) window.customLinks = data.links;
+        if(data.zpCount !== undefined) window.globalZpSchoolsCount = data.zpCount;
+        if(data.zpTeachCount !== undefined) window.globalZpTeachersCount = data.zpTeachCount;
+        if(data.marquee) window.marqueeMessage = data.marquee;
+      }
+    } catch(e) {
+      console.log("Firebase Load Error, using local fallback");
+    }
+    if(typeof window.initAppAfterLoad === 'function') {
+      window.initAppAfterLoad();
+    }
+  };
+
+  // Save Data to Firebase
+  window.saveDataToFirebase = async function() {
+    try {
+      await setDoc(window.dbDocRef, {
+        zpschools: window.zpschoolsData,
+        privateschools: window.privateSchoolsData,
+        links: window.customLinks,
+        zpCount: window.globalZpSchoolsCount,
+        zpTeachCount: window.globalZpTeachersCount,
+        marquee: window.marqueeMessage
+      });
+      window.showToast('डेटा क्लाऊड (Firebase) वर लाईव्ह सेव्ह झाला! ☁️');
+    } catch(e) {
+      window.showToast('क्लाऊड सेव्ह करताना एरर आली!');
+    }
+  };
+
+  window.loadDataFromFirebase();
 </script>
 
 <style>
@@ -317,28 +353,28 @@
     }
   ];
 
-  let zpschoolsData = JSON.parse(localStorage.getItem('sawargaon_zp_schools')) || defaultZpSchools;
-  let privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
-  let customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
+  window.zpschoolsData = JSON.parse(localStorage.getItem('sawargaon_zp_schools')) || defaultZpSchools;
+  window.privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
+  window.customLinks = JSON.parse(localStorage.getItem('sawargaon_links')) || [
     { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com" },
     { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in" },
     { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#" }
   ];
-  let navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
+  window.navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs')) || [
     { id: 'dashboardTab', name: 'डॅशबोर्ड' },
     { id: 'reportTab', name: 'मासिक अहवाल' },
     { id: 'summaryTab', name: 'गोषवारा' }
   ];
-  let marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
+  window.marqueeMessage = localStorage.getItem('sawargaon_marquee') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
 
-  let globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count')) || 20;
-  let globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count')) || 73;
+  window.globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count')) || 20;
+  window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count')) || 73;
 
   let clickCount = 0;
   let clickTimer = null;
   let pendingReportData = null;
 
-  function showCustomAlert(message) {
+  window.showCustomAlert = function(message) {
     let alertBox = document.getElementById('customAlertBody');
     if(alertBox) {
       alertBox.textContent = message;
@@ -348,12 +384,12 @@
     }
   }
 
-  function closeCustomAlert() {
+  window.closeCustomAlert = function() {
     let modal = document.getElementById('customAlertModal');
     if(modal) modal.style.display = 'none';
   }
 
-  function handleHeaderClick() {
+  window.handleHeaderClick = function() {
     clickCount++;
     clearTimeout(clickTimer);
     clickTimer = setTimeout(() => { clickCount = 0; }, 700);
@@ -363,7 +399,7 @@
     }
   }
 
-  function openAdminLoginModal() {
+  window.openAdminLoginModal = function() {
     let pinField = document.getElementById('adminPinField');
     let modal = document.getElementById('adminLoginModal');
     if(pinField && modal) {
@@ -372,12 +408,12 @@
     }
   }
 
-  function closeAdminLoginModal() {
+  window.closeAdminLoginModal = function() {
     let modal = document.getElementById('adminLoginModal');
     if(modal) modal.style.display = 'none';
   }
 
-  function verifyAdminLoginPin() {
+  window.verifyAdminLoginPin = function() {
     let pinField = document.getElementById('adminPinField');
     if(pinField && pinField.value === "3506") {
       closeAdminLoginModal();
@@ -388,7 +424,7 @@
     }
   }
 
-  function showToast(msg) {
+  window.showToast = function(msg) {
     let t = document.getElementById('toastMessage');
     if(!t) return;
     t.textContent = msg;
@@ -396,7 +432,7 @@
     setTimeout(() => { t.classList.remove('show'); }, 2000);
   }
 
-  function switchTab(tabId, btnElement, pushHistory = true) {
+  window.switchTab = function(tabId, btnElement, pushHistory = true) {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     document.querySelectorAll('.nav-tab').forEach(nt => nt.classList.remove('active'));
     let target = document.getElementById(tabId);
@@ -422,9 +458,9 @@
     }
   });
 
-  function initApp() {
+  window.initAppAfterLoad = function() {
     let marquee = document.getElementById('marqueeTextDisplay');
-    if(marquee) marquee.textContent = marqueeMessage;
+    if(marquee) marquee.textContent = window.marqueeMessage;
     renderNavTabs();
     renderDashboard();
     if(!window.location.hash) {
@@ -436,7 +472,7 @@
     let container = document.getElementById('navTabsContainer');
     if(!container) return;
     container.innerHTML = '';
-    navTabs.forEach((tab, index) => {
+    window.navTabs.forEach((tab, index) => {
       let btn = document.createElement('button');
       btn.className = `nav-tab ${index === 0 ? 'active' : ''}`;
       btn.textContent = tab.name;
@@ -445,12 +481,12 @@
     });
   }
 
-  function renderDashboard() {
+  window.renderDashboard = function() {
     renderNavTabs();
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
 
-    let allSchools = [...zpschoolsData, ...privateSchoolsData];
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
 
     let softColors = [
       {bg: '#FFFBEB', border: '#FDE68A', text: '#78350F'},
@@ -459,7 +495,7 @@
       {bg: '#FDF2F8', border: '#FBCFE8', text: '#9D174D'}
     ];
 
-    let linksHtml = customLinks.map((l, i) => {
+    let linksHtml = window.customLinks.map((l, i) => {
       let col = softColors[i % softColors.length];
       return `
         <a class="link-capsule" href="${l.url}" target="_blank" style="background:${col.bg}; border:1.5px solid ${col.border}; color:#0F172A;">
@@ -561,14 +597,14 @@
     renderReportDropdown();
   }
 
-  function toggleReportFields(show) {
+  window.toggleReportFields = function(show) {
     let dynamicDiv = document.getElementById('dynamicChangeFields');
     if(dynamicDiv) {
       dynamicDiv.style.display = show ? 'block' : 'none';
     }
   }
 
-  function prepareReportSubmit() {
+  window.prepareReportSubmit = function() {
     let schoolSelect = document.getElementById('mr_school');
     if(!schoolSelect || !schoolSelect.value) { showCustomAlert('कृपया शाळा निवडा!'); return; }
     let schoolName = schoolSelect.value;
@@ -611,17 +647,17 @@
     document.getElementById('confirmModal').style.display = 'flex';
   }
 
-  function closeConfirmModal() {
+  window.closeConfirmModal = function() {
     let modal = document.getElementById('confirmModal');
     if(modal) modal.style.display = 'none';
     pendingReportData = null;
   }
 
-  function executeReportSubmit() {
+  window.executeReportSubmit = function() {
     if(!pendingReportData) return;
     let { schoolName, changeType, cls, cat, gender, count } = pendingReportData;
 
-    let allSchools = [...zpschoolsData, ...privateSchoolsData];
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     
     if(school && changeType !== 'none') {
@@ -644,25 +680,18 @@
         newTotal += (obj.boys || 0) + (obj.girls || 0);
       });
       school.total = newTotal;
-
-      if(school.type === 'ZP') {
-        localStorage.setItem('sawargaon_zp_schools', JSON.stringify(zpschoolsData));
-      } else {
-        localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
-      }
     }
 
     closeConfirmModal();
-    showToast('माहिती यशस्वीपणे अपडेट व जतन केली गेली! ✅');
+    window.saveDataToFirebase();
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW WITH BOTH CLASS-WISE AND CAST-WISE FULL TABLES EDIT */
-  function renderFullAdminView() {
+  window.renderFullAdminView = function() {
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
     
-    let linksAdminHtml = customLinks.map(l => `
+    let linksAdminHtml = window.customLinks.map(l => `
       <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.92rem; margin-bottom:8px; gap:8px;">
         <span style="flex-grow:1;"><b>${l.title}</b><br><a href="${l.url}" target="_blank" style="font-size:0.75rem; color:#2563EB;">${l.url}</a></span>
         <button class="btn btn-warning" style="padding:5px 10px; font-size:0.78rem; width:auto;" onclick="sendSingleLinkNotification('${l.title}', '${l.url}')">🔔 नोटिफाय करा</button>
@@ -670,14 +699,14 @@
       </div>
     `).join('');
 
-    let tabsAdminHtml = navTabs.map(t => `
+    let tabsAdminHtml = window.navTabs.map(t => `
       <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px 14px; border-radius:8px; border:2px solid var(--border); font-size:0.92rem; margin-bottom:8px;">
         <span><b>${t.name}</b> (${t.id})</span>
-        ${navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
+        ${window.navTabs.length > 2 ? `<button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem; width:auto;" onclick="deleteAdminTab('${t.id}')">कमी करा ❌</button>` : ''}
       </div>
     `).join('');
 
-    let allSchoolsForAdmin = [...zpschoolsData, ...privateSchoolsData];
+    let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
     let schoolOptionsHtml = allSchoolsForAdmin.map(s => `<option value="${s.name}">${s.name} (${s.type})</option>`).join('');
 
     container.innerHTML = `
@@ -689,7 +718,7 @@
 
         <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
-          <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${marqueeMessage}" style="margin-bottom:8px;">
+          <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${window.marqueeMessage}" style="margin-bottom:8px;">
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
         </div>
 
@@ -698,11 +727,11 @@
           <div class="form-grid" style="margin-bottom:8px;">
             <div class="form-group">
               <label>जिल्हा परिषद शाळांची संख्या:</label>
-              <input type="number" id="adm_zp_schools_count" autocomplete="off" class="form-control" value="${globalZpSchoolsCount}">
+              <input type="number" id="adm_zp_schools_count" autocomplete="off" class="form-control" value="${window.globalZpSchoolsCount}">
             </div>
             <div class="form-group">
               <label>जिल्हा परिषद शाळेतील शिक्षकांची संख्या:</label>
-              <input type="number" id="adm_zp_teachers_count" autocomplete="off" class="form-control" value="${globalZpTeachersCount}">
+              <input type="number" id="adm_zp_teachers_count" autocomplete="off" class="form-control" value="${window.globalZpTeachersCount}">
             </div>
           </div>
           <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
@@ -774,19 +803,17 @@
     setTimeout(loadAllTablesForAdmin, 100);
   }
 
-  function updateZpCounts() {
-    globalZpSchoolsCount = Number(document.getElementById('adm_zp_schools_count').value) || 20;
-    globalZpTeachersCount = Number(document.getElementById('adm_zp_teachers_count').value) || 73;
-    localStorage.setItem('sawargaon_zp_schools_count', globalZpSchoolsCount);
-    localStorage.setItem('sawargaon_zp_teachers_count', globalZpTeachersCount);
-    showToast('जि.प. शाळा व शिक्षक संख्या अपडेट झाली! ✅');
+  window.updateZpCounts = function() {
+    window.globalZpSchoolsCount = Number(document.getElementById('adm_zp_schools_count').value) || 20;
+    window.globalZpTeachersCount = Number(document.getElementById('adm_zp_teachers_count').value) || 73;
+    window.saveDataToFirebase();
   }
 
-  function loadAllTablesForAdmin() {
+  window.loadAllTablesForAdmin = function() {
     let schoolSelect = document.getElementById('adm_school_select');
     if(!schoolSelect) return;
     let schoolName = schoolSelect.value;
-    let allSchools = [...zpschoolsData, ...privateSchoolsData];
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     let classContainer = document.getElementById('adminClassesTableContainer');
     let castContainer = document.getElementById('adminCastTableContainer');
@@ -823,11 +850,11 @@
     castContainer.innerHTML = castHtml;
   }
 
-  function manualUpdateAllTablesStrength() {
+  window.manualUpdateAllTablesStrength = function() {
     let schoolSelect = document.getElementById('adm_school_select');
     if(!schoolSelect) return;
     let schoolName = schoolSelect.value;
-    let allSchools = [...zpschoolsData, ...privateSchoolsData];
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     if(!school) return;
 
@@ -860,46 +887,38 @@
       }
     });
 
-    if(school.type === 'ZP') {
-      localStorage.setItem('sawargaon_zp_schools', JSON.stringify(zpschoolsData));
-    } else {
-      localStorage.setItem('sawargaon_private_schools', JSON.stringify(privateSchoolsData));
-    }
-    showToast('वर्गवार व प्रवर्गनिहाय दोन्ही तक्ते यशस्वीपणे जतन व अपडेट झाले! ✅');
+    window.saveDataToFirebase();
   }
 
-  function updateMarqueeText() {
+  window.updateMarqueeText = function() {
     let input = document.getElementById('adminMarqueeInput');
     let txt = input ? input.value : '';
     if(!txt) { showCustomAlert('कृपया मेसेज लिहा.'); return; }
-    marqueeMessage = txt;
-    localStorage.setItem('sawargaon_marquee', marqueeMessage);
+    window.marqueeMessage = txt;
     let display = document.getElementById('marqueeTextDisplay');
-    if(display) display.textContent = marqueeMessage;
-    showToast('सरकणारा मेसेज अपडेट झाला! 💾');
+    if(display) display.textContent = window.marqueeMessage;
+    window.saveDataToFirebase();
   }
 
-  function addNewLink() {
+  window.addNewLink = function() {
     let titleInput = document.getElementById('linkTitleInput');
     let urlInput = document.getElementById('linkUrlInput');
     if(!titleInput || !urlInput || !titleInput.value || !urlInput.value) { 
       showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); 
       return; 
     }
-    customLinks.push({ id: Date.now(), title: titleInput.value, url: urlInput.value });
-    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
+    window.customLinks.push({ id: Date.now(), title: titleInput.value, url: urlInput.value });
     renderFullAdminView();
-    showToast('नवीन लिंक यशस्वीपणे जोडली! 🚀');
+    window.saveDataToFirebase();
   }
 
-  function deleteAdminLink(id) {
-    customLinks = customLinks.filter(l => l.id !== id);
-    localStorage.setItem('sawargaon_links', JSON.stringify(customLinks));
+  window.deleteAdminLink = function(id) {
+    window.customLinks = window.customLinks.filter(l => l.id !== id);
     renderFullAdminView();
-    showToast('लिंक काढून टाकाली! 🗑️');
+    window.saveDataToFirebase();
   }
 
-  function sendSingleLinkNotification(title, url) {
+  window.sendSingleLinkNotification = function(title, url) {
     if (!("Notification" in window)) {
       showCustomAlert("तुमचा ब्राऊजर नोटिफिकेशन सपोर्ट करत नाही.");
       return;
@@ -923,29 +942,27 @@
     });
   }
 
-  function addNewTab() {
+  window.addNewTab = function() {
     let nameInput = document.getElementById('newTabNameInput');
     let idInput = document.getElementById('newTabIdInput');
     if(!nameInput || !idInput || !nameInput.value || !idInput.value) { 
       showCustomAlert('टॅबचे नाव आणि आयडी भरा.'); 
       return; 
     }
-    navTabs.push({ id: idInput.value, name: nameInput.value });
-    localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
+    window.navTabs.push({ id: idInput.value, name: nameInput.value });
     renderNavTabs();
     renderFullAdminView();
-    showToast('नवीन टॅब जोडला गेला! ✨');
+    window.saveDataToFirebase();
   }
 
-  function deleteAdminTab(id) {
-    navTabs = navTabs.filter(t => t.id !== id);
-    localStorage.setItem('sawargaon_nav_tabs', JSON.stringify(navTabs));
+  window.deleteAdminTab = function(id) {
+    window.navTabs = window.navTabs.filter(t => t.id !== id);
     renderNavTabs();
     renderFullAdminView();
-    showToast('टॅब कमी केला गेला! 🗑️');
+    window.saveDataToFirebase();
   }
 
-  function addNewPrivateSchool() {
+  window.addNewPrivateSchool = function() {
     let nameInput = document.getElementById('p_name');
     let totalInput = document.getElementById('p_total');
     if(!nameInput || !totalInput || !nameInput.value || !totalInput.value) { 
@@ -960,7 +977,6 @@
     let total = Number(totalInput.value);
     let hmStr = document.getElementById('p_hm').value;
 
-    let privates = JSON.parse(localStorage.getItem('sawargaon_private_schools')) || [];
     let newSchool = {
       id: Date.now(),
       name: `${name} (${instType})`,
@@ -974,17 +990,15 @@
       categoryCounts: {"SC": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
     };
 
-    privates.push(newSchool);
-    localStorage.setItem('sawargaon_private_schools', JSON.stringify(privates));
-    privateSchoolsData = privates;
+    window.privateSchoolsData.push(newSchool);
     renderFullAdminView();
-    showToast('खाजगी संस्था/शाळा यशस्वीपणे जोडली गेली! ✅');
+    window.saveDataToFirebase();
   }
 
   function renderReportDropdown() {
     let select = document.getElementById('mr_school');
     if(!select) return;
-    let all = [...zpschoolsData, ...privateSchoolsData];
+    let all = [...window.zpschoolsData, ...window.privateSchoolsData];
     select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     all.forEach(s => {
       let opt = document.createElement('option');
@@ -994,8 +1008,8 @@
     });
   }
 
-  function openFullSchoolView(schoolId, type) {
-    let all = type === 'PRIVATE' ? privateSchoolsData : zpschoolsData;
+  window.openFullSchoolView = function(schoolId, type) {
+    let all = type === 'PRIVATE' ? window.privateSchoolsData : window.zpschoolsData;
     let s = all.find(x => x.id === schoolId);
     if(!s) return;
 
@@ -1074,16 +1088,16 @@
     `;
   }
 
-  function goBackToDashboard() {
+  window.goBackToDashboard = function() {
     renderDashboard();
     history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
   }
 
   function renderSummaryHtml() {
-    let zpSchoolsCount = globalZpSchoolsCount;
-    let zpTeachersCount = globalZpTeachersCount;
+    let zpSchoolsCount = window.globalZpSchoolsCount;
+    let zpTeachersCount = window.globalZpTeachersCount;
     let zpBoys = 0, zpGirls = 0;
-    zpschoolsData.forEach(s => {
+    window.zpschoolsData.forEach(s => {
       Object.values(s.classCounts || {}).forEach(obj => {
         let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
         let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
@@ -1093,10 +1107,10 @@
     });
     let zpTotalStud = zpBoys + zpGirls;
 
-    let privTotalSchools = privateSchoolsData.length;
-    let privTeachers = privateSchoolsData.reduce((acc, s) => acc + (s.teacherCount || 2), 0);
+    let privTotalSchools = window.privateSchoolsData.length;
+    let privTeachers = window.privateSchoolsData.reduce((acc, s) => acc + (s.teacherCount || 2), 0);
     let privBoys = 0, privGirls = 0;
-    privateSchoolsData.forEach(s => {
+    window.privateSchoolsData.forEach(s => {
       Object.values(s.classCounts || {}).forEach(obj => {
         let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
         let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
@@ -1153,13 +1167,6 @@
       </div>
     `;
   }
-
-  function toggleReportFields(show) {
-    let f = document.getElementById('dynamicChangeFields');
-    if(f) f.style.display = show ? 'block' : 'none';
-  }
-
-  window.onload = initApp;
 </script>
 </body>
 </html>
