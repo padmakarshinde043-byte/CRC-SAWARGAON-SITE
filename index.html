@@ -260,7 +260,7 @@
 
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-logo-box">
-    <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+    <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
   <div class="header-text">
     <div class="header-main-title">समूह साधन केंद्र सावरगाव</div>
@@ -708,7 +708,6 @@
       selectedSchoolForPinCheck = null;
       let body = document.getElementById('reportFormBody');
       if(body) body.style.display = 'none';
-      renderDashboard();
       return;
     }
     let opt = selectEl.options[selectEl.selectedIndex];
@@ -744,7 +743,6 @@
     document.getElementById('schoolPinModal').style.display = 'none';
     document.getElementById('mr_school').value = "";
     selectedSchoolForPinCheck = null;
-    renderDashboard();
   }
 
   window.verifySchoolLoginPin = function() {
@@ -760,7 +758,6 @@
       } else {
         document.getElementById('schoolPinModal').style.display = 'none';
         document.getElementById('reportFormBody').style.display = 'block';
-        renderDashboard();
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
       }
     } else {
@@ -788,8 +785,7 @@
 
     document.getElementById('schoolPinModal').style.display = 'none';
     document.getElementById('reportFormBody').style.display = 'block';
-    renderDashboard();
-    showCustomAlert("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
+    showToast("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
   }
 
   window.toggleReportFields = function(show) {
@@ -929,12 +925,12 @@
 
     let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
     let schoolOptionsHtml = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
       return `<option value="${s.name}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
     let schoolPinResetRows = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
       let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
@@ -945,12 +941,12 @@
     }).join('');
 
     let schoolEditOptionsHtml = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
       return `<option value="${s.id}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
     let schoolDeleteRows = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
           <span><b>${s.id}. ${displayName}</b> (${s.type})</span>
@@ -1166,7 +1162,8 @@
     let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let s = allSchools.find(x => x.id === id);
     if(s) {
-      document.getElementById('edit_s_name').value = s.name;
+      let cleanName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      document.getElementById('edit_s_name').value = cleanName;
       document.getElementById('edit_s_udise').value = s.udise || '';
       document.getElementById('edit_s_teachers').value = s.teacherCount || (s.teachers && s.teachers.length ? 2 : 2);
       let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: '', phone: ''};
@@ -1192,7 +1189,8 @@
 
     if(!newName) { showCustomAlert("शाळेचे नाव आवश्यक आहे."); return; }
 
-    s.name = newName;
+    let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
+    s.name = newName + typeSuffix;
     s.udise = newUdise;
     s.teacherCount = newTeach;
     if(!s.teachers) s.teachers = [{}];
@@ -1244,7 +1242,6 @@
     classHtml += '</tbody></table>';
     classContainer.innerHTML = classHtml;
 
-    // For private schools added later, categoryCounts might be empty or not shown
     let isPrivateAddedLater = school.type === 'PRIVATE' && !school.categoryCounts;
     if(isPrivateAddedLater) {
       castContainer.innerHTML = '<p style="padding:10px; font-size:0.9rem; color:#64748B; text-align:center;">या खाजगी शाळेसाठी प्रवर्गनिहाय (Cast) माहिती उपलब्ध नाही.</p>';
@@ -1413,13 +1410,16 @@
       return; 
     }
 
-    let name = nameInput.value;
+    let name = nameInput.value.trim();
     let udise = document.getElementById('p_udise').value || "N/A";
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = Number(totalInput.value);
     let hmName = hmNameInput ? hmNameInput.value : "Headmaster";
     let hmPhone = hmPhoneInput ? hmPhoneInput.value : "9876543210";
+
+    // Clean any prefix numbers if user accidentally typed them
+    name = name.replace(/^[0-9]+\.\s*/, '');
 
     let nextId = window.zpschoolsData.length + window.privateSchoolsData.length + 1;
 
@@ -1447,10 +1447,11 @@
     let all = [...window.zpschoolsData, ...window.privateSchoolsData];
     select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     all.forEach(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let cleanName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
       let opt = document.createElement('option');
       opt.value = s.name;
-      opt.textContent = `${s.id}. ${displayName}`;
+      opt.textContent = `${s.id}. ${cleanName}${typeSuffix}`;
       select.appendChild(opt);
     });
   }
@@ -1468,7 +1469,8 @@
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
     let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
-    let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+    let cleanName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+    let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
     
     let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
     let totalBoys = 0, totalGirls = 0, grandTotal = 0;
@@ -1526,7 +1528,7 @@
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>🏫 ${s.id}. ${displayName} (${s.type})</span>
+          <span>🏫 ${s.id}. ${cleanName}${typeSuffix}</span>
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
         <div style="font-size: 0.95rem; line-height: 1.6;">
