@@ -774,15 +774,6 @@
         document.getElementById('schoolPinModal').style.display = 'none';
         let body = document.getElementById('reportFormBody');
         if(body) body.style.display = 'block';
-        let selVal = document.getElementById('mr_school').value;
-        renderDashboard();
-        setTimeout(() => {
-          let sel = document.getElementById('mr_school');
-          if(sel && selVal) {
-            sel.value = selVal;
-            document.getElementById('reportFormBody').style.display = 'block';
-          }
-        }, 50);
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
       }
     } else {
@@ -811,15 +802,6 @@
     document.getElementById('schoolPinModal').style.display = 'none';
     let body = document.getElementById('reportFormBody');
     if(body) body.style.display = 'block';
-    let selVal = document.getElementById('mr_school').value;
-    renderDashboard();
-    setTimeout(() => {
-      let sel = document.getElementById('mr_school');
-      if(sel && selVal) {
-        sel.value = selVal;
-        document.getElementById('reportFormBody').style.display = 'block';
-      }
-    }, 50);
     showToast("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
   }
 
@@ -943,14 +925,16 @@
 
     closeConfirmModal();
     window.saveDataToFirebase();
-    renderDashboard();
+    // Re-render report view without jumping away
+    let activeBtn = document.querySelector('.nav-tab.active');
+    switchTab('reportTab', activeBtn, false);
     setTimeout(() => {
       let sel = document.getElementById('mr_school');
       if(sel) {
         sel.value = schoolName;
         document.getElementById('reportFormBody').style.display = 'block';
       }
-    }, 100);
+    }, 50);
   }
 
   window.renderFullAdminView = function() {
