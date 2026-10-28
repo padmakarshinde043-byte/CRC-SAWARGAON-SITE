@@ -148,6 +148,12 @@
   .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
   .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
 
+  /* Minimized Accordion styling for Admin Panel */
+  .admin-accordion { background: white; border: 2px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+  .admin-accordion summary { padding: 12px 16px; font-size: 1rem; font-weight: 800; color: #1E3A8A; cursor: pointer; background: #F8FAFC; outline: none; display: flex; align-items: center; justify-content: space-between; }
+  .admin-accordion summary::-webkit-details-marker { color: #1E3A8A; }
+  .admin-accordion-content { padding: 14px; border-top: 1.5px solid var(--border); background: #FFFFFF; }
+
   footer { text-align: center; padding: 18px; font-size: 0.85rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2.5rem; background: white; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
 
   .tab-content { display: none; }
@@ -398,7 +404,7 @@
   window.marqueeMessage = "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
   window.globalZpSchoolsCount = 20;
   window.globalZpTeachersCount = 73;
-  window.schoolPinsData = {}; // Stores UDISE -> PIN mapping
+  window.schoolPinsData = {};
 
   let clickCount = 0;
   let clickTimer = null;
@@ -546,7 +552,6 @@
     let capsulesHtml = allSchools.map((s, index) => {
       let groupIndex = Math.floor(index / 4) % softColors.length;
       let col = softColors[groupIndex];
-      // Clean ZP or type suffix from display name if needed, but user requested removing (ZP) from list
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       return `
         <div class="school-capsule" style="background:${col.bg}; border:1.5px solid ${col.border}; color:${col.text};" onclick="openFullSchoolView(${s.id}, '${s.type}')">
@@ -642,7 +647,6 @@
     `;
   }
 
-  // School PIN Authentication check
   window.checkSchoolPinAuth = function(selectEl) {
     if(!selectEl.value) {
       let body = document.getElementById('reportFormBody');
@@ -651,6 +655,7 @@
     }
     let opt = selectEl.options[selectEl.selectedIndex];
     let udise = opt.getAttribute('data-udise');
+    let cleanDisplayName = selectEl.value.replace(' (ZP)', '').replace(' (PRIVATE)', '');
     selectedSchoolForPinCheck = { name: selectEl.value, udise: udise };
 
     let storedPins = window.schoolPinsData || {};
@@ -662,12 +667,11 @@
     let promptText = document.getElementById('schoolPinPromptText');
 
     if(!currentPin || currentPin === '1111') {
-      // First time or default PIN
-      promptText.innerHTML = `शाळा: <b>${selectEl.value}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
+      promptText.innerHTML = `शाळा: <b>${cleanDisplayName}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
       enterSec.style.display = 'block';
       createSec.style.display = 'none';
     } else {
-      promptText.innerHTML = `शाळा: <b>${selectEl.value}</b><br>कृपया आपला 4 अंकी गुप्त पिन प्रविष्ट करा:`;
+      promptText.innerHTML = `शाळा: <b>${cleanDisplayName}</b><br>कृपया आपला 4 अंकी गुप्त पिन प्रविष्ट करा:`;
       enterSec.style.display = 'block';
       createSec.style.display = 'none';
     }
@@ -690,11 +694,9 @@
 
     if(pin === currentPin) {
       if(currentPin === '1111') {
-        // Prompt to create new custom PIN
         document.getElementById('schoolPinEnterSection').style.display = 'none';
         document.getElementById('schoolPinCreateSection').style.display = 'block';
       } else {
-        // Success
         document.getElementById('schoolPinModal').style.display = 'none';
         document.getElementById('reportFormBody').style.display = 'block';
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
@@ -745,7 +747,7 @@
     if(changeType === 'none') {
       pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
       document.getElementById('confirmModalBody').innerHTML = `
-        शाळा: <b>${schoolName}</b><br>
+        शाळा: <b>${schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '')}</b><br>
         नोंद: <b>मागील महिना अहवालानुसार पटसंख्येत कुठलाही बदल नाही.</b><br><br>
         ही माहिती कन्फर्म करायची का?
       `;
@@ -765,7 +767,7 @@
     pendingReportData = { schoolName, changeType, cls, cat, gender, count, reason };
 
     document.getElementById('confirmModalBody').innerHTML = `
-      शाळा: <b>${schoolName}</b><br>
+      शाळा: <b>${schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '')}</b><br>
       बदलाचा प्रकार: <b style="color:${changeType==='increase'?'#10B981':'#EF4444'}">${actionText}</b><br>
       वर्ग: <b>${cls}</b><br>
       प्रवर्ग: <b>${cat}</b><br>
@@ -817,7 +819,6 @@
     renderDashboard();
   }
 
-  /* FULL-SIZE ADMIN PANEL VIEW WITH PIN RESET & TABLE EDITS */
   window.renderFullAdminView = function() {
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
@@ -838,16 +839,18 @@
     `).join('');
 
     let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
-    let schoolOptionsHtml = allSchoolsForAdmin.map(s => `<option value="${s.name}">${s.name} (${s.type})</option>`).join('');
+    let schoolOptionsHtml = allSchoolsForAdmin.map(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      return `<option value="${s.name}">${displayName} (${s.type})</option>`;
+    }).join('');
 
-    // School PIN Reset list rows
     let schoolPinResetRows = allSchoolsForAdmin.map(s => {
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
-          <span><b>${displayName}</b> (सध्याचा पिन: ${currentPin})</span>
-          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट करा</button>
+          <span><b>${displayName}</b> (पिन: ${currentPin})</span>
+          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट</button>
         </div>
       `;
     }).join('');
@@ -859,95 +862,113 @@
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
         </div>
 
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
-          <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${window.marqueeMessage}" style="margin-bottom:8px;">
-          <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
-        </div>
-
-        <!-- School Login PIN Reset Section -->
-        <div style="background:#FEF2F2; padding:14px; border-radius:10px; border:2px solid #EF4444; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#991B1B; margin-bottom:8px;">🔑 शाळा लॉगिन पिन रिसेट व्यवस्थापन (Admin PIN Reset):</h4>
-          <p style="font-size: 0.85rem; color: #7F1D1D; margin-bottom: 10px;">केंद्रप्रमुख इथून कोणत्याही शाळेचा पिन रिसेट करू शकतात. रिसेट केल्यावर पिन पुन्हा 1111 होईल.</p>
-          <div style="max-height:220px; overflow-y:auto;">${schoolPinResetRows}</div>
-        </div>
-
-        <div style="background:#EFF6FF; padding:14px; border-radius:10px; border:2px solid #3B82F6; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1D4ED8; margin-bottom:8px;">🏫 जिल्हा परिषद शाळा व शिक्षक संख्या व्यवस्थापन:</h4>
-          <div class="form-grid" style="margin-bottom:8px;">
-            <div class="form-group">
-              <label>जिल्हा परिषद शाळांची संख्या:</label>
-              <input type="number" id="adm_zp_schools_count" autocomplete="off" class="form-control" value="${window.globalZpSchoolsCount}">
-            </div>
-            <div class="form-group">
-              <label>जिल्हा परिषद शाळेतील शिक्षकांची संख्या:</label>
-              <input type="number" id="adm_zp_teachers_count" autocomplete="off" class="form-control" value="${window.globalZpTeachersCount}">
-            </div>
+        <!-- 1. Marquee Admin Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>📢 सरकणारा मेसेज (Marquee) व्यवस्थापन</summary>
+          <div class="admin-accordion-content">
+            <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${window.marqueeMessage}" style="margin-bottom:8px;">
+            <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
           </div>
-          <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
-        </div>
+        </details>
 
-        <div style="background:#FFFBEB; padding:14px; border-radius:10px; border:2px dashed #F59E0B; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#D97706; margin-bottom:8px;">✏️ वर्गनिहाय व प्रवर्गनिहाय पटसंख्या तक्ता बदला (Full Tables Edit):</h4>
-          <div class="form-grid" style="margin-bottom:10px;">
-            <div class="form-group" style="grid-column: 1 / -1;">
-              <label>शाळा निवडा:</label>
-              <select id="adm_school_select" autocomplete="off" class="form-control" onchange="loadAllTablesForAdmin()">${schoolOptionsHtml}</select>
+        <!-- 2. School Login PIN Reset Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>🔑 शाळा लॉगिन पिन रिसेट व्यवस्थापन</summary>
+          <div class="admin-accordion-content" style="background:#FEF2F2;">
+            <p style="font-size: 0.85rem; color: #7F1D1D; margin-bottom: 10px;">केंद्रप्रमुख इथून कोणत्याही शाळेचा पिन रिसेट करू शकतात. रिसेट केल्यावर पिन पुन्हा 1111 होईल.</p>
+            <div style="max-height:220px; overflow-y:auto;">${schoolPinResetRows}</div>
+          </div>
+        </details>
+
+        <!-- 3. ZP Schools & Teachers Count Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>🏫 जिल्हा परिषद शाळा व शिक्षक संख्या</summary>
+          <div class="admin-accordion-content" style="background:#EFF6FF;">
+            <div class="form-grid" style="margin-bottom:8px;">
+              <div class="form-group">
+                <label>जिल्हा परिषद शाळांची संख्या:</label>
+                <input type="number" id="adm_zp_schools_count" autocomplete="off" class="form-control" value="${window.globalZpSchoolsCount}">
+              </div>
+              <div class="form-group">
+                <label>जिल्हा परिषद शाळेतील शिक्षकांची संख्या:</label>
+                <input type="number" id="adm_zp_teachers_count" autocomplete="off" class="form-control" value="${window.globalZpTeachersCount}">
+              </div>
             </div>
+            <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
           </div>
+        </details>
 
-          <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">वर्गनिहाय पटसंख्या तक्ता:</div>
-          <div id="adminClassesTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
-
-          <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">प्रवर्गनिहाय (Cast) पटसंख्या तक्ता:</div>
-          <div id="adminCastTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
-
-          <button class="btn btn-warning" onclick="manualUpdateAllTablesStrength()">सर्व तक्त्यांची पटसंख्या एकाच वेळी जतन करा 💾</button>
-        </div>
-
-        <div style="background:#FDF2F8; padding:14px; border-radius:10px; border:2px solid #EC4899; margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#9D174D; margin-bottom:8px;">➕ खाजगी/संस्थेची शाळा जोडा (Add Private School):</h4>
-          <div class="form-grid" style="margin-bottom:8px;">
-            <input type="text" id="p_name" autocomplete="off" class="form-control" placeholder="शाळेचे नाव (English)">
-            <input type="text" id="p_udise" autocomplete="off" class="form-control" placeholder="यु-डायस कोड (UDISE)">
-            <div class="form-group">
-              <label>संस्थेचा प्रकार:</label>
-              <select id="p_type_select" autocomplete="off" class="form-control">
-                <option value="खाजगी अनुदानित">खाजगी अनुदानित</option>
-                <option value="खाजगी विना अनुदानित">खाजगी विना अनुदानित</option>
-                <option value="समाज कल्याण विभाग">समाज कल्याण विभाग</option>
-                <option value="इंग्रजी स्कूल">इंग्रजी स्कूल</option>
-              </select>
+        <!-- 4. Class & Cast Tables Edit Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>✏️ शाळा व वर्गवार पटसंख्या तक्ता बदला</summary>
+          <div class="admin-accordion-content" style="background:#FFFBEB;">
+            <div class="form-grid" style="margin-bottom:10px;">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>शाळा निवडा:</label>
+                <select id="adm_school_select" autocomplete="off" class="form-control" onchange="loadAllTablesForAdmin()">${schoolOptionsHtml}</select>
+              </div>
             </div>
-            <div class="form-group">
-              <label>शिक्षक संख्या:</label>
-              <input type="number" id="p_teachers_count" autocomplete="off" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
+            <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">वर्गनिहाय पटसंख्या तक्ता:</div>
+            <div id="adminClassesTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
+            <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-top:10px; margin-bottom:4px;">प्रवर्गनिहाय (Cast) पटसंख्या तक्ता:</div>
+            <div id="adminCastTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
+            <button class="btn btn-warning" onclick="manualUpdateAllTablesStrength()">सर्व तक्त्यांची पटसंख्या एकाच वेळी जतन करा 💾</button>
+          </div>
+        </details>
+
+        <!-- 5. Add Private School Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>➕ खाजगी/संस्थेची शाळा जोडा</summary>
+          <div class="admin-accordion-content" style="background:#FDF2F8;">
+            <div class="form-grid" style="margin-bottom:8px;">
+              <input type="text" id="p_name" autocomplete="off" class="form-control" placeholder="शाळेचे नाव (English)">
+              <input type="text" id="p_udise" autocomplete="off" class="form-control" placeholder="यु-डायस कोड (UDISE)">
+              <div class="form-group">
+                <label>संस्थेचा प्रकार:</label>
+                <select id="p_type_select" autocomplete="off" class="form-control">
+                  <option value="खाजगी अनुदानित">खाजगी अनुदानित</option>
+                  <option value="खाजगी विना अनुदानित">खाजगी विना अनुदानित</option>
+                  <option value="समाज कल्याण विभाग">समाज कल्याण विभाग</option>
+                  <option value="इंग्रजी स्कूल">इंग्रजी स्कूल</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>शिक्षक संख्या:</label>
+                <input type="number" id="p_teachers_count" autocomplete="off" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
+              </div>
+              <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
+              <input type="text" id="p_hm" autocomplete="off" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
             </div>
-            <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
-            <input type="text" id="p_hm" autocomplete="off" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
+            <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
           </div>
-          <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
-        </div>
+        </details>
 
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border); margin-bottom:15px;">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन:</h4>
-          <div style="margin-bottom:10px;">${linksAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="linkTitleInput" autocomplete="off" class="form-control" placeholder="नवीन लिंकचे नाव">
-            <input type="url" id="linkUrlInput" autocomplete="off" class="form-control" placeholder="URL (https://...)">
+        <!-- 6. Data Links & Notifications Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>🔗 डेटा कलेक्शन लिंक्स व नोटिफिकेशन व्यवस्थापन</summary>
+          <div class="admin-accordion-content">
+            <div style="margin-bottom:10px;">${linksAdminHtml}</div>
+            <div class="form-grid" style="margin-bottom:6px;">
+              <input type="text" id="linkTitleInput" autocomplete="off" class="form-control" placeholder="नवीन लिंकचे नाव">
+              <input type="url" id="linkUrlInput" autocomplete="off" class="form-control" placeholder="URL (https://...)">
+            </div>
+            <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
           </div>
-          <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
-        </div>
+        </details>
 
-        <div style="background:#F8FAFC; padding:14px; border-radius:10px; border:2px solid var(--border);">
-          <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📑 नेव्हिगेशन टॅब व्यवस्थापन:</h4>
-          <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
-          <div class="form-grid" style="margin-bottom:6px;">
-            <input type="text" id="newTabNameInput" autocomplete="off" class="form-control" placeholder="नवीन टॅबचे नाव">
-            <input type="text" id="newTabIdInput" autocomplete="off" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
+        <!-- 7. Navigation Tabs Management Accordion (Minimized) -->
+        <details class="admin-accordion">
+          <summary>📑 नेव्हिगेशन टॅब व्यवस्थापन</summary>
+          <div class="admin-accordion-content">
+            <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
+            <div class="form-grid" style="margin-bottom:6px;">
+              <input type="text" id="newTabNameInput" autocomplete="off" class="form-control" placeholder="नवीन टॅबचे नाव">
+              <input type="text" id="newTabIdInput" autocomplete="off" class="form-control" placeholder="टॅब आयडी (उदा. newTab)">
+            </div>
+            <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडला गेला ➕</button>
           </div>
-          <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडला गेला ➕</button>
-        </div>
+        </details>
+
       </div>
     `;
     setTimeout(loadAllTablesForAdmin, 100);
@@ -1065,7 +1086,8 @@
       showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); 
       return; 
     }
-    window.customLinks.push({ id: Date.now(), title: titleInput.value, url: urlInput.value });
+    // unshift adds the new link at the TOP of the list
+    window.customLinks.unshift({ id: Date.now(), title: titleInput.value, url: urlInput.value });
     renderFullAdminView();
     window.saveDataToFirebase();
   }
@@ -1151,6 +1173,20 @@
     window.privateSchoolsData.push(newSchool);
     renderFullAdminView();
     window.saveDataToFirebase();
+  }
+
+  function renderReportDropdown() {
+    let select = document.getElementById('mr_school');
+    if(!select) return;
+    let all = [...window.zpschoolsData, ...window.privateSchoolsData];
+    select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
+    all.forEach(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let opt = document.createElement('option');
+      opt.value = s.name;
+      opt.textContent = `${s.id}. ${displayName}`;
+      select.appendChild(opt);
+    });
   }
 
   window.openFullSchoolView = function(schoolId, type) {
