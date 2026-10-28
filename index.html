@@ -951,6 +951,17 @@
       return `<option value="${s.id}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
+    // School deletion rows list
+    let schoolDeleteRows = allSchoolsForAdmin.map(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
+          <span><b>${s.id}. ${displayName}</b> (${s.type})</span>
+          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="deleteSchool(${s.id}, '${displayName}')">🗑️ डिलीट करा</button>
+        </div>
+      `;
+    }).join('');
+
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
@@ -1044,7 +1055,8 @@
                 <input type="number" id="p_teachers_count" autocomplete="off" class="form-control" min="1" value="2" placeholder="शिक्षक संख्या">
               </div>
               <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
-              <input type="text" id="p_hm" autocomplete="off" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
+              <input type="text" id="p_hm_name" autocomplete="off" class="form-control" placeholder="मुख्याध्यापक नाव">
+              <input type="text" id="p_hm_phone" autocomplete="off" class="form-control" placeholder="मोबाईल नंबर">
             </div>
             <button class="btn btn-success" onclick="addNewPrivateSchool()" style="margin-bottom: 15px;">खाजगी शाळा जतन करा 🚀</button>
 
@@ -1071,12 +1083,28 @@
                 <label>शिक्षक संख्या:</label>
                 <input type="number" id="edit_s_teachers" class="form-control" autocomplete="off" placeholder="शिक्षक संख्या">
               </div>
-              <div class="form-group" style="grid-column: 1 / -1;">
-                <label>मुख्याध्यापक नाव व मोबाईल:</label>
-                <input type="text" id="edit_s_hm" class="form-control" autocomplete="off" placeholder="HM Name & Phone">
+              <div class="form-group">
+                <label>मुख्याध्यापकाचे नाव:</label>
+                <input type="text" id="edit_s_hm_name" class="form-control" autocomplete="off" placeholder="मुख्याध्यापकाचे नाव">
+              </div>
+              <div class="form-group">
+                <label>मोबाईल नंबर:</label>
+                <input type="text" id="edit_s_hm_phone" class="form-control" autocomplete="off" placeholder="मोबाईल नंबर">
               </div>
             </div>
             <button class="btn btn-primary" onclick="updateExistingSchoolInfo()">शाळेची माहिती अपडेट करा 💾</button>
+          </div>
+        </div>
+
+        <!-- School Delete Management Section -->
+        <div class="admin-section-box" style="border-color: #EF4444; background: #FEF2F2;">
+          <div class="admin-section-header" style="color: #991B1B;" onclick="toggleAdminSection('secSchoolDelete')">
+            <span>🗑️ शाळा / संस्था डिलीट व्यवस्थापन (Delete School)</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secSchoolDelete" class="admin-section-body">
+            <p style="font-size: 0.85rem; color: #7F1D1D; margin-bottom: 10px;">येथून तुम्ही कोणतीही खाजगी शाळा डिलीट करू शकता.</p>
+            <div style="max-height:220px; overflow-y:auto;">${schoolDeleteRows}</div>
           </div>
         </div>
 
@@ -1126,6 +1154,16 @@
     }
   }
 
+  window.deleteSchool = function(id, name) {
+    if(confirm(`तुम्हाला खरच "${name}" ही शाळा डिलीट करायची आहे का?`)) {
+      window.privateSchoolsData = window.privateSchoolsData.filter(s => s.id !== id);
+      window.zpschoolsData = window.zpschoolsData.filter(s => s.id !== id);
+      window.saveDataToFirebase();
+      renderFullAdminView();
+      showToast("शाळा यशस्वीपणे डिलीट केली गेली! 🗑️");
+    }
+  }
+
   window.loadSchoolDetailsForEdit = function(sel) {
     let id = Number(sel.value);
     if(!id) return;
@@ -1135,8 +1173,9 @@
       document.getElementById('edit_s_name').value = s.name;
       document.getElementById('edit_s_udise').value = s.udise || '';
       document.getElementById('edit_s_teachers').value = s.teacherCount || (s.teachers && s.teachers.length ? 2 : 2);
-      let hm = s.teachers && s.teachers[0] ? `${s.teachers[0].name} - ${s.teachers[0].phone}` : '';
-      document.getElementById('edit_s_hm').value = hm;
+      let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: '', phone: ''};
+      document.getElementById('edit_s_hm_name').value = hm.name || '';
+      document.getElementById('edit_s_hm_phone').value = hm.phone || '';
     }
   }
 
@@ -1152,7 +1191,8 @@
     let newName = document.getElementById('edit_s_name').value;
     let newUdise = document.getElementById('edit_s_udise').value;
     let newTeach = Number(document.getElementById('edit_s_teachers').value) || 2;
-    let newHmStr = document.getElementById('edit_s_hm').value;
+    let newHmName = document.getElementById('edit_s_hm_name').value;
+    let newHmPhone = document.getElementById('edit_s_hm_phone').value;
 
     if(!newName) { showCustomAlert("शाळेचे नाव आवश्यक आहे."); return; }
 
@@ -1160,8 +1200,8 @@
     s.udise = newUdise;
     s.teacherCount = newTeach;
     if(!s.teachers) s.teachers = [{}];
-    s.teachers[0].name = newHmStr.split('-')[0] ? newHmStr.split('-')[0].trim() : 'Headmaster';
-    s.teachers[0].phone = newHmStr.split('-')[1] ? newHmStr.split('-')[1].trim() : '9876543210';
+    s.teachers[0].name = newHmName || 'Headmaster';
+    s.teachers[0].phone = newHmPhone || '9876543210';
 
     window.saveDataToFirebase();
     renderFullAdminView();
@@ -1360,6 +1400,9 @@
   window.addNewPrivateSchool = function() {
     let nameInput = document.getElementById('p_name');
     let totalInput = document.getElementById('p_total');
+    let hmNameInput = document.getElementById('p_hm_name');
+    let hmPhoneInput = document.getElementById('p_hm_phone');
+
     if(!nameInput || !totalInput || !nameInput.value || !totalInput.value) { 
       showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); 
       return; 
@@ -1370,7 +1413,8 @@
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = Number(totalInput.value);
-    let hmStr = document.getElementById('p_hm').value;
+    let hmName = hmNameInput ? hmNameInput.value : "Headmaster";
+    let hmPhone = hmPhoneInput ? hmPhoneInput.value : "9876543210";
 
     let nextId = window.zpschoolsData.length + window.privateSchoolsData.length + 1;
 
@@ -1381,7 +1425,7 @@
       classes: "5 To 10",
       type: "PRIVATE",
       instType: instType,
-      teachers: [{name: hmStr || "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      teachers: [{name: hmName || "Headmaster", designation: "Headmaster", phone: hmPhone || "9876543210"}],
       teacherCount: teachersCount,
       classCounts: {"वर्ग 5": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}},
       categoryCounts: {"SC": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
@@ -1390,6 +1434,7 @@
     window.privateSchoolsData.push(newSchool);
     renderFullAdminView();
     window.saveDataToFirebase();
+    showToast('नवीन खाजगी शाळा यशस्वीपणे जोडली गेली! ✅');
   }
 
   function renderReportDropdown() {
