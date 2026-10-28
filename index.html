@@ -27,7 +27,6 @@
   window.db = getFirestore(app);
   window.dbDocRef = doc(window.db, "portalData", "mainStore");
 
-  // Real-time listener: Any change anywhere will instantly sync across all devices!
   onSnapshot(window.dbDocRef, (docSnap) => {
     if (docSnap.exists()) {
       let data = docSnap.data();
@@ -37,8 +36,8 @@
       if(data.zpCount !== undefined) window.globalZpSchoolsCount = data.zpCount;
       if(data.zpTeachCount !== undefined) window.globalZpTeachersCount = data.zpTeachCount;
       if(data.marquee) window.marqueeMessage = data.marquee;
+      if(data.schoolPins) window.schoolPinsData = data.schoolPins;
 
-      // Refresh UI instantly if already loaded
       if(typeof window.renderDashboard === 'function') {
         let activeTab = document.querySelector('.tab-content.active');
         if(activeTab && activeTab.id === 'dashboardTab') {
@@ -52,7 +51,6 @@
     }
   });
 
-  // Save Data to Firebase
   window.saveDataToFirebase = async function() {
     try {
       await setDoc(window.dbDocRef, {
@@ -61,7 +59,8 @@
         links: window.customLinks,
         zpCount: window.globalZpSchoolsCount,
         zpTeachCount: window.globalZpTeachersCount,
-        marquee: window.marqueeMessage
+        marquee: window.marqueeMessage,
+        schoolPins: window.schoolPinsData
       });
       window.showToast('डेटा क्लाऊडवर यशस्वीपणे लाईव्ह सेव्ह झाला! ☁️');
     } catch(e) {
@@ -189,6 +188,35 @@
       <button class="btn btn-outline" style="width: auto; padding: 8px 12px;" onclick="closeConfirmModal()">रद्द करा</button>
       <button class="btn btn-success" style="width: auto; padding: 8px 12px;" onclick="executeReportSubmit()">कन्फर्म करा ✔️</button>
     </div>
+  </div>
+</div>
+
+<!-- SCHOOL LOGIN PIN MODAL -->
+<div class="modal-overlay" id="schoolPinModal">
+  <div class="modal-box">
+    <h3>🔑 शाळेचा लॉगिन पिन (One-Time PIN)</h3>
+    <p id="schoolPinPromptText" style="font-size: 0.95rem; font-weight: 700; color: #475569; margin-bottom: 10px;"></p>
+    
+    <div id="schoolPinEnterSection">
+      <input type="password" id="schoolLoginPinInput" class="form-control" autocomplete="off" placeholder="••••" style="text-align: center; font-size: 1.3rem; letter-spacing: 5px; margin-bottom: 12px;" maxlength="4">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn btn-outline" style="width: auto; padding: 8px 12px;" onclick="closeSchoolPinModal()">रद्द करा</button>
+        <button class="btn btn-primary" style="width: auto; padding: 8px 12px;" onclick="verifySchoolLoginPin()">पिन तपासा 🔓</button>
+      </div>
+    </div>
+
+    <div id="schoolPinCreateSection" style="display:none;">
+      <p style="color: #D97706; font-weight: 800; font-size: 0.9rem; margin-bottom: 6px;">⚠️ प्रथमच लॉगिन केल्यामुळे कृपया नवीन ४ अंकी पिन तयार करा:</p>
+      <input type="password" id="newPinInput1" class="form-control" autocomplete="off" placeholder="नवीन पिन (४ अंक)" style="text-align: center; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 8px;" maxlength="4">
+      <input type="password" id="newPinInput2" class="form-control" autocomplete="off" placeholder="नवीन पिन पुन्हा प्रविष्ट करा" style="text-align: center; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 12px;" maxlength="4">
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn btn-success" style="width: 100%; padding: 10px;" onclick="createNewSchoolPin()">नवीन पिन तयार करा व सेव्ह करा 💾</button>
+      </div>
+    </div>
+    
+    <p style="font-size: 0.78rem; color: #94A3B8; margin-top: 12px; text-align: center; font-weight: 700;">
+      सुचना: जर पिन विसरल्यास तो रिसेट करण्यासाठी केंद्रप्रमुखांशी संपर्क करावा.
+    </p>
   </div>
 </div>
 
@@ -370,10 +398,12 @@
   window.marqueeMessage = "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
   window.globalZpSchoolsCount = 20;
   window.globalZpTeachersCount = 73;
+  window.schoolPinsData = {}; // Stores UDISE -> PIN mapping
 
   let clickCount = 0;
   let clickTimer = null;
   let pendingReportData = null;
+  let selectedSchoolForPinCheck = null;
 
   window.showCustomAlert = function(message) {
     let alertBox = document.getElementById('customAlertBody');
@@ -516,11 +546,18 @@
     let capsulesHtml = allSchools.map((s, index) => {
       let groupIndex = Math.floor(index / 4) % softColors.length;
       let col = softColors[groupIndex];
+      // Clean ZP or type suffix from display name if needed, but user requested removing (ZP) from list
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       return `
         <div class="school-capsule" style="background:${col.bg}; border:1.5px solid ${col.border}; color:${col.text};" onclick="openFullSchoolView(${s.id}, '${s.type}')">
-          ${s.id}. ${s.name}
+          ${s.id}. ${displayName}
         </div>
       `;
+    }).join('');
+
+    let schoolDropdownOptions = allSchools.map(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      return `<option value="${s.name}" data-udise="${s.udise}">${displayName}</option>`;
     }).join('');
 
     container.innerHTML = `
@@ -551,48 +588,50 @@
           <div class="form-grid">
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>शाळा निवडा:</label>
-              <select id="mr_school" class="form-control" autocomplete="off"><option value="">-- शाळा निवडा --</option></select>
+              <select id="mr_school" class="form-control" autocomplete="off" onchange="checkSchoolPinAuth(this)"><option value="">-- शाळा निवडा --</option>${schoolDropdownOptions}</select>
             </div>
           </div>
-          <div class="form-group">
-            <label>मागील अहवालानंतर पटसंख्येत झालेला बदल:</label>
-            <div class="radio-box-group">
-              <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. बदल नाही</div></label>
-              <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. वाढली</div></label>
-              <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. कमी झाली</div></label>
-            </div>
-          </div>
-          <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 12px; border-radius: 8px; border: 2px dashed #F59E0B; margin: 10px 0;">
-            <div style="font-weight: 800; color: #D97706; margin-bottom: 8px; font-size: 1.1rem;">बदलाचा तपशील:</div>
-            <div class="form-grid">
-              <div class="form-group">
-                <label>वर्ग:</label>
-                <select id="mr_class" class="form-control" autocomplete="off">
-                  <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>प्रवर्ग:</label>
-                <select id="mr_cat" class="form-control" autocomplete="off">
-                  <option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ</option><option value="NT">NT</option><option value="SBC">SBC</option><option value="OBC">OBC</option><option value="GENERAL">GENERAL</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>लिंग:</label>
-                <select id="mr_gender" class="form-control" autocomplete="off"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
-              </div>
-              <div class="form-group">
-                <label>विद्यार्थी संख्या:</label>
-                <input type="number" id="mr_count" class="form-control" autocomplete="off" min="1" value="1">
-              </div>
-              <div class="form-group" style="grid-column: 1 / -1;">
-                <label>कारण / शेरा:</label>
-                <input type="text" id="mr_reason" class="form-control" autocomplete="off" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
+          <div id="reportFormBody" style="display:none;">
+            <div class="form-group">
+              <label>मागील अहवालानंतर पटसंख्येत झालेला बदल:</label>
+              <div class="radio-box-group">
+                <label><input type="radio" name="changeType" value="none" checked onclick="toggleReportFields(false)"><div class="radio-label">अ. बदल नाही</div></label>
+                <label><input type="radio" name="changeType" value="increase" onclick="toggleReportFields(true)"><div class="radio-label">ब. वाढली</div></label>
+                <label><input type="radio" name="changeType" value="decrease" onclick="toggleReportFields(true)"><div class="radio-label">क. कमी झाली</div></label>
               </div>
             </div>
-          </div>
-          <div style="text-align: right; margin-top: 10px;">
-            <button class="btn btn-warning" onclick="prepareReportSubmit()">📤 अहवाल सबमिट करा</button>
+            <div id="dynamicChangeFields" style="display: none; background: #FFFBEB; padding: 12px; border-radius: 8px; border: 2px dashed #F59E0B; margin: 10px 0;">
+              <div style="font-weight: 800; color: #D97706; margin-bottom: 8px; font-size: 1.1rem;">बदलाचा तपशील:</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>वर्ग:</label>
+                  <select id="mr_class" class="form-control" autocomplete="off">
+                    <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>प्रवर्ग:</label>
+                  <select id="mr_cat" class="form-control" autocomplete="off">
+                    <option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ</option><option value="NT">NT</option><option value="SBC">SBC</option><option value="OBC">OBC</option><option value="GENERAL">GENERAL</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>लिंग:</label>
+                  <select id="mr_gender" class="form-control" autocomplete="off"><option value="मुलगा">मुलगा</option><option value="मुलगी">मुलगी</option></select>
+                </div>
+                <div class="form-group">
+                  <label>विद्यार्थी संख्या:</label>
+                  <input type="number" id="mr_count" class="form-control" autocomplete="off" min="1" value="1">
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label>कारण / शेरा:</label>
+                  <input type="text" id="mr_reason" class="form-control" autocomplete="off" placeholder="उदा. नवीन प्रवेश / टी.सी. / स्थलांतर">
+                </div>
+              </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+              <button class="btn btn-warning" onclick="prepareReportSubmit()">📤 अहवाल सबमिट करा</button>
+            </div>
           </div>
         </div>
       </div>
@@ -601,8 +640,91 @@
         ${renderSummaryHtml()}
       </div>
     `;
+  }
 
-    renderReportDropdown();
+  // School PIN Authentication check
+  window.checkSchoolPinAuth = function(selectEl) {
+    if(!selectEl.value) {
+      let body = document.getElementById('reportFormBody');
+      if(body) body.style.display = 'none';
+      return;
+    }
+    let opt = selectEl.options[selectEl.selectedIndex];
+    let udise = opt.getAttribute('data-udise');
+    selectedSchoolForPinCheck = { name: selectEl.value, udise: udise };
+
+    let storedPins = window.schoolPinsData || {};
+    let currentPin = storedPins[udise];
+
+    let modal = document.getElementById('schoolPinModal');
+    let enterSec = document.getElementById('schoolPinEnterSection');
+    let createSec = document.getElementById('schoolPinCreateSection');
+    let promptText = document.getElementById('schoolPinPromptText');
+
+    if(!currentPin || currentPin === '1111') {
+      // First time or default PIN
+      promptText.innerHTML = `शाळा: <b>${selectEl.value}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
+      enterSec.style.display = 'block';
+      createSec.style.display = 'none';
+    } else {
+      promptText.innerHTML = `शाळा: <b>${selectEl.value}</b><br>कृपया आपला 4 अंकी गुप्त पिन प्रविष्ट करा:`;
+      enterSec.style.display = 'block';
+      createSec.style.display = 'none';
+    }
+    document.getElementById('schoolLoginPinInput').value = '';
+    document.getElementById('newPinInput1').value = '';
+    document.getElementById('newPinInput2').value = '';
+    modal.style.display = 'flex';
+  }
+
+  window.closeSchoolPinModal = function() {
+    document.getElementById('schoolPinModal').style.display = 'none';
+    document.getElementById('mr_school').value = "";
+  }
+
+  window.verifySchoolLoginPin = function() {
+    let pin = document.getElementById('schoolLoginPinInput').value;
+    let udise = selectedSchoolForPinCheck.udise;
+    let storedPins = window.schoolPinsData || {};
+    let currentPin = storedPins[udise] || '1111';
+
+    if(pin === currentPin) {
+      if(currentPin === '1111') {
+        // Prompt to create new custom PIN
+        document.getElementById('schoolPinEnterSection').style.display = 'none';
+        document.getElementById('schoolPinCreateSection').style.display = 'block';
+      } else {
+        // Success
+        document.getElementById('schoolPinModal').style.display = 'none';
+        document.getElementById('reportFormBody').style.display = 'block';
+        showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
+      }
+    } else {
+      showCustomAlert("चुकीचा पिन! कृपया योग्य पिन प्रविष्ट करा.");
+    }
+  }
+
+  window.createNewSchoolPin = function() {
+    let p1 = document.getElementById('newPinInput1').value;
+    let p2 = document.getElementById('newPinInput2').value;
+
+    if(!p1 || p1.length !== 4) {
+      showCustomAlert("कृपया ४ अंकी नवीन पिन प्रविष्ट करा.");
+      return;
+    }
+    if(p1 !== p2) {
+      showCustomAlert("दोनों पिन जुळत नाहीत. कृपया पुन्हा तपासा.");
+      return;
+    }
+
+    let udise = selectedSchoolForPinCheck.udise;
+    if(!window.schoolPinsData) window.schoolPinsData = {};
+    window.schoolPinsData[udise] = p1;
+    window.saveDataToFirebase();
+
+    document.getElementById('schoolPinModal').style.display = 'none';
+    document.getElementById('reportFormBody').style.display = 'block';
+    showCustomAlert("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
   }
 
   window.toggleReportFields = function(show) {
@@ -695,6 +817,7 @@
     renderDashboard();
   }
 
+  /* FULL-SIZE ADMIN PANEL VIEW WITH PIN RESET & TABLE EDITS */
   window.renderFullAdminView = function() {
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
@@ -717,6 +840,18 @@
     let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
     let schoolOptionsHtml = allSchoolsForAdmin.map(s => `<option value="${s.name}">${s.name} (${s.type})</option>`).join('');
 
+    // School PIN Reset list rows
+    let schoolPinResetRows = allSchoolsForAdmin.map(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
+          <span><b>${displayName}</b> (सध्याचा पिन: ${currentPin})</span>
+          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट करा</button>
+        </div>
+      `;
+    }).join('');
+
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
@@ -728,6 +863,13 @@
           <h4 style="font-size:1rem; color:#1E3A8A; margin-bottom:8px;">📢 सरकणारा मेसेज (Marquee) बदला:</h4>
           <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${window.marqueeMessage}" style="margin-bottom:8px;">
           <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
+        </div>
+
+        <!-- School Login PIN Reset Section -->
+        <div style="background:#FEF2F2; padding:14px; border-radius:10px; border:2px solid #EF4444; margin-bottom:15px;">
+          <h4 style="font-size:1rem; color:#991B1B; margin-bottom:8px;">🔑 शाळा लॉगिन पिन रिसेट व्यवस्थापन (Admin PIN Reset):</h4>
+          <p style="font-size: 0.85rem; color: #7F1D1D; margin-bottom: 10px;">केंद्रप्रमुख इथून कोणत्याही शाळेचा पिन रिसेट करू शकतात. रिसेट केल्यावर पिन पुन्हा 1111 होईल.</p>
+          <div style="max-height:220px; overflow-y:auto;">${schoolPinResetRows}</div>
         </div>
 
         <div style="background:#EFF6FF; padding:14px; border-radius:10px; border:2px solid #3B82F6; margin-bottom:15px;">
@@ -809,6 +951,14 @@
       </div>
     `;
     setTimeout(loadAllTablesForAdmin, 100);
+  }
+
+  window.resetSchoolPin = function(udise, schoolName) {
+    if(!window.schoolPinsData) window.schoolPinsData = {};
+    window.schoolPinsData[udise] = '1111';
+    window.saveDataToFirebase();
+    renderFullAdminView();
+    showToast(`"${schoolName}" चा पिन यशस्वीपणे 1111 रिसेट केला! 🔄`);
   }
 
   window.updateZpCounts = function() {
@@ -1003,19 +1153,6 @@
     window.saveDataToFirebase();
   }
 
-  function renderReportDropdown() {
-    let select = document.getElementById('mr_school');
-    if(!select) return;
-    let all = [...window.zpschoolsData, ...window.privateSchoolsData];
-    select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
-    all.forEach(s => {
-      let opt = document.createElement('option');
-      opt.value = s.name;
-      opt.textContent = `${s.id}. ${s.name} (${s.type})`;
-      select.appendChild(opt);
-    });
-  }
-
   window.openFullSchoolView = function(schoolId, type) {
     let all = type === 'PRIVATE' ? window.privateSchoolsData : window.zpschoolsData;
     let s = all.find(x => x.id === schoolId);
@@ -1029,6 +1166,7 @@
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
     let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
+    let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
     
     let totalBoys = 0, totalGirls = 0, grandTotal = 0;
     let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, obj]) => {
@@ -1055,7 +1193,7 @@
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>🏫 ${s.id}. ${s.name} (${s.type})</span>
+          <span>🏫 ${s.id}. ${displayName} (${s.type})</span>
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
         <div style="font-size: 0.95rem; line-height: 1.6;">
