@@ -44,6 +44,7 @@
   window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count_instant')) || 73;
   window.schoolPinsData = JSON.parse(localStorage.getItem('sawargaon_school_pins_instant')) || {};
   window.schoolReportHistory = JSON.parse(localStorage.getItem('sawargaon_school_history_instant')) || {};
+  window.monthlyReportStatus = JSON.parse(localStorage.getItem('sawargaon_monthly_status_instant')) || {};
 
   document.addEventListener("DOMContentLoaded", () => {
     if(typeof window.initAppAfterLoad === 'function') {
@@ -62,6 +63,7 @@
       if(data.marquee) { window.marqueeMessage = data.marquee; localStorage.setItem('sawargaon_marquee_instant', data.marquee); }
       if(data.schoolPins) { window.schoolPinsData = data.schoolPins; localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(data.schoolPins)); }
       if(data.schoolHistory) { window.schoolReportHistory = data.schoolHistory; localStorage.setItem('sawargaon_school_history_instant', JSON.stringify(data.schoolHistory)); }
+      if(data.monthlyStatus) { window.monthlyReportStatus = data.monthlyStatus; localStorage.setItem('sawargaon_monthly_status_instant', JSON.stringify(data.monthlyStatus)); }
 
       let marquee = document.getElementById('marqueeTextDisplay');
       if(marquee) marquee.textContent = window.marqueeMessage;
@@ -85,6 +87,7 @@
     localStorage.setItem('sawargaon_zp_teachers_count_instant', window.globalZpTeachersCount);
     localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(window.schoolPinsData));
     localStorage.setItem('sawargaon_school_history_instant', JSON.stringify(window.schoolReportHistory));
+    localStorage.setItem('sawargaon_monthly_status_instant', JSON.stringify(window.monthlyReportStatus));
 
     try {
       await setDoc(window.dbDocRef, {
@@ -95,7 +98,8 @@
         zpTeachCount: window.globalZpTeachersCount,
         marquee: window.marqueeMessage,
         schoolPins: window.schoolPinsData,
-        schoolHistory: window.schoolReportHistory
+        schoolHistory: window.schoolReportHistory,
+        monthlyStatus: window.monthlyReportStatus
       });
       window.showToast('माहिती इन्स्टंट सेव्ह व लाईव्ह सिंक झाली! ✅');
     } catch(e) {
@@ -260,7 +264,7 @@
 
 <header onclick="handleHeaderClick()" title="हेडिंगवर ३ वेळा क्लिक करा">
   <div class="header-logo-box">
-    <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
+    <img src="logo.jpeg" alt="CRC Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><circle cx=\'25\' cy=\'25\' r=\'23\' fill=\'%231B365D\'/><text x=\'50%\' y=\'55%\' fill=\'white\' font-size=\'12\' font-weight=\'bold\' text-anchor=\'middle\' dominant-baseline=\'middle\'>CRC</text></svg>'">
   </div>
   <div class="header-text">
     <div class="header-main-title">समूह साधन केंद्र सावरगाव</div>
@@ -577,18 +581,25 @@
     let capsulesHtml = allSchools.map((s) => {
       let groupIndex = (s.id - 1) % softColors.length;
       let col = softColors[groupIndex];
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
       return `
         <div class="school-capsule" style="background:${col.bg}; border:1.5px solid ${col.border}; color:${col.text};" onclick="openFullSchoolView(${s.id}, '${s.type}')">
-          ${s.id}. ${displayName}
+          ${s.id}. ${displayName}${typeSuffix}
         </div>
       `;
     }).join('');
 
     let schoolDropdownOptions = allSchools.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
-      return `<option value="${s.name}" data-udise="${s.udise}">${s.id}. ${displayName}</option>`;
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
+      return `<option value="${s.name}" data-udise="${s.udise}">${s.id}. ${displayName}${typeSuffix}</option>`;
     }).join('');
+
+    // Generate current year months dropdown for reporting
+    let monthsList = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"];
+    let currentYear = new Date().getFullYear();
+    let monthOptionsHtml = monthsList.map(m => `<option value="${m} ${currentYear}">${m} ${currentYear}</option>`).join('');
 
     let historyHtml = '';
     if(selectedSchoolForPinCheck) {
@@ -598,20 +609,21 @@
       let rows = histList.length > 0 ? histList.map(h => `
         <tr>
           <td>${h.date}</td>
+          <td><b>${h.month || '-'}</b></td>
           <td><b style="color:${h.changeType==='increase'?'#10B981':'#EF4444'}">${h.changeType==='increase'?'वाढली':'कमी झाली'}</b></td>
           <td>${h.cls} / ${h.cat} (${h.gender})</td>
           <td>${h.count}</td>
           <td>${h.reason}</td>
         </tr>
-      `).join('') : '<tr><td colspan="5" style="text-align:center; color:#64748B;">कोणतीही मागील हिस्ट्री उपलब्ध नाही.</td></tr>';
+      `).join('') : '<tr><td colspan="6" style="text-align:center; color:#64748B;">कोणतीही मागील हिस्ट्री उपलब्ध नाही.</td></tr>';
 
       historyHtml = `
         <div style="margin-top: 20px; background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border);">
-          <div style="font-weight: 800; color: #1E3A8A; font-size: 1.05rem; margin-bottom: 8px;">📜 या शाळेने केलेले मागील बदल (History):</div>
+          <div style="font-weight: 800; color: #1E3A8A; font-size: 1.05rem; margin-bottom: 8px;">📜 या शाळेने केलेले सर्व मागील बदल (Permanent History):</div>
           <div class="table-responsive">
             <table>
               <thead>
-                <tr><th>दिनांक</th><th>स्वरूप</th><th>वर्ग / प्रवर्ग (लिंग)</th><th>संख्या</th><th>शेरा</th></tr>
+                <tr><th>दिनांक</th><th>महिना</th><th>स्वरूप</th><th>वर्ग / प्रवर्ग (लिंग)</th><th>संख्या</th><th>शेरा</th></tr>
               </thead>
               <tbody>${rows}</tbody>
             </table>
@@ -646,9 +658,15 @@
         <div class="card">
           <div class="card-title"><span>📝 मासिक पटसंख्या बदल नोंदणी फॉर्म</span></div>
           <div class="form-grid">
-            <div class="form-group" style="grid-column: 1 / -1;">
+            <div class="form-group">
               <label>शाळा निवडा:</label>
               <select id="mr_school" class="form-control" autocomplete="off" onchange="checkSchoolPinAuth(this)"><option value="">-- शाळा निवडा --</option>${schoolDropdownOptions}</select>
+            </div>
+            <div class="form-group">
+              <label>मासिक अहवाल महिना निवडा:</label>
+              <select id="mr_month" class="form-control" autocomplete="off">
+                ${monthOptionsHtml}
+              </select>
             </div>
           </div>
           <div id="reportFormBody" style="display:none;">
@@ -666,7 +684,7 @@
                 <div class="form-group">
                   <label>वर्ग:</label>
                   <select id="mr_class" class="form-control" autocomplete="off">
-                    <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option>
+                    <option value="वर्ग 1">वर्ग 1</option><option value="वर्ग 2">वर्ग 2</option><option value="वर्ग 3">वर्ग 3</option><option value="वर्ग 4">वर्ग 4</option><option value="वर्ग 5">वर्ग 5</option><option value="वर्ग 6">वर्ग 6</option><option value="वर्ग 7">वर्ग 7</option><option value="वर्ग 8">वर्ग 8</option><option value="वर्ग 9">वर्ग 9</option><option value="वर्ग 10">वर्ग 10</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -722,7 +740,7 @@
     let createSec = document.getElementById('schoolPinCreateSection');
     let promptText = document.getElementById('schoolPinPromptText');
 
-    let displayName = selectEl.value.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+    let displayName = selectEl.value.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
 
     if(!currentPin || currentPin === '1111') {
       promptText.innerHTML = `शाळा: <b>${displayName}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
@@ -757,7 +775,17 @@
         document.getElementById('schoolPinCreateSection').style.display = 'block';
       } else {
         document.getElementById('schoolPinModal').style.display = 'none';
-        document.getElementById('reportFormBody').style.display = 'block';
+        let body = document.getElementById('reportFormBody');
+        if(body) body.style.display = 'block';
+        let selVal = document.getElementById('mr_school').value;
+        renderDashboard();
+        setTimeout(() => {
+          let sel = document.getElementById('mr_school');
+          if(sel && selVal) {
+            sel.value = selVal;
+            document.getElementById('reportFormBody').style.display = 'block';
+          }
+        }, 50);
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
       }
     } else {
@@ -784,7 +812,17 @@
     window.saveDataToFirebase();
 
     document.getElementById('schoolPinModal').style.display = 'none';
-    document.getElementById('reportFormBody').style.display = 'block';
+    let body = document.getElementById('reportFormBody');
+    if(body) body.style.display = 'block';
+    let selVal = document.getElementById('mr_school').value;
+    renderDashboard();
+    setTimeout(() => {
+      let sel = document.getElementById('mr_school');
+      if(sel && selVal) {
+        sel.value = selVal;
+        document.getElementById('reportFormBody').style.display = 'block';
+      }
+    }, 50);
     showToast("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
   }
 
@@ -799,16 +837,19 @@
     let schoolSelect = document.getElementById('mr_school');
     if(!schoolSelect || !schoolSelect.value) { showCustomAlert('कृपया शाळा निवडा!'); return; }
     let schoolName = schoolSelect.value;
+    let monthSelect = document.getElementById('mr_month');
+    let selectedMonth = monthSelect ? monthSelect.value : 'चालू महिना';
 
     let changeTypeInput = document.querySelector('input[name="changeType"]:checked');
     let changeType = changeTypeInput ? changeTypeInput.value : 'none';
     
-    let displayName = schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+    let displayName = schoolName.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
 
     if(changeType === 'none') {
-      pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
+      pendingReportData = { schoolName, selectedMonth, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
       document.getElementById('confirmModalBody').innerHTML = `
         शाळा: <b>${displayName}</b><br>
+        महिना: <b>${selectedMonth}</b><br>
         नोंद: <b>मागील महिना अहवालानुसार पटसंख्येत कुठलाही बदल नाही.</b><br><br>
         ही माहिती कन्फर्म करायची का?
       `;
@@ -825,10 +866,11 @@
     let actionText = (changeType === 'increase') ? 'वाढ' : 'कपात';
     let genderText = (gender === 'मुलगा') ? 'मुलगे' : 'मुली';
 
-    pendingReportData = { schoolName, changeType, cls, cat, gender, count, reason };
+    pendingReportData = { schoolName, selectedMonth, changeType, cls, cat, gender, count, reason };
 
     document.getElementById('confirmModalBody').innerHTML = `
       शाळा: <b>${displayName}</b><br>
+      महिना: <b>${selectedMonth}</b><br>
       बदलाचा प्रकार: <b style="color:${changeType==='increase'?'#10B981':'#EF4444'}">${actionText}</b><br>
       वर्ग: <b>${cls}</b><br>
       प्रवर्ग: <b>${cat}</b><br>
@@ -848,7 +890,7 @@
 
   window.executeReportSubmit = function() {
     if(!pendingReportData) return;
-    let { schoolName, changeType, cls, cat, gender, count, reason } = pendingReportData;
+    let { schoolName, selectedMonth, changeType, cls, cat, gender, count, reason } = pendingReportData;
 
     let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
@@ -880,9 +922,15 @@
       if(!window.schoolReportHistory) window.schoolReportHistory = {};
       if(!window.schoolReportHistory[udise]) window.schoolReportHistory[udise] = [];
 
-      let todayDate = new Date().toLocaleDateString('mr-IN');
+      let d = new Date();
+      let day = String(d.getDate()).padStart(2, '0');
+      let month = String(d.getMonth() + 1).padStart(2, '0');
+      let year = d.getFullYear();
+      let todayDate = `${day}/${month}/${year}`; // English digits format (DD/MM/YYYY)
+
       window.schoolReportHistory[udise].unshift({
         date: todayDate,
+        month: selectedMonth,
         changeType: changeType,
         cls: cls || 'सर्व',
         cat: cat || 'सर्व',
@@ -890,6 +938,11 @@
         count: count || 0,
         reason: reason || 'नोंद नाही'
       });
+
+      // Save status for admin panel month status tracker
+      if(!window.monthlyReportStatus) window.monthlyReportStatus = {};
+      if(!window.monthlyReportStatus[selectedMonth]) window.monthlyReportStatus[selectedMonth] = {};
+      window.monthlyReportStatus[selectedMonth][udise] = { submitted: true, date: todayDate };
     }
 
     closeConfirmModal();
@@ -925,12 +978,12 @@
 
     let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
     let schoolOptionsHtml = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
       return `<option value="${s.name}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
     let schoolPinResetRows = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
       let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
@@ -941,12 +994,12 @@
     }).join('');
 
     let schoolEditOptionsHtml = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
       return `<option value="${s.id}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
     let schoolDeleteRows = allSchoolsForAdmin.map(s => {
-      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '').replace(/^[0-9]+\.\s*/, '');
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
           <span><b>${s.id}. ${displayName}</b> (${s.type})</span>
@@ -955,11 +1008,65 @@
       `;
     }).join('');
 
+    // Generate Status Table for Admin
+    let monthsList = ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"];
+    let currentYear = new Date().getFullYear();
+    let defaultMonth = `${monthsList[new Date().getMonth()]} ${currentYear}`;
+    let selectedAdminMonth = window._currentAdminStatusMonth || defaultMonth;
+
+    let adminMonthOptions = monthsList.map(m => {
+      let val = `${m} ${currentYear}`;
+      return `<option value="${val}" ${val===selectedAdminMonth?'selected':''}>${val}</option>`;
+    }).join('');
+
+    let statusRows = allSchoolsForAdmin.map(s => {
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let statusObj = window.monthlyReportStatus && window.monthlyReportStatus[selectedAdminMonth] && window.monthlyReportStatus[selectedAdminMonth][s.udise];
+      let isSubmitted = statusObj && statusObj.submitted;
+      let subDate = isSubmitted ? statusObj.date : '-';
+      let statusText = isSubmitted ? '<span style="color:#10B981; font-weight:800;">होय (Yes)</span>' : '<span style="color:#EF4444; font-weight:800;">नाही (No)</span>';
+
+      return `
+        <tr>
+          <td>${s.id}</td>
+          <td style="text-align:left; padding-left:10px;">${displayName}</td>
+          <td>${statusText}</td>
+          <td>${subDate}</td>
+        </tr>
+      `;
+    }).join('');
+
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
           <span>🔐 पूर्ण आकारात गुप्त ॲडमिन पॅनल व व्यवस्थापन</span>
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
+        </div>
+
+        <!-- NEW TAB SECTION: Monthly Report Status Tracker -->
+        <div class="admin-section-box" style="border-color: #10B981; background: #ECFDF5;">
+          <div class="admin-section-header" style="color: #065F46;" onclick="toggleAdminSection('secMonthlyStatus')">
+            <span>📊 मासिक अहवाल भरलेली स्थिती (Status Tracker)</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secMonthlyStatus" class="admin-section-body">
+            <div class="form-grid" style="margin-bottom:10px;">
+              <div class="form-group">
+                <label>महिना निवडा:</label>
+                <select id="adminStatusMonthSelect" class="form-control" autocomplete="off" onchange="changeAdminStatusMonth(this)">
+                  ${adminMonthOptions}
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr><th>अ.क्र.</th><th style="text-align:left; padding-left:10px;">शाळेचे नाव</th><th>अहवाल भरला का?</th><th>भरलेला दिनांक</th></tr>
+                </thead>
+                <tbody>${statusRows}</tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <div class="admin-section-box">
@@ -1133,6 +1240,11 @@
       </div>
     `;
     setTimeout(loadAllTablesForAdmin, 100);
+  }
+
+  window.changeAdminStatusMonth = function(sel) {
+    window._currentAdminStatusMonth = sel.value;
+    renderFullAdminView();
   }
 
   window.toggleAdminSection = function(sectionId) {
@@ -1410,16 +1522,13 @@
       return; 
     }
 
-    let name = nameInput.value.trim();
+    let name = nameInput.value.trim().replace(/^[0-9]+\.\s*/, '');
     let udise = document.getElementById('p_udise').value || "N/A";
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = Number(totalInput.value);
     let hmName = hmNameInput ? hmNameInput.value : "Headmaster";
     let hmPhone = hmPhoneInput ? hmPhoneInput.value : "9876543210";
-
-    // Clean any prefix numbers if user accidentally typed them
-    name = name.replace(/^[0-9]+\.\s*/, '');
 
     let nextId = window.zpschoolsData.length + window.privateSchoolsData.length + 1;
 
@@ -1447,11 +1556,11 @@
     let all = [...window.zpschoolsData, ...window.privateSchoolsData];
     select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
     all.forEach(s => {
-      let cleanName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
       let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
       let opt = document.createElement('option');
       opt.value = s.name;
-      opt.textContent = `${s.id}. ${cleanName}${typeSuffix}`;
+      opt.textContent = `${s.id}. ${displayName}${typeSuffix}`;
       select.appendChild(opt);
     });
   }
@@ -1469,7 +1578,7 @@
     let container = document.getElementById('mainContainerViews');
     if(!container) return;
     let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
-    let cleanName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+    let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
     let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
     
     let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
@@ -1489,46 +1598,10 @@
     });
     if(!classHtml) classHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
 
-    let castSectionHtml = '';
-    let isPrivateAddedLater = s.type === 'PRIVATE' && !s.categoryCounts;
-    if(!isPrivateAddedLater && s.categoryCounts) {
-      let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
-      let catBoys = 0, catGirls = 0, catGrandTotal = 0;
-      let catHtml = '';
-      fixedCasts.forEach(cat => {
-        if(s.categoryCounts[cat]) {
-          let obj = s.categoryCounts[cat];
-          let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-          let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-          let t = b + g;
-          catBoys += b;
-          catGirls += g;
-          catGrandTotal += t;
-          catHtml += `<tr><td>${cat}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
-        }
-      });
-      if(catHtml) {
-        castSectionHtml = `
-          <div>
-            <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">प्रवर्गनिहाय (Cast) विद्यार्थी संख्या:</div>
-            <div class="table-responsive">
-              <table>
-                <thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
-                <tbody>
-                  ${catHtml}
-                  <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${catBoys}</td><td>${catGirls}</td><td>${catGrandTotal}</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        `;
-      }
-    }
-
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>🏫 ${s.id}. ${cleanName}${typeSuffix}</span>
+          <span>🏫 ${s.id}. ${displayName}${typeSuffix}</span>
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
         </div>
         <div style="font-size: 0.95rem; line-height: 1.6;">
@@ -1553,8 +1626,6 @@
                 </table>
               </div>
             </div>
-            
-            ${castSectionHtml}
           </div>
         </div>
       </div>
