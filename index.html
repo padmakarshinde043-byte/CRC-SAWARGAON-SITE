@@ -27,7 +27,6 @@
   window.db = getFirestore(app);
   window.dbDocRef = doc(window.db, "portalData", "mainStore");
 
-  // Instant Load from LocalStorage first to prevent blank screen delay
   window.zpschoolsData = JSON.parse(localStorage.getItem('sawargaon_zp_schools_instant')) || null;
   window.privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools_instant')) || [];
   window.customLinks = JSON.parse(localStorage.getItem('sawargaon_links_instant')) || [
@@ -45,14 +44,12 @@
   window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count_instant')) || 73;
   window.schoolPinsData = JSON.parse(localStorage.getItem('sawargaon_school_pins_instant')) || {};
 
-  // Trigger immediate render on startup using cached/default data
   document.addEventListener("DOMContentLoaded", () => {
     if(typeof window.initAppAfterLoad === 'function') {
       window.initAppAfterLoad();
     }
   });
 
-  // Real-time background sync with Firebase
   onSnapshot(window.dbDocRef, (docSnap) => {
     if (docSnap.exists()) {
       let data = docSnap.data();
@@ -77,7 +74,6 @@
   });
 
   window.saveDataToFirebase = async function() {
-    // Save locally instantly
     localStorage.setItem('sawargaon_zp_schools_instant', JSON.stringify(window.zpschoolsData));
     localStorage.setItem('sawargaon_private_schools_instant', JSON.stringify(window.privateSchoolsData));
     localStorage.setItem('sawargaon_links_instant', JSON.stringify(window.customLinks));
@@ -1041,33 +1037,46 @@
     let castContainer = document.getElementById('adminCastTableContainer');
     if(!school || !classContainer || !castContainer) return;
 
-    let classes = Object.keys(school.classCounts || {"वर्ग 1": {boys:0, girls:0}});
+    // 1. Classes Table (Sorted ascending: वर्ग 1 to 8)
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
     let classHtml = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
-    classes.forEach(cls => {
-      let obj = school.classCounts[cls] || {boys: 0, girls: 0};
-      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      classHtml += `<tr>
-        <td style="font-weight:800; padding:8px;">${cls}</td>
-        <td><input type="number" id="adm_b_${cls}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
-        <td><input type="number" id="adm_g_${cls}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
-      </tr>`;
+    let totB_cls = 0, totG_cls = 0;
+    sortedClasses.forEach(cls => {
+      let obj = school.classCounts[cls];
+      if(obj) {
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        totB_cls += b;
+        totG_cls += g;
+        classHtml += `<tr>
+          <td style="font-weight:800; padding:8px;">${cls}</td>
+          <td><input type="number" id="adm_b_${cls}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
+          <td><input type="number" id="adm_g_${cls}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
+        </tr>`;
+      }
     });
+    classHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${totB_cls}</td><td>${totG_cls}</td></tr>`;
     classHtml += '</tbody></table>';
     classContainer.innerHTML = classHtml;
 
-    let casts = Object.keys(school.categoryCounts || {"SC": {boys:0, girls:0}});
+    // 2. Cast Table (Strict order: SC, ST, VJ, NT, SBC, OBC, GENERAL)
+    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
     let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
-    casts.forEach(cat => {
-      let obj = school.categoryCounts[cat] || {boys: 0, girls: 0};
+    let totB_cast = 0, totG_cast = 0;
+    fixedCasts.forEach(cat => {
+      if(!school.categoryCounts[cat]) school.categoryCounts[cat] = {boys: 0, girls: 0};
+      let obj = school.categoryCounts[cat];
       let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
       let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+      totB_cast += b;
+      totG_cast += g;
       castHtml += `<tr>
         <td style="font-weight:800; padding:8px;">${cat}</td>
         <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
         <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
       </tr>`;
     });
+    castHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${totB_cast}</td><td>${totG_cast}</td></tr>`;
     castHtml += '</tbody></table>';
     castContainer.innerHTML = castHtml;
   }
@@ -1080,9 +1089,9 @@
     let school = allSchools.find(x => x.name === schoolName);
     if(!school) return;
 
-    let classes = Object.keys(school.classCounts || {});
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
     let newTotal = 0;
-    classes.forEach(cls => {
+    sortedClasses.forEach(cls => {
       let bInput = document.getElementById(`adm_b_${cls}`);
       let gInput = document.getElementById(`adm_g_${cls}`);
       if(bInput && gInput) {
@@ -1096,8 +1105,8 @@
     });
     school.total = newTotal;
 
-    let casts = Object.keys(school.categoryCounts || {});
-    casts.forEach(cat => {
+    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
+    fixedCasts.forEach(cat => {
       let bInput = document.getElementById(`adm_cb_${cat}`);
       let gInput = document.getElementById(`adm_cg_${cat}`);
       if(bInput && gInput) {
@@ -1246,27 +1255,41 @@
     let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
     let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
     
+    // Sorted ascending classes (वर्ग 1 to 8)
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
     let totalBoys = 0, totalGirls = 0, grandTotal = 0;
-    let classHtml = s.classCounts ? Object.entries(s.classCounts).map(([cls, obj]) => {
-      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      let t = b + g;
-      totalBoys += b;
-      totalGirls += g;
-      grandTotal += t;
-      return `<tr><td>${cls}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
-    }).join('') : '<tr><td colspan="4">माहिती नाही</td></tr>';
+    let classHtml = '';
+    sortedClasses.forEach(cls => {
+      if(s.classCounts && s.classCounts[cls]) {
+        let obj = s.classCounts[cls];
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        let t = b + g;
+        totalBoys += b;
+        totalGirls += g;
+        grandTotal += t;
+        classHtml += `<tr><td>${cls}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
+      }
+    });
+    if(!classHtml) classHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
 
+    // Strict order for Category / Cast: SC, ST, VJ, NT, SBC, OBC, GENERAL
+    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
     let catBoys = 0, catGirls = 0, catGrandTotal = 0;
-    let catHtml = s.categoryCounts ? Object.entries(s.categoryCounts).map(([cat, obj]) => {
-      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      let t = b + g;
-      catBoys += b;
-      catGirls += g;
-      catGrandTotal += t;
-      return `<tr><td>${cat}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
-    }).join('') : '<tr><td colspan="4">माहिती नाही</td></tr>';
+    let catHtml = '';
+    fixedCasts.forEach(cat => {
+      if(s.categoryCounts && s.categoryCounts[cat]) {
+        let obj = s.categoryCounts[cat];
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        let t = b + g;
+        catBoys += b;
+        catGirls += g;
+        catGrandTotal += t;
+        catHtml += `<tr><td>${cat}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
+      }
+    });
+    if(!catHtml) catHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
 
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
@@ -1285,7 +1308,7 @@
           
           <div style="display:flex; flex-direction:column; gap: 14px; margin-top: 10px;">
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या:</div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या (चढता क्रम):</div>
               <div class="table-responsive">
                 <table>
                   <thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
