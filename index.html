@@ -1311,18 +1311,21 @@
     });
     school.total = newTotal;
 
-    let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
-    fixedCasts.forEach(cat => {
-      let bInput = document.getElementById(`adm_cb_${cat}`);
-      let gInput = document.getElementById(`adm_cg_${cat}`);
-      if(bInput && gInput) {
-        let b = Number(bInput.value) || 0;
-        let g = Number(gInput.value) || 0;
-        if(!school.categoryCounts[cat]) school.categoryCounts[cat] = {};
-        school.categoryCounts[cat].boys = b;
-        school.categoryCounts[cat].girls = g;
-      }
-    });
+    let isPrivateAddedLater = school.type === 'PRIVATE' && !school.categoryCounts;
+    if(!isPrivateAddedLater && school.categoryCounts) {
+      let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
+      fixedCasts.forEach(cat => {
+        let bInput = document.getElementById(`adm_cb_${cat}`);
+        let gInput = document.getElementById(`adm_cg_${cat}`);
+        if(bInput && gInput) {
+          let b = Number(bInput.value) || 0;
+          let g = Number(gInput.value) || 0;
+          if(!school.categoryCounts[cat]) school.categoryCounts[cat] = {};
+          school.categoryCounts[cat].boys = b;
+          school.categoryCounts[cat].girls = g;
+        }
+      });
+    }
 
     window.saveDataToFirebase();
   }
