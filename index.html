@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<!-- Firebase SDK & Database Setup -->
+<!-- Firebase SDK & Database Setup with Auto Sync -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -446,9 +446,10 @@
 
   window.addEventListener('popstate', (event) => {
     try {
-      if(event.state && event.state.view === 'school') {
-        openFullSchoolView(event.state.schoolId, event.state.type || 'ZP');
-      } else if(event.state && event.state.view === 'admin') {
+      if(window.location.hash.includes('school-')) {
+        let sId = window.location.hash.replace('#school-', '');
+        openFullSchoolView(Number(sId), 'ZP');
+      } else if(window.location.hash === '#adminPanel') {
         renderFullAdminView();
       } else {
         renderDashboard();
@@ -462,9 +463,16 @@
     let marquee = document.getElementById('marqueeTextDisplay');
     if(marquee) marquee.textContent = window.marqueeMessage;
     renderNavTabs();
-    renderDashboard();
-    if(!window.location.hash) {
-      history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+    
+    // Auto-fix URL hash if it was pointing to old school view on refresh
+    if(window.location.hash.includes('school-')) {
+      let sId = window.location.hash.replace('#school-', '');
+      openFullSchoolView(Number(sId), 'ZP');
+    } else {
+      renderDashboard();
+      if(!window.location.hash) {
+        history.replaceState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+      }
     }
   }
 
@@ -1011,7 +1019,10 @@
   window.openFullSchoolView = function(schoolId, type) {
     let all = type === 'PRIVATE' ? window.privateSchoolsData : window.zpschoolsData;
     let s = all.find(x => x.id === schoolId);
-    if(!s) return;
+    if(!s) {
+      renderDashboard();
+      return;
+    }
 
     history.pushState({view: 'school', schoolId: schoolId, type: type}, "", "#school-" + schoolId);
 
