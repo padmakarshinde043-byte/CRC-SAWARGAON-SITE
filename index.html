@@ -43,6 +43,7 @@
   window.globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count_instant')) || 20;
   window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count_instant')) || 73;
   window.schoolPinsData = JSON.parse(localStorage.getItem('sawargaon_school_pins_instant')) || {};
+  window.schoolReportHistory = JSON.parse(localStorage.getItem('sawargaon_school_history_instant')) || {};
 
   document.addEventListener("DOMContentLoaded", () => {
     if(typeof window.initAppAfterLoad === 'function') {
@@ -60,6 +61,7 @@
       if(data.zpTeachCount !== undefined) { window.globalZpTeachersCount = data.zpTeachCount; localStorage.setItem('sawargaon_zp_teachers_count_instant', data.zpTeachCount); }
       if(data.marquee) { window.marqueeMessage = data.marquee; localStorage.setItem('sawargaon_marquee_instant', data.marquee); }
       if(data.schoolPins) { window.schoolPinsData = data.schoolPins; localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(data.schoolPins)); }
+      if(data.schoolHistory) { window.schoolReportHistory = data.schoolHistory; localStorage.setItem('sawargaon_school_history_instant', JSON.stringify(data.schoolHistory)); }
 
       let marquee = document.getElementById('marqueeTextDisplay');
       if(marquee) marquee.textContent = window.marqueeMessage;
@@ -82,6 +84,7 @@
     localStorage.setItem('sawargaon_zp_schools_count_instant', window.globalZpSchoolsCount);
     localStorage.setItem('sawargaon_zp_teachers_count_instant', window.globalZpTeachersCount);
     localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(window.schoolPinsData));
+    localStorage.setItem('sawargaon_school_history_instant', JSON.stringify(window.schoolReportHistory));
 
     try {
       await setDoc(window.dbDocRef, {
@@ -91,7 +94,8 @@
         zpCount: window.globalZpSchoolsCount,
         zpTeachCount: window.globalZpTeachersCount,
         marquee: window.marqueeMessage,
-        schoolPins: window.schoolPinsData
+        schoolPins: window.schoolPinsData,
+        schoolHistory: window.schoolReportHistory
       });
       window.showToast('माहिती इन्स्टंट सेव्ह व लाईव्ह सिंक झाली! ✅');
     } catch(e) {
@@ -414,6 +418,16 @@
       teachers: [{name: "TANGDE TUKARAM RAMBHAU", designation: "Headmaster", phone: "9890934032"}],
       classCounts: {"वर्ग 1": {boys: 3, girls: 3}, "वर्ग 2": {boys: 3, girls: 3}, "वर्ग 3": {boys: 3, girls: 3}, "वर्ग 4": {boys: 3, girls: 2}},
       categoryCounts: {"SC": {boys: 2, girls: 2}, "ST": {boys: 2, girls: 1}, "VJ": {boys: 2, girls: 1}, "NT": {boys: 2, girls: 2}, "SBC": {boys: 1, girls: 0}, "OBC": {boys: 3, girls: 2}, "GENERAL": {boys: 2, girls: 1}}
+    },
+    { id: 21, name: "Kai Dr. Sonajirao Ranjwan Madhyamik Vidhyalaya Sawargaon (खाजगी अनुदानित)", udise: "1793162364919", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
+      teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
+      categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
+    },
+    { id: 22, name: "Dyaneshwar Vid Kitti Adgaon (खाजगी अनुदानित)", udise: "1793162427207", classes: "5 To 10", type: "PRIVATE", instType: "खाजगी अनुदानित",
+      teachers: [{name: "Headmaster", designation: "Headmaster", phone: "9876543210"}],
+      classCounts: {"वर्ग 5": {boys: 10, girls: 10}, "वर्ग 6": {boys: 10, girls: 10}, "वर्ग 7": {boys: 10, girls: 10}, "वर्ग 8": {boys: 10, girls: 10}},
+      categoryCounts: {"SC": {boys: 10, girls: 10}, "ST": {boys: 10, girls: 10}, "VJ": {boys: 5, girls: 5}, "NT": {boys: 5, girls: 5}, "SBC": {boys: 2, girls: 3}, "OBC": {boys: 5, girls: 5}, "GENERAL": {boys: 3, girls: 2}}
     }
   ];
 
@@ -560,8 +574,8 @@
       `;
     }).join('');
 
-    let capsulesHtml = allSchools.map((s, index) => {
-      let groupIndex = Math.floor(index / 4) % softColors.length;
+    let capsulesHtml = allSchools.map((s) => {
+      let groupIndex = (s.id - 1) % softColors.length;
       let col = softColors[groupIndex];
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       return `
@@ -573,8 +587,39 @@
 
     let schoolDropdownOptions = allSchools.map(s => {
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
-      return `<option value="${s.name}" data-udise="${s.udise}">${displayName}</option>`;
+      return `<option value="${s.name}" data-udise="${s.udise}">${s.id}. ${displayName}</option>`;
     }).join('');
+
+    // Build history HTML for report tab if a school is verified
+    let historyHtml = '';
+    if(selectedSchoolForPinCheck) {
+      let udise = selectedSchoolForPinCheck.udise;
+      let histList = (window.schoolReportHistory && window.schoolReportHistory[udise]) ? window.schoolReportHistory[udise] : [];
+      
+      let rows = histList.length > 0 ? histList.map(h => `
+        <tr>
+          <td>${h.date}</td>
+          <td><b style="color:${h.changeType==='increase'?'#10B981':'#EF4444'}">${h.changeType==='increase'?'वाढली':'कमी झाली'}</b></td>
+          <td>${h.cls} / ${h.cat} (${h.gender})</td>
+          <td>${h.count}</td>
+          <td>${h.reason}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="5" style="text-align:center; color:#64748B;">कोणतीही मागील हिस्ट्री उपलब्ध नाही.</td></tr>';
+
+      historyHtml = `
+        <div style="margin-top: 20px; background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border);">
+          <div style="font-weight: 800; color: #1E3A8A; font-size: 1.05rem; margin-bottom: 8px;">📜 या शाळेने केलेले मागील बदल (History):</div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr><th>दिनांक</th><th>स्वरूप</th><th>वर्ग / प्रवर्ग (लिंग)</th><th>संख्या</th><th>शेरा</th></tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
 
     container.innerHTML = `
       <div id="dashboardTab" class="tab-content active">
@@ -649,6 +694,7 @@
               <button class="btn btn-warning" onclick="prepareReportSubmit()">📤 अहवाल सबमिट करा</button>
             </div>
           </div>
+          ${historyHtml}
         </div>
       </div>
 
@@ -660,8 +706,10 @@
 
   window.checkSchoolPinAuth = function(selectEl) {
     if(!selectEl.value) {
+      selectedSchoolForPinCheck = null;
       let body = document.getElementById('reportFormBody');
       if(body) body.style.display = 'none';
+      renderDashboard();
       return;
     }
     let opt = selectEl.options[selectEl.selectedIndex];
@@ -696,6 +744,8 @@
   window.closeSchoolPinModal = function() {
     document.getElementById('schoolPinModal').style.display = 'none';
     document.getElementById('mr_school').value = "";
+    selectedSchoolForPinCheck = null;
+    renderDashboard();
   }
 
   window.verifySchoolLoginPin = function() {
@@ -711,6 +761,7 @@
       } else {
         document.getElementById('schoolPinModal').style.display = 'none';
         document.getElementById('reportFormBody').style.display = 'block';
+        renderDashboard(); // Re-render to show history table below
         showToast('पिन यशस्वीपणे सत्यापित झाला! ✅');
       }
     } else {
@@ -738,6 +789,7 @@
 
     document.getElementById('schoolPinModal').style.display = 'none';
     document.getElementById('reportFormBody').style.display = 'block';
+    renderDashboard();
     showCustomAlert("नवीन पिन यशस्वीरित्या तयार व सेव्ह झाला आहे! ✨");
   }
 
@@ -801,36 +853,62 @@
 
   window.executeReportSubmit = function() {
     if(!pendingReportData) return;
-    let { schoolName, changeType, cls, cat, gender, count } = pendingReportData;
+    let { schoolName, changeType, cls, cat, gender, count, reason } = pendingReportData;
 
     let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
     let school = allSchools.find(x => x.name === schoolName);
     
-    if(school && changeType !== 'none') {
-      if(!school.classCounts[cls]) { school.classCounts[cls] = {boys: 0, girls: 0}; }
-      if(typeof school.classCounts[cls] === 'number') {
-        let oldTotal = school.classCounts[cls];
-        school.classCounts[cls] = {boys: Math.floor(oldTotal/2), girls: oldTotal - Math.floor(oldTotal/2)};
+    if(school) {
+      if(changeType !== 'none') {
+        if(!school.classCounts[cls]) { school.classCounts[cls] = {boys: 0, girls: 0}; }
+        if(typeof school.classCounts[cls] === 'number') {
+          let oldTotal = school.classCounts[cls];
+          school.classCounts[cls] = {boys: Math.floor(oldTotal/2), girls: oldTotal - Math.floor(oldTotal/2)};
+        }
+
+        if(gender === 'मुलगा') {
+          if(changeType === 'increase') school.classCounts[cls].boys += count;
+          else school.classCounts[cls].boys = Math.max(0, school.classCounts[cls].boys - count);
+        } else {
+          if(changeType === 'increase') school.classCounts[cls].girls += count;
+          else school.classCounts[cls].girls = Math.max(0, school.classCounts[cls].girls - count);
+        }
+
+        let newTotal = 0;
+        Object.values(school.classCounts).forEach(obj => {
+          newTotal += (obj.boys || 0) + (obj.girls || 0);
+        });
+        school.total = newTotal;
       }
 
-      if(gender === 'मुलगा') {
-        if(changeType === 'increase') school.classCounts[cls].boys += count;
-        else school.classCounts[cls].boys = Math.max(0, school.classCounts[cls].boys - count);
-      } else {
-        if(changeType === 'increase') school.classCounts[cls].girls += count;
-        else school.classCounts[cls].girls = Math.max(0, school.classCounts[cls].girls - count);
-      }
+      // Record in History
+      let udise = school.udise;
+      if(!window.schoolReportHistory) window.schoolReportHistory = {};
+      if(!window.schoolReportHistory[udise]) window.schoolReportHistory[udise] = [];
 
-      let newTotal = 0;
-      Object.values(school.classCounts).forEach(obj => {
-        newTotal += (obj.boys || 0) + (obj.girls || 0);
+      let todayDate = new Date().toLocaleDateString('mr-IN');
+      window.schoolReportHistory[udise].unshift({
+        date: todayDate,
+        changeType: changeType,
+        cls: cls || 'सर्व',
+        cat: cat || 'सर्व',
+        gender: gender || '-',
+        count: count || 0,
+        reason: reason || 'नोंद नाही'
       });
-      school.total = newTotal;
     }
 
     closeConfirmModal();
     window.saveDataToFirebase();
     renderDashboard();
+    // Re-select school in dropdown and open form body
+    setTimeout(() => {
+      let sel = document.getElementById('mr_school');
+      if(sel) {
+        sel.value = schoolName;
+        document.getElementById('reportFormBody').style.display = 'block';
+      }
+    }, 100);
   }
 
   window.renderFullAdminView = function() {
@@ -855,7 +933,7 @@
     let allSchoolsForAdmin = [...window.zpschoolsData, ...window.privateSchoolsData];
     let schoolOptionsHtml = allSchoolsForAdmin.map(s => {
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
-      return `<option value="${s.name}">${displayName} (${s.type})</option>`;
+      return `<option value="${s.name}">${s.id}. ${displayName} (${s.type})</option>`;
     }).join('');
 
     let schoolPinResetRows = allSchoolsForAdmin.map(s => {
@@ -863,7 +941,7 @@
       let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
-          <span><b>${displayName}</b> (सध्याचा पिन: ${currentPin})</span>
+          <span><b>${s.id}. ${displayName}</b> (सध्याचा पिन: ${currentPin})</span>
           <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट करा</button>
         </div>
       `;
@@ -1037,48 +1115,57 @@
     let castContainer = document.getElementById('adminCastTableContainer');
     if(!school || !classContainer || !castContainer) return;
 
-    // 1. Classes Table (Sorted ascending: वर्ग 1 to 8)
     let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
     let classHtml = '<table><thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
-    let totB_cls = 0, totG_cls = 0;
     sortedClasses.forEach(cls => {
-      let obj = school.classCounts[cls];
-      if(obj) {
-        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
-        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-        totB_cls += b;
-        totG_cls += g;
-        classHtml += `<tr>
-          <td style="font-weight:800; padding:8px;">${cls}</td>
-          <td><input type="number" id="adm_b_${cls}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
-          <td><input type="number" id="adm_g_${cls}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
-        </tr>`;
-      }
+      let obj = school.classCounts[cls] || {boys: 0, girls: 0};
+      let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+      let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+      classHtml += `<tr>
+        <td style="font-weight:800; padding:8px;">${cls}</td>
+        <td><input type="number" id="adm_b_${cls}" autocomplete="off" class="form-control class-b-input" value="${b}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
+        <td><input type="number" id="adm_g_${cls}" autocomplete="off" class="form-control class-g-input" value="${g}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
+      </tr>`;
     });
-    classHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${totB_cls}</td><td>${totG_cls}</td></tr>`;
+    classHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td id="sum_cls_b">0</td><td id="sum_cls_g">0</td></tr>`;
     classHtml += '</tbody></table>';
     classContainer.innerHTML = classHtml;
 
-    // 2. Cast Table (Strict order: SC, ST, VJ, NT, SBC, OBC, GENERAL)
     let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
     let castHtml = '<table><thead><tr><th>प्रवर्ग</th><th>मुले</th><th>मुली</th></tr></thead><tbody>';
-    let totB_cast = 0, totG_cast = 0;
     fixedCasts.forEach(cat => {
-      if(!school.categoryCounts[cat]) school.categoryCounts[cat] = {boys: 0, girls: 0};
-      let obj = school.categoryCounts[cat];
+      let obj = school.categoryCounts[cat] || {boys: 0, girls: 0};
       let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
       let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
-      totB_cast += b;
-      totG_cast += g;
       castHtml += `<tr>
         <td style="font-weight:800; padding:8px;">${cat}</td>
-        <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control" value="${b}" min="0" style="padding:6px; text-align:center;"></td>
-        <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control" value="${g}" min="0" style="padding:6px; text-align:center;"></td>
+        <td><input type="number" id="adm_cb_${cat}" autocomplete="off" class="form-control cast-b-input" value="${b}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
+        <td><input type="number" id="adm_cg_${cat}" autocomplete="off" class="form-control cast-g-input" value="${g}" min="0" style="padding:6px; text-align:center;" oninput="recalcAdminTotals()"></td>
       </tr>`;
     });
-    castHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${totB_cast}</td><td>${totG_cast}</td></tr>`;
+    castHtml += `<tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td id="sum_cast_b">0</td><td id="sum_cast_g">0</td></tr>`;
     castHtml += '</tbody></table>';
     castContainer.innerHTML = castHtml;
+
+    recalcAdminTotals();
+  }
+
+  window.recalcAdminTotals = function() {
+    let sumClsB = 0, sumClsG = 0;
+    document.querySelectorAll('.class-b-input').forEach(el => sumClsB += Number(el.value) || 0);
+    document.querySelectorAll('.class-g-input').forEach(el => sumClsG += Number(el.value) || 0);
+    let elClsB = document.getElementById('sum_cls_b');
+    let elClsG = document.getElementById('sum_cls_g');
+    if(elClsB) elClsB.textContent = sumClsB;
+    if(elClsG) elClsG.textContent = sumClsG;
+
+    let sumCastB = 0, sumCastG = 0;
+    document.querySelectorAll('.cast-b-input').forEach(el => sumCastB += Number(el.value) || 0);
+    document.querySelectorAll('.cast-g-input').forEach(el => sumCastG += Number(el.value) || 0);
+    let elCastB = document.getElementById('sum_cast_b');
+    let elCastG = document.getElementById('sum_cast_g');
+    if(elCastB) elCastB.textContent = sumCastB;
+    if(elCastG) elCastG.textContent = sumCastG;
   }
 
   window.manualUpdateAllTablesStrength = function() {
@@ -1196,28 +1283,31 @@
   window.addNewPrivateSchool = function() {
     let nameInput = document.getElementById('p_name');
     let totalInput = document.getElementById('p_total');
+    let udiseInput = document.getElementById('p_udise');
     if(!nameInput || !totalInput || !nameInput.value || !totalInput.value) { 
       showCustomAlert('कृपया शाळेचे नाव आणि पटसंख्या भरा.'); 
       return; 
     }
 
     let name = nameInput.value;
-    let udise = document.getElementById('p_udise').value;
+    let udise = udiseInput ? udiseInput.value : "N/A";
     let instType = document.getElementById('p_type_select').value;
     let teachersCount = Number(document.getElementById('p_teachers_count').value) || 2;
     let total = Number(totalInput.value);
     let hmStr = document.getElementById('p_hm').value;
 
+    let nextId = window.zpschoolsData.length + window.privateSchoolsData.length + 1;
+
     let newSchool = {
-      id: Date.now(),
+      id: nextId,
       name: `${name} (${instType})`,
       udise: udise || "N/A",
-      classes: "1 To 8",
+      classes: "5 To 10",
       type: "PRIVATE",
       instType: instType,
       teachers: [{name: hmStr || "Headmaster", designation: "Headmaster", phone: "9876543210"}],
       teacherCount: teachersCount,
-      classCounts: {"वर्ग 1": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}},
+      classCounts: {"वर्ग 5": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}},
       categoryCounts: {"SC": {boys: Math.floor(total/2), girls: total - Math.floor(total/2)}}
     };
 
@@ -1235,7 +1325,7 @@
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       let opt = document.createElement('option');
       opt.value = s.name;
-      opt.textContent = `${displayName}`;
+      opt.textContent = `${s.id}. ${displayName}`;
       select.appendChild(opt);
     });
   }
@@ -1255,8 +1345,7 @@
     let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
     let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
     
-    // Sorted ascending classes (वर्ग 1 to 8)
-    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8"];
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
     let totalBoys = 0, totalGirls = 0, grandTotal = 0;
     let classHtml = '';
     sortedClasses.forEach(cls => {
@@ -1273,7 +1362,6 @@
     });
     if(!classHtml) classHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
 
-    // Strict order for Category / Cast: SC, ST, VJ, NT, SBC, OBC, GENERAL
     let fixedCasts = ["SC", "ST", "VJ", "NT", "SBC", "OBC", "GENERAL"];
     let catBoys = 0, catGirls = 0, catGrandTotal = 0;
     let catHtml = '';
@@ -1308,7 +1396,7 @@
           
           <div style="display:flex; flex-direction:column; gap: 14px; margin-top: 10px;">
             <div>
-              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या (चढता क्रम):</div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या (चढता क्रम १ ते १०):</div>
               <div class="table-responsive">
                 <table>
                   <thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
