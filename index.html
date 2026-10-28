@@ -946,6 +946,11 @@
       `;
     }).join('');
 
+    let schoolEditOptionsHtml = allSchoolsForAdmin.map(s => {
+      let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+      return `<option value="${s.id}">${s.id}. ${displayName} (${s.type})</option>`;
+    }).join('');
+
     container.innerHTML = `
       <div class="card" style="border: 3px solid #1B365D;">
         <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
@@ -1017,10 +1022,11 @@
 
         <div class="admin-section-box" style="border-color: #EC4899; background: #FDF2F8;">
           <div class="admin-section-header" style="color: #9D174D;" onclick="toggleAdminSection('secAddSchool')">
-            <span>➕ खाजगी/संस्थेची शाळा जोडा (Add Private School)</span>
+            <span>➕ खाजगी/संस्थेची शाळा जोडा व एडिट करा (Add & Edit School)</span>
             <span class="material-icons">expand_more</span>
           </div>
           <div id="secAddSchool" class="admin-section-body">
+            <h4 style="font-size: 0.95rem; color: #9D174D; margin-bottom: 6px;">नवीन शाळा जोडा:</h4>
             <div class="form-grid" style="margin-bottom:8px;">
               <input type="text" id="p_name" autocomplete="off" class="form-control" placeholder="शाळेचे नाव (English)">
               <input type="text" id="p_udise" autocomplete="off" class="form-control" placeholder="यु-डायस कोड (UDISE)">
@@ -1040,7 +1046,37 @@
               <input type="number" id="p_total" autocomplete="off" class="form-control" placeholder="एकूण विद्यार्थी पट">
               <input type="text" id="p_hm" autocomplete="off" class="form-control" style="grid-column: 1 / -1;" placeholder="मुख्याध्यापक नाव व मोबाईल">
             </div>
-            <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
+            <button class="btn btn-success" onclick="addNewPrivateSchool()" style="margin-bottom: 15px;">खाजगी शाळा जतन करा 🚀</button>
+
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+
+            <h4 style="font-size: 0.95rem; color: #1E3A8A; margin-bottom: 6px;">विद्यमान शाळा/संस्थेची माहिती एडिट करा:</h4>
+            <div class="form-grid" style="margin-bottom:8px;">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>शाळा निवडा:</label>
+                <select id="edit_school_select" class="form-control" autocomplete="off" onchange="loadSchoolDetailsForEdit(this)">
+                  <option value="">-- एडिट करण्यासाठी शाळा निवडा --</option>
+                  ${schoolEditOptionsHtml}
+                </select>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>शाळेचे नाव:</label>
+                <input type="text" id="edit_s_name" class="form-control" autocomplete="off" placeholder="शाळेचे नाव">
+              </div>
+              <div class="form-group">
+                <label>यु-डायस कोड (UDISE):</label>
+                <input type="text" id="edit_s_udise" class="form-control" autocomplete="off" placeholder="UDISE Code">
+              </div>
+              <div class="form-group">
+                <label>शिक्षक संख्या:</label>
+                <input type="number" id="edit_s_teachers" class="form-control" autocomplete="off" placeholder="शिक्षक संख्या">
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>मुख्याध्यापक नाव व मोबाईल:</label>
+                <input type="text" id="edit_s_hm" class="form-control" autocomplete="off" placeholder="HM Name & Phone">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="updateExistingSchoolInfo()">शाळेची माहिती अपडेट करा 💾</button>
           </div>
         </div>
 
@@ -1088,6 +1124,48 @@
         el.style.display = 'block';
       }
     }
+  }
+
+  window.loadSchoolDetailsForEdit = function(sel) {
+    let id = Number(sel.value);
+    if(!id) return;
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
+    let s = allSchools.find(x => x.id === id);
+    if(s) {
+      document.getElementById('edit_s_name').value = s.name;
+      document.getElementById('edit_s_udise').value = s.udise || '';
+      document.getElementById('edit_s_teachers').value = s.teacherCount || (s.teachers && s.teachers.length ? 2 : 2);
+      let hm = s.teachers && s.teachers[0] ? `${s.teachers[0].name} - ${s.teachers[0].phone}` : '';
+      document.getElementById('edit_s_hm').value = hm;
+    }
+  }
+
+  window.updateExistingSchoolInfo = function() {
+    let sel = document.getElementById('edit_school_select');
+    let id = Number(sel ? sel.value : 0);
+    if(!id) { showCustomAlert("कृपया एडिट करण्यासाठी शाळा/संस्था निवडा."); return; }
+
+    let allSchools = [...window.zpschoolsData, ...window.privateSchoolsData];
+    let s = allSchools.find(x => x.id === id);
+    if(!s) return;
+
+    let newName = document.getElementById('edit_s_name').value;
+    let newUdise = document.getElementById('edit_s_udise').value;
+    let newTeach = Number(document.getElementById('edit_s_teachers').value) || 2;
+    let newHmStr = document.getElementById('edit_s_hm').value;
+
+    if(!newName) { showCustomAlert("शाळेचे नाव आवश्यक आहे."); return; }
+
+    s.name = newName;
+    s.udise = newUdise;
+    s.teacherCount = newTeach;
+    if(!s.teachers) s.teachers = [{}];
+    s.teachers[0].name = newHmStr.split('-')[0] ? newHmStr.split('-')[0].trim() : 'Headmaster';
+    s.teachers[0].phone = newHmStr.split('-')[1] ? newHmStr.split('-')[1].trim() : '9876543210';
+
+    window.saveDataToFirebase();
+    renderFullAdminView();
+    showToast("शाळेची माहिती यशस्वीपणे अपडेट झाली! ✅");
   }
 
   window.resetSchoolPin = function(udise, schoolName) {
