@@ -712,7 +712,6 @@
       </div>
     `;
 
-    // Keep selected school in dropdown if verified
     if(selectedSchoolForPinCheck) {
       let sel = document.getElementById('mr_school');
       if(sel) sel.value = selectedSchoolForPinCheck.name;
@@ -1543,6 +1542,168 @@
     renderFullAdminView();
     window.saveDataToFirebase();
     showToast('नवीन खाजगी शाळा यशस्वीपणे जोडली गेली! ✅');
+  }
+
+  function renderReportDropdown() {
+    let select = document.getElementById('mr_school');
+    if(!select) return;
+    let all = [...window.zpschoolsData, ...window.privateSchoolsData];
+    select.innerHTML = '<option value="">-- शाळा निवडा --</option>';
+    all.forEach(s => {
+      let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+      let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
+      let opt = document.createElement('option');
+      opt.value = s.name;
+      opt.textContent = `${s.id}. ${displayName}${typeSuffix}`;
+      select.appendChild(opt);
+    });
+  }
+
+  window.openFullSchoolView = function(schoolId, type) {
+    let all = type === 'PRIVATE' ? window.privateSchoolsData : window.zpschoolsData;
+    let s = all.find(x => x.id === schoolId);
+    if(!s) {
+      renderDashboard();
+      return;
+    }
+
+    history.pushState({view: 'school', schoolId: schoolId, type: type}, "", "#school-" + schoolId);
+
+    let container = document.getElementById('mainContainerViews');
+    if(!container) return;
+    let hm = s.teachers && s.teachers[0] ? s.teachers[0] : {name: 'Headmaster', designation: 'HM', phone: '9876543210'};
+    let displayName = s.name.replace(/^[0-9]+\.\s*/, '').replace(/\s*\([^)]+\)$/, '').trim();
+    let typeSuffix = s.name.includes('खाजगी अनुदानित') ? ' (खाजगी अनुदानित)' : (s.name.includes('खाजगी विना अनुदानित') ? ' (खाजगी विना अनुदानित)' : '');
+    
+    let sortedClasses = ["वर्ग 1", "वर्ग 2", "वर्ग 3", "वर्ग 4", "वर्ग 5", "वर्ग 6", "वर्ग 7", "वर्ग 8", "वर्ग 9", "वर्ग 10"];
+    let totalBoys = 0, totalGirls = 0, grandTotal = 0;
+    let classHtml = '';
+    sortedClasses.forEach(cls => {
+      if(s.classCounts && s.classCounts[cls]) {
+        let obj = s.classCounts[cls];
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        let t = b + g;
+        totalBoys += b;
+        totalGirls += g;
+        grandTotal += t;
+        classHtml += `<tr><td>${cls}</td><td>${b}</td><td>${g}</td><td style="font-weight:800;">${t}</td></tr>`;
+      }
+    });
+    if(!classHtml) classHtml = '<tr><td colspan="4">माहिती नाही</td></tr>';
+
+    container.innerHTML = `
+      <div class="card" style="border: 3px solid #1B365D;">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>🏫 ${s.id}. ${displayName}${typeSuffix}</span>
+          <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ मागे जा</button>
+        </div>
+        <div style="font-size: 0.95rem; line-height: 1.6;">
+          <p><strong>UDISE Code:</strong> ${s.udise || 'N/A'}</p>
+          <p><strong>वर्ग:</strong> ${s.classes || '1 To 8'} | <strong>एकूण पट:</strong> ${grandTotal}</p>
+          
+          <div style="margin: 10px 0; background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border);">
+            <strong>मुख्याध्यापक व मोबाईल क्रमांक:</strong><br>
+            • <b>${hm.name}</b> (${hm.designation}) - <a href="tel:${hm.phone}" style="color:#D97706; font-weight:800;">${hm.phone}</a>
+          </div>
+          
+          <div style="display:flex; flex-direction:column; gap: 14px; margin-top: 10px;">
+            <div>
+              <div style="font-weight:800; color:#1E3A8A; font-size:0.95rem; margin-bottom:4px;">वर्गनिहाय विद्यार्थी संख्या (चढता क्रम १ ते १०):</div>
+              <div class="table-responsive">
+                <table>
+                  <thead><tr><th>वर्ग</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+                  <tbody>
+                    ${classHtml}
+                    <tr style="background:#FEF3C7; font-weight:800;"><td>एकूण (Total)</td><td>${totalBoys}</td><td>${totalGirls}</td><td>${grandTotal}</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  window.goBackToDashboard = function() {
+    renderDashboard();
+    history.pushState({view: 'tab', tabId: 'dashboardTab'}, "", "#dashboardTab");
+  }
+
+  function renderSummaryHtml() {
+    let zpSchoolsCount = window.globalZpSchoolsCount;
+    let zpTeachersCount = window.globalZpTeachersCount;
+    let zpBoys = 0, zpGirls = 0;
+    window.zpschoolsData.forEach(s => {
+      Object.values(s.classCounts || {}).forEach(obj => {
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        zpBoys += b;
+        zpGirls += g;
+      });
+    });
+    let zpTotalStud = zpBoys + zpGirls;
+
+    let privTotalSchools = window.privateSchoolsData.length;
+    let privTeachers = window.privateSchoolsData.reduce((acc, s) => acc + (s.teacherCount || 2), 0);
+    let privBoys = 0, privGirls = 0;
+    window.privateSchoolsData.forEach(s => {
+      Object.values(s.classCounts || {}).forEach(obj => {
+        let b = (typeof obj === 'object') ? (obj.boys || 0) : Math.floor(obj/2);
+        let g = (typeof obj === 'object') ? (obj.girls || 0) : (obj - Math.floor(obj/2));
+        privBoys += b;
+        privGirls += g;
+      });
+    });
+    let privTotalStud = privBoys + privGirls;
+
+    let combSchools = zpSchoolsCount + privTotalSchools;
+    let combTeachers = zpTeachersCount + privTeachers;
+    let combBoys = zpBoys + privBoys;
+    let combGirls = zpGirls + privGirls;
+    let combTotalStud = combBoys + combGirls;
+
+    return `
+      <div class="card" style="background:#EFF6FF; border-color:#3B82F6;">
+        <div class="card-title" style="color:#1D4ED8;"><span>📊 जिल्हा परिषद (ZP) शाळा गोषवारा</span></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+            <tbody>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">शाळा: ${zpSchoolsCount} | शिक्षक: ${zpTeachersCount}</td></tr>
+              <tr><td>विद्यार्थी पटसंख्या</td><td>${zpBoys}</td><td>${zpGirls}</td><td style="font-weight:800; color:#1D4ED8;">${zpTotalStud}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="background:#FEF3C7; border-color:#F59E0B;">
+        <div class="card-title" style="color:#B45309;"><span>📊 खाजगी शाळा गोषवारा</span></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+            <tbody>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">शाळा: ${privTotalSchools} | शिक्षक: ${privTeachers}</td></tr>
+              <tr><td>विद्यार्थी पटसंख्या</td><td>${privBoys}</td><td>${privGirls}</td><td style="font-weight:800; color:#B45309;">${privTotalStud}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="background:#ECFDF5; border: 3px solid #10B981;">
+        <div class="card-title" style="color:#065F46;"><span>📊 केंद्र-स्तरीय एकत्रित गोषवारा</span></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>घटक</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr></thead>
+            <tbody>
+              <tr><td>शाळा व शिक्षक संख्या</td><td colspan="3" style="font-weight:800;">एकूण शाळा: ${combSchools} | एकूण शिक्षक: ${combTeachers}</td></tr>
+              <tr><td>एकूण विद्यार्थी पटसंख्या</td><td>${combBoys}</td><td>${combGirls}</td><td style="font-weight:800; color:#065F46;">${combTotalStud}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
   }
 </script>
 </body>
