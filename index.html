@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Noto+Sans+Devanagari:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<!-- Firebase SDK & Real-time Live Sync (onSnapshot) Setup -->
+<!-- Firebase SDK & Instant Local Cache Setup -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -27,16 +27,45 @@
   window.db = getFirestore(app);
   window.dbDocRef = doc(window.db, "portalData", "mainStore");
 
+  // Instant Load from LocalStorage first to prevent blank screen delay
+  window.zpschoolsData = JSON.parse(localStorage.getItem('sawargaon_zp_schools_instant')) || null;
+  window.privateSchoolsData = JSON.parse(localStorage.getItem('sawargaon_private_schools_instant')) || [];
+  window.customLinks = JSON.parse(localStorage.getItem('sawargaon_links_instant')) || [
+    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com" },
+    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in" },
+    { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#" }
+  ];
+  window.navTabs = JSON.parse(localStorage.getItem('sawargaon_nav_tabs_instant')) || [
+    { id: 'dashboardTab', name: 'डॅशबोर्ड' },
+    { id: 'reportTab', name: 'मासिक अहवाल' },
+    { id: 'summaryTab', name: 'गोषवारा' }
+  ];
+  window.marqueeMessage = localStorage.getItem('sawargaon_marquee_instant') || "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
+  window.globalZpSchoolsCount = Number(localStorage.getItem('sawargaon_zp_schools_count_instant')) || 20;
+  window.globalZpTeachersCount = Number(localStorage.getItem('sawargaon_zp_teachers_count_instant')) || 73;
+  window.schoolPinsData = JSON.parse(localStorage.getItem('sawargaon_school_pins_instant')) || {};
+
+  // Trigger immediate render on startup using cached/default data
+  document.addEventListener("DOMContentLoaded", () => {
+    if(typeof window.initAppAfterLoad === 'function') {
+      window.initAppAfterLoad();
+    }
+  });
+
+  // Real-time background sync with Firebase
   onSnapshot(window.dbDocRef, (docSnap) => {
     if (docSnap.exists()) {
       let data = docSnap.data();
-      if(data.zpschools) window.zpschoolsData = data.zpschools;
-      if(data.privateschools) window.privateSchoolsData = data.privateschools;
-      if(data.links) window.customLinks = data.links;
-      if(data.zpCount !== undefined) window.globalZpSchoolsCount = data.zpCount;
-      if(data.zpTeachCount !== undefined) window.globalZpTeachersCount = data.zpTeachCount;
-      if(data.marquee) window.marqueeMessage = data.marquee;
-      if(data.schoolPins) window.schoolPinsData = data.schoolPins;
+      if(data.zpschools) { window.zpschoolsData = data.zpschools; localStorage.setItem('sawargaon_zp_schools_instant', JSON.stringify(data.zpschools)); }
+      if(data.privateschools) { window.privateSchoolsData = data.privateschools; localStorage.setItem('sawargaon_private_schools_instant', JSON.stringify(data.privateschools)); }
+      if(data.links) { window.customLinks = data.links; localStorage.setItem('sawargaon_links_instant', JSON.stringify(data.links)); }
+      if(data.zpCount !== undefined) { window.globalZpSchoolsCount = data.zpCount; localStorage.setItem('sawargaon_zp_schools_count_instant', data.zpCount); }
+      if(data.zpTeachCount !== undefined) { window.globalZpTeachersCount = data.zpTeachCount; localStorage.setItem('sawargaon_zp_teachers_count_instant', data.zpTeachCount); }
+      if(data.marquee) { window.marqueeMessage = data.marquee; localStorage.setItem('sawargaon_marquee_instant', data.marquee); }
+      if(data.schoolPins) { window.schoolPinsData = data.schoolPins; localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(data.schoolPins)); }
+
+      let marquee = document.getElementById('marqueeTextDisplay');
+      if(marquee) marquee.textContent = window.marqueeMessage;
 
       if(typeof window.renderDashboard === 'function') {
         let activeTab = document.querySelector('.tab-content.active');
@@ -45,13 +74,19 @@
         }
       }
     }
-    if(typeof window.initAppAfterLoad === 'function' && !window._appInitialized) {
-      window._appInitialized = true;
-      window.initAppAfterLoad();
-    }
   });
 
   window.saveDataToFirebase = async function() {
+    // Save locally instantly
+    localStorage.setItem('sawargaon_zp_schools_instant', JSON.stringify(window.zpschoolsData));
+    localStorage.setItem('sawargaon_private_schools_instant', JSON.stringify(window.privateSchoolsData));
+    localStorage.setItem('sawargaon_links_instant', JSON.stringify(window.customLinks));
+    localStorage.setItem('sawargaon_nav_tabs_instant', JSON.stringify(window.navTabs));
+    localStorage.setItem('sawargaon_marquee_instant', window.marqueeMessage);
+    localStorage.setItem('sawargaon_zp_schools_count_instant', window.globalZpSchoolsCount);
+    localStorage.setItem('sawargaon_zp_teachers_count_instant', window.globalZpTeachersCount);
+    localStorage.setItem('sawargaon_school_pins_instant', JSON.stringify(window.schoolPinsData));
+
     try {
       await setDoc(window.dbDocRef, {
         zpschools: window.zpschoolsData,
@@ -62,9 +97,9 @@
         marquee: window.marqueeMessage,
         schoolPins: window.schoolPinsData
       });
-      window.showToast('डेटा क्लाऊडवर यशस्वीपणे लाईव्ह सेव्ह झाला! ☁️');
+      window.showToast('माहिती इन्स्टंट सेव्ह व लाईव्ह सिंक झाली! ✅');
     } catch(e) {
-      window.showToast('क्लाऊड सेव्ह करताना एरर आली!');
+      window.showToast('सेव्ह करताना एरर आली!');
     }
   };
 </script>
@@ -97,6 +132,10 @@
   .container { max-width: 1100px; margin: 1.2rem auto; padding: 0 12px; }
   .card { background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%); border-radius: 16px; padding: 1.3rem; margin-bottom: 1.3rem; border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
   .card-title { font-size: 1.15rem; font-weight: 800; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; }
+
+  .admin-section-box { background: #F8FAFC; padding: 12px; border-radius: 10px; border: 2px solid var(--border); margin-bottom: 12px; }
+  .admin-section-header { font-size: 1rem; color: #1E3A8A; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 800; user-select: none; }
+  .admin-section-body { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
 
   .links-glossy-purple { background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%) !important; border: 2.5px solid #9333EA !important; box-shadow: 0 8px 24px rgba(147, 51, 234, 0.15) !important; }
 
@@ -148,12 +187,6 @@
   .modal-box { background: white; border-radius: 16px; max-width: 440px; width: 100%; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 2px solid var(--border); }
   .modal-box h3 { color: #1E3A8A; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
 
-  /* Minimized Accordion styling for Admin Panel */
-  .admin-accordion { background: white; border: 2px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
-  .admin-accordion summary { padding: 12px 16px; font-size: 1rem; font-weight: 800; color: #1E3A8A; cursor: pointer; background: #F8FAFC; outline: none; display: flex; align-items: center; justify-content: space-between; }
-  .admin-accordion summary::-webkit-details-marker { color: #1E3A8A; }
-  .admin-accordion-content { padding: 14px; border-top: 1.5px solid var(--border); background: #FFFFFF; }
-
   footer { text-align: center; padding: 18px; font-size: 0.85rem; color: #475569; font-weight: 800; border-top: 2px solid var(--border); margin-top: 2.5rem; background: white; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
 
   .tab-content { display: none; }
@@ -197,7 +230,6 @@
   </div>
 </div>
 
-<!-- SCHOOL LOGIN PIN MODAL -->
 <div class="modal-overlay" id="schoolPinModal">
   <div class="modal-box">
     <h3>🔑 शाळेचा लॉगिन पिन (One-Time PIN)</h3>
@@ -389,23 +421,6 @@
     }
   ];
 
-  window.zpschoolsData = defaultZpSchools;
-  window.privateSchoolsData = [];
-  window.customLinks = [
-    { id: 1, title: "माहे ऑक्टोबर मासिक पटसंख्या भरणा लिंक", url: "https://forms.google.com" },
-    { id: 2, title: "यु-डायस (U-DISE+) शाळा माहिती भरणा फॉर्म", url: "https://udiseplus.gov.in" },
-    { id: 3, title: "सावरगाव वेबसाईट अपडेट फॉर्म", url: "#" }
-  ];
-  window.navTabs = [
-    { id: 'dashboardTab', name: 'डॅशबोर्ड' },
-    { id: 'reportTab', name: 'मासिक अहवाल' },
-    { id: 'summaryTab', name: 'गोषवारा' }
-  ];
-  window.marqueeMessage = "📢 समूह साधन केंद्र सावरगाव अंतर्गत सर्व शाळांची मासिक माहिती वेळेत सादर करणे बंधनकारक आहे.";
-  window.globalZpSchoolsCount = 20;
-  window.globalZpTeachersCount = 73;
-  window.schoolPinsData = {};
-
   let clickCount = 0;
   let clickTimer = null;
   let pendingReportData = null;
@@ -539,7 +554,7 @@
       {bg: '#FDF2F8', border: '#FBCFE8', text: '#9D174D'}
     ];
 
-    let linksHtml = window.customLinks.map((l, i) => {
+    let linksHtml = [...window.customLinks].reverse().map((l, i) => {
       let col = softColors[i % softColors.length];
       return `
         <a class="link-capsule" href="${l.url}" target="_blank" style="background:${col.bg}; border:1.5px solid ${col.border}; color:#0F172A;">
@@ -655,7 +670,6 @@
     }
     let opt = selectEl.options[selectEl.selectedIndex];
     let udise = opt.getAttribute('data-udise');
-    let cleanDisplayName = selectEl.value.replace(' (ZP)', '').replace(' (PRIVATE)', '');
     selectedSchoolForPinCheck = { name: selectEl.value, udise: udise };
 
     let storedPins = window.schoolPinsData || {};
@@ -666,12 +680,14 @@
     let createSec = document.getElementById('schoolPinCreateSection');
     let promptText = document.getElementById('schoolPinPromptText');
 
+    let displayName = selectEl.value.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+
     if(!currentPin || currentPin === '1111') {
-      promptText.innerHTML = `शाळा: <b>${cleanDisplayName}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
+      promptText.innerHTML = `शाळा: <b>${displayName}</b><br>कृपया डीफॉल्ट वन-टाइम पिन (1111) प्रविष्ट करा:`;
       enterSec.style.display = 'block';
       createSec.style.display = 'none';
     } else {
-      promptText.innerHTML = `शाळा: <b>${cleanDisplayName}</b><br>कृपया आपला 4 अंकी गुप्त पिन प्रविष्ट करा:`;
+      promptText.innerHTML = `शाळा: <b>${displayName}</b><br>कृपया आपला 4 अंकी गुप्त पिन प्रविष्ट करा:`;
       enterSec.style.display = 'block';
       createSec.style.display = 'none';
     }
@@ -744,10 +760,12 @@
     let changeTypeInput = document.querySelector('input[name="changeType"]:checked');
     let changeType = changeTypeInput ? changeTypeInput.value : 'none';
     
+    let displayName = schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '');
+
     if(changeType === 'none') {
       pendingReportData = { schoolName, changeType: 'none', reason: 'कुठलाही बदल नाही (No Change)' };
       document.getElementById('confirmModalBody').innerHTML = `
-        शाळा: <b>${schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '')}</b><br>
+        शाळा: <b>${displayName}</b><br>
         नोंद: <b>मागील महिना अहवालानुसार पटसंख्येत कुठलाही बदल नाही.</b><br><br>
         ही माहिती कन्फर्म करायची का?
       `;
@@ -767,7 +785,7 @@
     pendingReportData = { schoolName, changeType, cls, cat, gender, count, reason };
 
     document.getElementById('confirmModalBody').innerHTML = `
-      शाळा: <b>${schoolName.replace(' (ZP)', '').replace(' (PRIVATE)', '')}</b><br>
+      शाळा: <b>${displayName}</b><br>
       बदलाचा प्रकार: <b style="color:${changeType==='increase'?'#10B981':'#EF4444'}">${actionText}</b><br>
       वर्ग: <b>${cls}</b><br>
       प्रवर्ग: <b>${cat}</b><br>
@@ -849,8 +867,8 @@
       let currentPin = window.schoolPinsData && window.schoolPinsData[s.udise] ? window.schoolPinsData[s.udise] : '1111';
       return `
         <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:8px 12px; border-radius:6px; border:1px solid var(--border); font-size:0.9rem; margin-bottom:6px;">
-          <span><b>${displayName}</b> (पिन: ${currentPin})</span>
-          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट</button>
+          <span><b>${displayName}</b> (सध्याचा पिन: ${currentPin})</span>
+          <button class="btn btn-danger" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="resetSchoolPin('${s.udise}', '${displayName}')">🔄 पिन रिसेट करा</button>
         </div>
       `;
     }).join('');
@@ -862,28 +880,34 @@
           <button class="btn btn-outline" style="padding:6px 12px; font-size:0.88rem; width:auto;" onclick="goBackToDashboard()">⬅ डॅशबोर्डवर जा</button>
         </div>
 
-        <!-- 1. Marquee Admin Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>📢 सरकणारा मेसेज (Marquee) व्यवस्थापन</summary>
-          <div class="admin-accordion-content">
+        <div class="admin-section-box">
+          <div class="admin-section-header" onclick="toggleAdminSection('secMarquee')">
+            <span>📢 सरकणारा मेसेज (Marquee) बदला</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secMarquee" class="admin-section-body">
             <input type="text" id="adminMarqueeInput" autocomplete="off" class="form-control" value="${window.marqueeMessage}" style="margin-bottom:8px;">
             <button class="btn btn-primary" onclick="updateMarqueeText()">मेसेज अपडेट करा 💾</button>
           </div>
-        </details>
+        </div>
 
-        <!-- 2. School Login PIN Reset Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>🔑 शाळा लॉगिन पिन रिसेट व्यवस्थापन</summary>
-          <div class="admin-accordion-content" style="background:#FEF2F2;">
+        <div class="admin-section-box" style="border-color: #EF4444; background: #FEF2F2;">
+          <div class="admin-section-header" style="color: #991B1B;" onclick="toggleAdminSection('secPinReset')">
+            <span>🔑 शाळा लॉगिन पिन रिसेट व्यवस्थापन</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secPinReset" class="admin-section-body">
             <p style="font-size: 0.85rem; color: #7F1D1D; margin-bottom: 10px;">केंद्रप्रमुख इथून कोणत्याही शाळेचा पिन रिसेट करू शकतात. रिसेट केल्यावर पिन पुन्हा 1111 होईल.</p>
             <div style="max-height:220px; overflow-y:auto;">${schoolPinResetRows}</div>
           </div>
-        </details>
+        </div>
 
-        <!-- 3. ZP Schools & Teachers Count Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>🏫 जिल्हा परिषद शाळा व शिक्षक संख्या</summary>
-          <div class="admin-accordion-content" style="background:#EFF6FF;">
+        <div class="admin-section-box" style="border-color: #3B82F6; background: #EFF6FF;">
+          <div class="admin-section-header" style="color: #1D4ED8;" onclick="toggleAdminSection('secZpCount')">
+            <span>🏫 जिल्हा परिषद शाळा व शिक्षक संख्या व्यवस्थापन</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secZpCount" class="admin-section-body">
             <div class="form-grid" style="margin-bottom:8px;">
               <div class="form-group">
                 <label>जिल्हा परिषद शाळांची संख्या:</label>
@@ -896,12 +920,14 @@
             </div>
             <button class="btn btn-primary" onclick="updateZpCounts()">जि.प. संख्या जतन करा 💾</button>
           </div>
-        </details>
+        </div>
 
-        <!-- 4. Class & Cast Tables Edit Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>✏️ शाळा व वर्गवार पटसंख्या तक्ता बदला</summary>
-          <div class="admin-accordion-content" style="background:#FFFBEB;">
+        <div class="admin-section-box" style="border-color: #F59E0B; background: #FFFBEB;">
+          <div class="admin-section-header" style="color: #D97706;" onclick="toggleAdminSection('secTableEdit')">
+            <span>✏️ शाळा व वर्गवार पटसंख्या तक्ता बदला (Full Tables Edit)</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secTableEdit" class="admin-section-body">
             <div class="form-grid" style="margin-bottom:10px;">
               <div class="form-group" style="grid-column: 1 / -1;">
                 <label>शाळा निवडा:</label>
@@ -914,12 +940,14 @@
             <div id="adminCastTableContainer" class="table-responsive" style="margin-bottom:12px;"></div>
             <button class="btn btn-warning" onclick="manualUpdateAllTablesStrength()">सर्व तक्त्यांची पटसंख्या एकाच वेळी जतन करा 💾</button>
           </div>
-        </details>
+        </div>
 
-        <!-- 5. Add Private School Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>➕ खाजगी/संस्थेची शाळा जोडा</summary>
-          <div class="admin-accordion-content" style="background:#FDF2F8;">
+        <div class="admin-section-box" style="border-color: #EC4899; background: #FDF2F8;">
+          <div class="admin-section-header" style="color: #9D174D;" onclick="toggleAdminSection('secAddSchool')">
+            <span>➕ खाजगी/संस्थेची शाळा जोडा (Add Private School)</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secAddSchool" class="admin-section-body">
             <div class="form-grid" style="margin-bottom:8px;">
               <input type="text" id="p_name" autocomplete="off" class="form-control" placeholder="शाळेचे नाव (English)">
               <input type="text" id="p_udise" autocomplete="off" class="form-control" placeholder="यु-डायस कोड (UDISE)">
@@ -941,12 +969,14 @@
             </div>
             <button class="btn btn-success" onclick="addNewPrivateSchool()">खाजगी शाळा जतन करा 🚀</button>
           </div>
-        </details>
+        </div>
 
-        <!-- 6. Data Links & Notifications Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>🔗 डेटा कलेक्शन लिंक्स व नोटिफिकेशन व्यवस्थापन</summary>
-          <div class="admin-accordion-content">
+        <div class="admin-section-box">
+          <div class="admin-section-header" onclick="toggleAdminSection('secLinks')">
+            <span>🔗 डेटा कलेक्शन लिंक्स व्यवस्थापन</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secLinks" class="admin-section-body">
             <div style="margin-bottom:10px;">${linksAdminHtml}</div>
             <div class="form-grid" style="margin-bottom:6px;">
               <input type="text" id="linkTitleInput" autocomplete="off" class="form-control" placeholder="नवीन लिंकचे नाव">
@@ -954,12 +984,14 @@
             </div>
             <button class="btn btn-success" onclick="addNewLink()">नवीन लिंक जोडा 🚀</button>
           </div>
-        </details>
+        </div>
 
-        <!-- 7. Navigation Tabs Management Accordion (Minimized) -->
-        <details class="admin-accordion">
-          <summary>📑 नेव्हिगेशन टॅब व्यवस्थापन</summary>
-          <div class="admin-accordion-content">
+        <div class="admin-section-box">
+          <div class="admin-section-header" onclick="toggleAdminSection('secTabs')">
+            <span>📑 नेव्हिगेशन टॅब व्यवस्थापन</span>
+            <span class="material-icons">expand_more</span>
+          </div>
+          <div id="secTabs" class="admin-section-body">
             <div style="margin-bottom:10px;">${tabsAdminHtml}</div>
             <div class="form-grid" style="margin-bottom:6px;">
               <input type="text" id="newTabNameInput" autocomplete="off" class="form-control" placeholder="नवीन टॅबचे नाव">
@@ -967,11 +999,22 @@
             </div>
             <button class="btn btn-success" onclick="addNewTab()">नवीन टॅब जोडला गेला ➕</button>
           </div>
-        </details>
+        </div>
 
       </div>
     `;
     setTimeout(loadAllTablesForAdmin, 100);
+  }
+
+  window.toggleAdminSection = function(sectionId) {
+    let el = document.getElementById(sectionId);
+    if(el) {
+      if(el.style.display === 'block') {
+        el.style.display = 'none';
+      } else {
+        el.style.display = 'block';
+      }
+    }
   }
 
   window.resetSchoolPin = function(udise, schoolName) {
@@ -1086,8 +1129,7 @@
       showCustomAlert('शीर्षक आणि URL दोन्ही भरा.'); 
       return; 
     }
-    // unshift adds the new link at the TOP of the list
-    window.customLinks.unshift({ id: Date.now(), title: titleInput.value, url: urlInput.value });
+    window.customLinks.push({ id: Date.now(), title: titleInput.value, url: urlInput.value });
     renderFullAdminView();
     window.saveDataToFirebase();
   }
@@ -1184,7 +1226,7 @@
       let displayName = s.name.replace(' (ZP)', '').replace(' (PRIVATE)', '');
       let opt = document.createElement('option');
       opt.value = s.name;
-      opt.textContent = `${s.id}. ${displayName}`;
+      opt.textContent = `${displayName}`;
       select.appendChild(opt);
     });
   }
@@ -1309,7 +1351,7 @@
     let combTeachers = zpTeachersCount + privTeachers;
     let combBoys = zpBoys + privBoys;
     let combGirls = zpGirls + privGirls;
-    let combTotalStud = zpTotalStud + privTotalStud;
+    let combTotalStud = combBoys + combGirls;
 
     return `
       <div class="card" style="background:#EFF6FF; border-color:#3B82F6;">
